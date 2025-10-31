@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import InputField from '../input'
 import { authClient } from '@/lib/auth-client'
-import Button from '../Button'
+import Button from '../button'
 
 interface Credentials {
   email: string
@@ -23,7 +23,7 @@ function SignInForm ({ onError }: { onError: (error: string) => void }): React.R
     void authClient.signIn.email({
       email: credentials.email,
       password: credentials.password,
-      callbackURL: '/' // Redirection vers la page d'accueil après connexion
+      callbackURL: '/dashboard'
     }, {
       onRequest: (ctx) => {
         console.log('Signing in...', ctx)

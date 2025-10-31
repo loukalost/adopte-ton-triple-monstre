@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import InputField from '../input'
-import Button from '../Button'
+import Button from '../button'
 import { authClient } from '@/lib/auth-client'
 
 interface Credentials {
@@ -26,7 +26,7 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
       email: credentials.email,
       password: credentials.password,
       name: credentials.name,
-      callbackURL: '/sign-in'
+      callbackURL: '/dashboard'
     }, {
       onRequest: (ctx) => {
         console.log('Signing up...', ctx)

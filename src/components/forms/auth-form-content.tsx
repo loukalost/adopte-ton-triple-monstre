@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import SignInForm from './sign-in-form'
 import SignUpForm from './sign-up-form'
-import Button from '../Button'
+import Button from '../button'
 
 function AuthFormContent (): React.ReactNode {
   const [isSignIn, setIsSignIn] = useState<boolean>(true)

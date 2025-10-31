@@ -1,8 +1,8 @@
 // Clean Architecture: Presentation layer imports application components
 import BenefitsSection from '@/components/sections/benefits-section'
 import ActionsSection from '@/components/sections/actions-section'
-import Header from '@/components/sections/Header'
-import Footer from '@/components/sections/Footer'
+import Header from '@/components/sections/header'
+import Footer from '@/components/sections/footer'
 import HeroSection from '@/components/sections/hero-section'
 import MonstersSection from '@/components/sections/monsters-section'
 import NewsletterSection from '@/components/sections/newsletter-section'

@@ -1,34 +1,67 @@
-import Button from '@/components/Button'
+'use client'
 
+import Image from 'next/image'
+import type { NavigationItem } from '@/types/components'
+import Button from '../button'
+
+// Single Responsibility: Header handles only navigation and branding
 export default function Header (): React.ReactNode {
+  const navigationItems: NavigationItem[] = [
+    { href: '#hero', label: 'Accueil' },
+    { href: '#benefits', label: 'Avantages' },
+    { href: '#monsters', label: 'Créatures' },
+    { href: '#actions', label: 'Actions' },
+    { href: '#newsletter', label: 'Newsletter' }
+  ]
+
+  const handleSignin = (): void => {
+    window.location.href = '/sign-in'
+  }
+
   return (
-    <header className='sticky top-0 z-40 bg-[color:var(--background)]/80 backdrop-blur-sm border-b border-[color:var(--color-black-100)]'>
-      <div className='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
-        <div className='flex items-center gap-3'>
-          <div className='w-10 h-10 rounded-lg bg-[color:var(--color-perfume-500)] flex items-center justify-center text-white font-bold'>TM</div>
-          <span className='font-semibold'>Adopte ton Triple Monstre</span>
-        </div>
+    <header className='bg-black text-white shadow-sm sticky top-0 z-50'>
+      <nav className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='flex justify-between items-center h-16'>
+          {/* Logo */}
+          <div className='flex-shrink-0'>
+            <div className='flex items-center space-x-2'>
+              <Image
+                src='/logo_comp.webp'
+                alt='Tamagotcho Logo'
+                width={40}
+                height={40}
+                className='w-10 h-10'
+                priority
+              />
+              <span className='text-2xl font-bold text-white'>
+                Tamagotcho
+              </span>
+            </div>
+          </div>
 
-        <nav className='hidden md:flex items-center gap-6 text-sm'>
-          <a href='#hero' className='hover:underline'>Accueil</a>
-          <a href='#benefits' className='hover:underline'>Bénéfices</a>
-          <a href='#monsters' className='hover:underline'>Monstres</a>
-          <a href='#actions' className='hover:underline'>Actions</a>
-          <a href='#newsletter' className='hover:underline'>Newsletter</a>
-        </nav>
+          {/* Navigation Menu */}
+          <div className='hidden md:block'>
+            <div className='ml-10 flex items-baseline space-x-8'>
+              {navigationItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className='text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors'
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
 
-        <div className='hidden sm:flex items-center gap-3'>
-          <a href='/signup' aria-label='Créer un compte'>
-            <Button size='md' variant='primary'>Créer un monstre</Button>
-          </a>
+          {/* CTA Button */}
+          <div className='flex items-center'>
+            <Button variant='primary' size='md' onClick={handleSignin}>
+              Créer mon monstre
+            </Button>
+          </div>
         </div>
-
-        <div className='md:hidden'>
-          <a href='/signup'>
-            <Button size='sm' variant='primary'>Créer</Button>
-          </a>
-        </div>
-      </div>
+      </nav>
     </header>
   )
 }

@@ -42,7 +42,7 @@ function Button ({
   onClick?: () => void
   size?: 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'ghost' | 'underline' | 'outline'
-  disabled?: boolean,
+  disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
 }): React.ReactNode {
   return (
