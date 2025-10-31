@@ -27,6 +27,9 @@ const monsterSchema = new Schema({
     ref: 'user',
     required: true
   }
+}, {
+  bufferCommands: false,
+  timestamps: true
 })
 
-export default mongoose.model('Monster', monsterSchema) ?? mongoose.models.Monster
+export default mongoose.models.Monster ?? mongoose.model('Monster', monsterSchema)
