@@ -1,5 +1,6 @@
-import { DEFAULT_MONSTER_LEVEL, DEFAULT_MONSTER_STATE, type MonsterTraits } from '@/types/monster'
+import { DEFAULT_MONSTER_LEVEL, DEFAULT_MONSTER_STATE, type MonsterDesign } from '@/types/monster'
 import type { CreateMonsterFormValues } from '@/types/forms/create-monster-form'
+import { serializeMonsterDesign } from '../../services/monsters/monster-generator'
 
 export interface CreateMonsterFormDraft {
   name: string
@@ -18,16 +19,16 @@ export const createInitialFormState = (): CreateMonsterFormDraft => ({
 
 export const validateCreateMonsterForm = (
   draft: CreateMonsterFormDraft,
-  traits: MonsterTraits | null
+  design: MonsterDesign | null
 ): CreateMonsterFormValidationResult => {
   const trimmedName = draft.name.trim()
 
   const errors: CreateMonsterFormErrors = {}
 
   if (trimmedName.length === 0) errors.name = 'Le nom est requis.'
-  if (traits == null) errors.design = 'Générez votre créature avant de poursuivre.'
+  if (design == null) errors.design = 'Générez votre créature avant de poursuivre.'
 
-  if (Object.keys(errors).length > 0 || traits == null) {
+  if (Object.keys(errors).length > 0 || design == null) {
     return { errors }
   }
 
@@ -35,10 +36,8 @@ export const validateCreateMonsterForm = (
     errors: {},
     values: {
       name: trimmedName,
-      traits: JSON.stringify(traits),
+      draw: serializeMonsterDesign(design),
       level: DEFAULT_MONSTER_LEVEL,
-      xp: 0,
-      maxXp: DEFAULT_MONSTER_LEVEL * 100,
       state: DEFAULT_MONSTER_STATE
     }
   }
