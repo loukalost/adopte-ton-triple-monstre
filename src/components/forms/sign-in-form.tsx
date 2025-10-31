@@ -8,54 +8,72 @@ interface Credentials {
   password: string
 }
 
-function SignInForm (): React.ReactNode {
+function SignInForm ({ onError }: { onError: (error: string) => void }): React.ReactNode {
   const [credentials, setCredentials] = useState<Credentials>({
-    email: 'cacahouette72@gmail.com',
-    password: 'password123'
+    email: 'titi@titi.titi',
+    password: 'zizoulezinzin'
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
+    setIsLoading(true)
+    onError('') // Clear previous errors
+
     void authClient.signIn.email({
       email: credentials.email,
       password: credentials.password,
       callbackURL: '/' // Redirection vers la page d'accueil après connexion
     }, {
       onRequest: (ctx) => {
-        // afficher le loading
         console.log('Signing in...', ctx)
       },
       onSuccess: (ctx) => {
-        // rediriger vers le dashboard ou la page d'accueil
         console.log('User signed in:', ctx)
+        setIsLoading(false)
       },
       onError: (ctx) => {
         console.error('Sign in error:', ctx)
-        // afficher le message d'erreur
-        alert(ctx.error.message)
+        setIsLoading(false)
+        onError(ctx.error.message)
       }
     })
   }
 
   return (
-    <div>
-      <h1>Sign In</h1>
-      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+    <div className='space-y-6'>
+      <div className='text-center'>
+        <h2 className='text-2xl font-bold text-gray-800 mb-2'>
+          🔐 Connexion
+        </h2>
+        <p className='text-gray-600 text-sm'>
+          Retrouvez vos petits compagnons ! 👾
+        </p>
+      </div>
+
+      <form className='flex flex-col justify-center space-y-4' onSubmit={handleSubmit}>
         <InputField
-          label='Email:'
+          label='Email'
           type='email'
           name='email'
           value={credentials.email}
-          onChangeText={(text) => setCredentials({ ...credentials, email: text })}
+          onChangeText={(text: string) => setCredentials({ ...credentials, email: text })}
         />
         <InputField
-          label='Password:'
+          label='Mot de passe'
           type='password'
           name='password'
           value={credentials.password}
-          onChangeText={(text) => setCredentials({ ...credentials, password: text })}
+          onChangeText={(text: string) => setCredentials({ ...credentials, password: text })}
         />
-        <Button type='submit'>Sign In</Button>
+        <Button
+          type='submit'
+          size='lg'
+          disabled={isLoading}
+          variant='primary'
+        >
+          {isLoading ? '🔄 Connexion...' : '🎮 Se connecter'}
+        </Button>
       </form>
     </div>
   )

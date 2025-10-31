@@ -6,56 +6,85 @@ import { authClient } from '@/lib/auth-client'
 interface Credentials {
   email: string
   password: string
+  name: string
 }
 
-function SignUpForm (): React.ReactNode {
+function SignUpForm ({ onError }: { onError: (error: string) => void }): React.ReactNode {
   const [credentials, setCredentials] = useState<Credentials>({
-    email: 'cacahouette72@gmail.com',
-    password: 'password123'
+    email: 'titi@titi.titi',
+    password: 'zizoulezinzin',
+    name: 'Titi'
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
+    setIsLoading(true)
+    onError('') // Clear previous errors
+
     void authClient.signUp.email({
-      email: credentials.email, // user email address
-      password: credentials.password, // user password -> min 8 characters by default
-      name: '', // optional user name
-      callbackURL: '/sign-in' // A URL to redirect to after the user verifies their email (optional)
+      email: credentials.email,
+      password: credentials.password,
+      name: credentials.name,
+      callbackURL: '/sign-in'
     }, {
       onRequest: (ctx) => {
-        // show loading
         console.log('Signing up...', ctx)
       },
       onSuccess: (ctx) => {
-        // redirect to the dashboard or sign in page
         console.log('User signed up:', ctx)
+        setIsLoading(false)
+        onError('') // Clear error on success
       },
       onError: (ctx) => {
         console.error('Sign up error:', ctx)
-        // display the error message
-        alert(ctx.error.message)
+        setIsLoading(false)
+        onError(ctx.error.message)
       }
     })
   }
+
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+    <div className='space-y-6'>
+      <div className='text-center'>
+        <h2 className='text-2xl font-bold text-gray-800 mb-2'>
+          🆕 Créer un compte
+        </h2>
+        <p className='text-gray-600 text-sm'>
+          Rejoignez l'aventure Tamagotcho ! 🎆
+        </p>
+      </div>
+
+      <form className='flex flex-col justify-center space-y-4' onSubmit={handleSubmit}>
         <InputField
-          label='Email:'
+          label="Nom d'utilisateur"
+          type='text'
+          name='name'
+          value={credentials.name}
+          onChangeText={(text: string) => setCredentials({ ...credentials, name: text })}
+        />
+        <InputField
+          label='Email'
           type='email'
           name='email'
           value={credentials.email}
           onChangeText={(text) => setCredentials({ ...credentials, email: text })}
         />
         <InputField
-          label='Password:'
+          label='Mot de passe'
           type='password'
           name='password'
           value={credentials.password}
           onChangeText={(text) => setCredentials({ ...credentials, password: text })}
         />
-        <Button type='submit'>Sign Up</Button>
+        <Button
+          type='submit'
+          size='lg'
+          disabled={isLoading}
+          variant='primary'
+        >
+          {isLoading ? '🔄 Création...' : '🎆 Créer mon compte'}
+        </Button>
       </form>
     </div>
   )
