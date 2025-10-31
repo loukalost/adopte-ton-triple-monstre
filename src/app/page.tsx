@@ -1,19 +1,23 @@
-import Button from '@/components/Button'
+// Clean Architecture: Presentation layer imports application components
+import BenefitsSection from '@/components/sections/benefits-section'
+import ActionsSection from '@/components/sections/actions-section'
+import Header from '@/components/sections/Header'
+import Footer from '@/components/sections/Footer'
+import HeroSection from '@/components/sections/hero-section'
+import MonstersSection from '@/components/sections/monsters-section'
+import NewsletterSection from '@/components/sections/newsletter-section'
 
+// Single Responsibility: Home page orchestrates the layout of sections
 export default function Home (): React.ReactNode {
   return (
-    <div className='font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20'>
-      <main className='flex flex-col gap-[32px] row-start-2 items-center sm:items-start'>
-        <h1>Hello World</h1>
-        <Button size='sm'>Click me</Button>
-        <Button size='md'>Click me</Button>
-        <Button size='lg'>Click me</Button>
-        <Button size='xl'>Click me</Button>
-        <Button variant='ghost'>Click me</Button>
-        <Button variant='underline'>Click me</Button>
-        <Button variant='outline'>Click me</Button>
-        <Button disabled>Click me</Button>
-      </main>
+    <div className='font-sans'>
+      <Header />
+      <HeroSection />
+      <BenefitsSection />
+      <MonstersSection />
+      <ActionsSection />
+      <NewsletterSection />
+      <Footer />
     </div>
   )
 }

@@ -23,9 +23,19 @@ export default function RootLayout ({
   children: React.ReactNode
 }>): React.ReactNode {
   return (
-    <html lang='en'>
+    <html lang='fr'>
+      <head>
+        <link rel='manifest' href='/manifest.json' />
+        <meta name='mobile-web-app-capable' content='yes' />
+        <meta name='apple-mobile-web-app-capable' content='yes' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='default' />
+        <meta name='apple-mobile-web-app-title' content='Triple Monstre' />
+        <meta name='msapplication-TileColor' content='#f7533c' />
+        <meta name='msapplication-config' content='/browserconfig.xml' />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>
