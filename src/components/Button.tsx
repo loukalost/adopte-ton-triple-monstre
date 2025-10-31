@@ -35,19 +35,22 @@ function Button ({
   onClick,
   size = 'md',
   variant = 'primary',
-  disabled = false
+  disabled = false,
+  type
 }: {
   children: React.ReactNode
   onClick?: () => void
   size?: 'sm' | 'md' | 'lg' | 'xl'
   variant?: 'primary' | 'ghost' | 'underline' | 'outline'
-  disabled?: boolean
+  disabled?: boolean,
+  type?: 'button' | 'submit' | 'reset'
 }): React.ReactNode {
   return (
     <button
       className={`rounded-md ${disabled ? '' : 'transition-all duration-300 cursor-pointer active:scale-95'} ${getSize(size)} ${getVariant(variant, disabled)}`}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

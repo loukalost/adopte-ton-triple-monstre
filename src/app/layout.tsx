@@ -24,7 +24,7 @@ export default function RootLayout ({
 }>): React.ReactNode {
   return (
     <html lang='fr'>
-      <head>
+      {/* <head>
         <link rel='manifest' href='/manifest.json' />
         <meta name='mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-capable' content='yes' />
@@ -32,7 +32,7 @@ export default function RootLayout ({
         <meta name='apple-mobile-web-app-title' content='Triple Monstre' />
         <meta name='msapplication-TileColor' content='#f7533c' />
         <meta name='msapplication-config' content='/browserconfig.xml' />
-      </head>
+      </head> */}
       <body
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
