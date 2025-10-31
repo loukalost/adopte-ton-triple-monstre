@@ -22,6 +22,7 @@ function InputField ({
     <label>
       {label}
       <input
+        className='border border-gray-300 rounded-md p-2'
         type={type}
         name={name}
         value={value}
