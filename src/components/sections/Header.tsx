@@ -27,14 +27,14 @@ export default function Header (): React.ReactNode {
             <div className='flex items-center space-x-2'>
               <Image
                 src='/logo_comp.webp'
-                alt='Tamagotcho Logo'
+                alt='Adopte ton triple monstre Logo'
                 width={40}
                 height={40}
                 className='w-10 h-10'
                 priority
               />
               <span className='text-2xl font-bold text-white'>
-                Tamagotcho
+                Adopte ton triple monstre
               </span>
             </div>
           </div>

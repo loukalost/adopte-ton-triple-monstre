@@ -1,3 +1,5 @@
+# Copilot Instructions - Adopte ton triple monstre Project
+
 ## Project Overview
 This is a Next.js 15.5.4 project using the App Router architecture, built for a school project (My Digital School). It's a Tamagotchi-style application using React 19, TypeScript, and Tailwind CSS 4 with custom color palette.
 
@@ -108,6 +110,14 @@ function Button ({
 - **Type Safety**: Always define explicit interfaces for component props and service contracts
 - **Error Boundaries**: Implement proper error handling at component and service levels
 
+### Implementation Checklist
+- **Design First**: Capture the intended responsibility, collaborators, and dependencies before coding; validate the design against SOLID and Clean Architecture boundaries.
+- **Enforce Abstractions**: Introduce interfaces or type aliases at layer boundaries and depend on them instead of concrete implementations.
+- **Keep Layers Pure**: Prohibit presentation components from importing domain or infrastructure code directly; rely on application-level adapters housed in `src/services/`.
+- **Traceability**: Document how each new module maps to its domain concept with a short comment or README snippet when the rationale is non-trivial.
+- **Testing Strategy**: Prefer fast unit tests around pure domain logic, component tests for UI behaviour, and adapters/tests at boundaries to keep regression risk low.
+- **Refinement Loop**: After implementation, review the change by explicitly checking SRP adherence, dependency direction, naming clarity, and absence of duplications or magic values.
+
 ## Next Steps / Incomplete Areas
 - `src/services/` directory is empty - likely for Tamagotchi game logic
 - Layout uses generic "Create Next App" metadata - needs project-specific updates
@@ -116,4 +126,3 @@ function Button ({
 ## File References
 - **Main Page**: `src/app/page.tsx` - Shows Button component variations
 - **Component Example**: `src/components/button.tsx` - Reference for component patterns
-- **Styling**: `src/app/globals.css` - Custom color definitions and theme setup

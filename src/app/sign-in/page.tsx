@@ -1,8 +1,8 @@
 import AuthFormContent from '@/components/forms/auth-form-content'
-import { connectToDatabase } from '@/db'
+import { connectMongooseToDatabase } from '@/db'
 
 async function SignInPage (): Promise<React.ReactNode> {
-  await connectToDatabase()
+  await connectMongooseToDatabase()
   return (
     <div className='min-h-screen bg-gradient-to-br from-moccaccino-50 via-fuchsia-blue-50 to-lochinvar-50 flex items-center justify-center p-4 relative overflow-hidden'>
       {/* Animated floating monsters */}
@@ -25,7 +25,7 @@ async function SignInPage (): Promise<React.ReactNode> {
           <div className='text-center mb-8'>
             <div className='text-5xl mb-4'>🎮</div>
             <h1 className='text-3xl font-bold bg-gradient-to-r from-moccaccino-600 to-fuchsia-blue-600 bg-clip-text text-transparent'>
-              Bienvenue chez Tamagotcho !
+              Bienvenue chez Adopte ton triple monstre !
             </h1>
             <p className='text-gray-600 mt-2 text-sm'>
               Vos petits monstres vous attendent 👹✨

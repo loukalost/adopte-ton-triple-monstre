@@ -1,4 +1,4 @@
-# Architecture des Composants - Tamagotcho
+# Architecture des Composants - Adopte ton triple monstre
 
 ## Principes SOLID Appliqués
 
@@ -118,4 +118,4 @@ export default function Home() {
 }
 ```
 
-Cette architecture respecte les bonnes pratiques de développement React/Next.js et garantit un code maintenable et évolutif pour votre projet Tamagotcho.
+Cette architecture respecte les bonnes pratiques de développement React/Next.js et garantit un code maintenable et évolutif pour votre projet Adopte ton triple monstre.

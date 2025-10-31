@@ -11,7 +11,7 @@ const client = new MongoClient(uri, {
   }
 })
 
-async function connectToDatabase (): Promise<void> {
+async function connectMongooseToDatabase (): Promise<void> {
   try {
     await client.connect()
   } catch (error) {
@@ -19,4 +19,4 @@ async function connectToDatabase (): Promise<void> {
   }
 }
 
-export { client, connectToDatabase }
+export { client, connectMongooseToDatabase }
