@@ -4,7 +4,7 @@ import { connectMongooseToDatabase } from '@/db'
 import { auth } from '@/lib/auth'
 import { CreateMonsterFormValues } from '@/types/forms/create-monster-form'
 import { headers } from 'next/headers'
-import { Monster } from '@/db/models/monster.model'
+import Monster from '@/db/models/monster.model'
 
 export async function createMonster (monsterData: CreateMonsterFormValues): Promise<void> {
   await connectMongooseToDatabase()
@@ -37,7 +37,7 @@ export async function getMonsters (): Promise<Monster[]> {
     const { user } = session
 
     const monsters = await Monster.find({ ownerId: user.id }).exec()
-    return monsters
+    return JSON.parse(JSON.stringify(monsters))
   } catch (error) {
     console.error('Error fetching monsters:', error)
     return []
