@@ -9,7 +9,7 @@ import {
   type MonsterDesignStyle
 } from '@/types/monster'
 
-interface DashboardMonster {
+export interface DashboardMonster {
   id?: string
   _id?: string
   name: string
@@ -20,12 +20,22 @@ interface DashboardMonster {
   updatedAt?: string
 }
 
+const mergeClasses = (...values: Array<string | undefined>): string => values.filter(Boolean).join(' ')
+
 const MONSTER_STATE_LABELS: Record<MonsterState, string> = {
   happy: 'Heureux',
   sad: 'Triste',
   angry: 'Fâché',
   hungry: 'Affamé',
   sleepy: 'Somnolent'
+}
+
+const MONSTER_STATE_EMOJI: Record<MonsterState, string> = {
+  happy: '😄',
+  sad: '😢',
+  angry: '😤',
+  hungry: '😋',
+  sleepy: '😴'
 }
 
 const STATE_BADGE_CLASSES: Record<MonsterState, string> = {
@@ -117,24 +127,29 @@ const buildFeatureSummary = (design: MonsterDesign): string => {
     BODY_SHAPE_LABELS[design.bodyShape]
   ]
 
-  return traits.join(' · ')
+  return traits.filter((trait) => trait !== undefined && trait.length > 0).slice(0, 3).join(' · ')
 }
 
-function MonstersList ({ monsters }: { monsters: DashboardMonster[] }): React.ReactNode {
+interface MonstersListProps {
+  monsters: DashboardMonster[]
+  className?: string
+}
+
+function MonstersList ({ monsters, className }: MonstersListProps): React.ReactNode {
   if (monsters === null || monsters === undefined || monsters.length === 0) {
     return (
-      <div className='mt-10 w-full rounded-3xl border border-dashed border-slate-200 bg-white/70 p-6 text-center shadow-inner'>
-        <h2 className='text-lg font-semibold text-slate-900'>Aucun compagnon pour le moment</h2>
-        <p className='mt-1 text-sm text-slate-500'>Créez votre premier monstre pour commencer l&apos;aventure Tamagotcho.</p>
+      <div className={mergeClasses('mt-10 w-full rounded-3xl bg-gradient-to-br from-white/90 via-lochinvar-50/80 to-fuchsia-blue-50/80 p-8 text-center shadow-[0_16px_40px_rgba(15,23,42,0.12)] ring-1 ring-white/70 backdrop-blur', className)}>
+        <h2 className='text-xl font-semibold text-slate-900'>Tu n&apos;as pas encore de compagnon</h2>
+        <p className='mt-2 text-sm text-slate-600'>Clique sur &quot;Créer une créature&quot; pour lancer ta première adoption magique.</p>
       </div>
     )
   }
 
   return (
-    <section className='mt-12 w-full space-y-6'>
-      <header className='space-y-1'>
-        <h2 className='text-2xl font-semibold text-slate-900'>Vos monstres</h2>
-        <p className='text-sm text-slate-600'>Retrouvez ici votre ménagerie numérique et consultez leurs traits uniques.</p>
+    <section className={mergeClasses('mt-12 w-full space-y-8', className)}>
+      <header className='space-y-2'>
+        <h2 className='text-2xl font-bold text-slate-900'>Tes compagnons animés</h2>
+        <p className='text-sm text-slate-600'>Un coup d&apos;oeil rapide sur ta ménagerie digitale pour préparer la prochaine aventure.</p>
       </header>
 
       <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-3'>
@@ -143,63 +158,63 @@ function MonstersList ({ monsters }: { monsters: DashboardMonster[] }): React.Re
           const state = isMonsterState(monster.state) ? monster.state : DEFAULT_MONSTER_STATE
           const adoptionDate = formatAdoptionDate(monster.createdAt ?? monster.updatedAt)
           const cardKey = monster.id ?? monster._id ?? monster.name
+          const levelLabel = monster.level ?? 1
 
           return (
             <article
               key={cardKey}
-              className='group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_18px_36px_rgba(15,23,42,0.12)] backdrop-blur transition-transform duration-500 hover:-translate-y-1 hover:shadow-[0_28px_56px_rgba(15,23,42,0.16)]'
+              className='group relative flex flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-white/90 via-white to-lochinvar-50/70 p-6 shadow-[0_20px_54px_rgba(15,23,42,0.14)] ring-1 ring-white/70 backdrop-blur transition-transform duration-500 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)]'
             >
-              <div className='relative overflow-hidden rounded-2xl bg-slate-50/80 p-3 ring-1 ring-inset ring-white/60'>
-                <MonsterPreview design={design} state={state} width={220} height={220} />
-                <div className='pointer-events-none absolute inset-x-4 top-4 hidden items-center justify-end gap-2 sm:flex'>
-                  <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wide ${STATE_BADGE_CLASSES[state]}`}>
+              <div className='pointer-events-none absolute -right-16 top-20 h-40 w-40 rounded-full bg-fuchsia-blue-100/40 blur-3xl transition-opacity duration-500 group-hover:opacity-60' aria-hidden='true' />
+              <div className='pointer-events-none absolute -left-20 -top-16 h-48 w-48 rounded-full bg-lochinvar-100/40 blur-3xl transition-opacity duration-500 group-hover:opacity-60' aria-hidden='true' />
+
+              <div className='relative flex flex-col gap-5'>
+                <div className='relative flex items-center justify-center overflow-hidden rounded-3xl bg-slate-50/70 p-4 ring-1 ring-white/70'>
+                  <MonsterPreview design={design} state={state} width={200} height={200} />
+                  <span className={`absolute right-4 top-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${STATE_BADGE_CLASSES[state]}`}>
+                    <span aria-hidden='true'>{MONSTER_STATE_EMOJI[state]}</span>
                     {MONSTER_STATE_LABELS[state]}
                   </span>
                 </div>
-              </div>
-
-              <div className='mt-5 flex flex-1 flex-col gap-4'>
-                <div className='flex items-start justify-between gap-3'>
-                  <div>
-                    <h3 className='text-lg font-semibold text-slate-900'>{monster.name}</h3>
-                    {adoptionDate !== null && (
-                      <p className='text-xs text-slate-500'>Adopté le {adoptionDate}</p>
+                <div className='flex flex-1 flex-col gap-4'>
+                  <div className='flex items-start justify-between gap-3'>
+                    <div className='space-y-1'>
+                      <h3 className='text-lg font-semibold text-slate-900 sm:text-xl'>{monster.name}</h3>
+                      {adoptionDate !== null && (
+                        <p className='text-xs text-slate-500'>Arrivé le {adoptionDate}</p>
+                      )}
+                    </div>
+                    <span className='inline-flex items-center gap-1 rounded-full bg-moccaccino-100/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-moccaccino-600 shadow-inner'>
+                      <span aria-hidden='true'>⭐</span>
+                      Niveau {levelLabel}
+                    </span>
+                  </div>
+                  <div className='flex flex-wrap gap-2 text-xs text-slate-600'>
+                    {design !== null && (
+                      <span className='inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 font-medium ring-1 ring-inset ring-slate-200'>
+                        <span aria-hidden='true'>🎨</span>
+                        {DESIGN_STYLE_LABELS[design.style]}
+                      </span>
                     )}
+                    {design !== null && (
+                      <span className='inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 font-medium ring-1 ring-inset ring-slate-200'>
+                        <span aria-hidden='true'>🧬</span>
+                        {VARIANT_LABELS[design.variant]}
+                      </span>
+                    )}
+                    <span className='inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 font-medium ring-1 ring-inset ring-slate-200'>
+                      <span aria-hidden='true'>{MONSTER_STATE_EMOJI[state]}</span>
+                      {MONSTER_STATE_LABELS[state]}
+                    </span>
                   </div>
-                  <span className={`inline-flex sm:hidden items-center rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wide ${STATE_BADGE_CLASSES[state]}`}>
-                    {MONSTER_STATE_LABELS[state]}
-                  </span>
+
+                  {design !== null && (
+                    <div className='rounded-2xl bg-white/80 p-3 text-sm text-slate-600 shadow-inner'>
+                      <p className='font-medium text-slate-800'>Signature</p>
+                      <p className='mt-1 leading-snug'>{buildFeatureSummary(design)}</p>
+                    </div>
+                  )}
                 </div>
-
-                <dl className='grid grid-cols-2 gap-3 text-sm text-slate-500'>
-                  <div>
-                    <dt className='text-xs font-semibold uppercase tracking-wide text-slate-400'>Niveau</dt>
-                    <dd className='text-base font-semibold text-moccaccino-600'>{monster.level ?? 1}</dd>
-                  </div>
-                  {design !== null && (
-                    <div>
-                      <dt className='text-xs font-semibold uppercase tracking-wide text-slate-400'>Style</dt>
-                      <dd className='text-base font-medium text-slate-700'>{DESIGN_STYLE_LABELS[design.style]}</dd>
-                    </div>
-                  )}
-                  {design !== null && (
-                    <div>
-                      <dt className='text-xs font-semibold uppercase tracking-wide text-slate-400'>Variante</dt>
-                      <dd className='text-base font-medium text-slate-700'>{VARIANT_LABELS[design.variant]}</dd>
-                    </div>
-                  )}
-                  <div>
-                    <dt className='text-xs font-semibold uppercase tracking-wide text-slate-400'>Humeur</dt>
-                    <dd className='text-base font-medium text-slate-700'>{MONSTER_STATE_LABELS[state]}</dd>
-                  </div>
-                </dl>
-
-                {design !== null && (
-                  <div className='rounded-2xl bg-slate-50/70 p-3 text-sm text-slate-600 shadow-inner'>
-                    <p className='font-medium text-slate-800'>Traits distinctifs</p>
-                    <p className='mt-1 leading-snug'>{buildFeatureSummary(design)}</p>
-                  </div>
-                )}
               </div>
             </article>
           )
