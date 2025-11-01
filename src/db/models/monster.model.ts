@@ -28,7 +28,6 @@ const monsterSchema = new Schema({
     required: true
   }
 }, {
-  bufferCommands: false,
   timestamps: true
 })
 
