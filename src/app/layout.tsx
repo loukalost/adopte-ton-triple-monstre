@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { ToastContainer } from 'react-toastify'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,20 +35,12 @@ export default function RootLayout ({
 }>): React.ReactNode {
   return (
     <html lang='fr'>
-      {/* <head>
-        <link rel='manifest' href='/manifest.json' />
-        <meta name='mobile-web-app-capable' content='yes' />
-        <meta name='apple-mobile-web-app-capable' content='yes' />
-        <meta name='apple-mobile-web-app-status-bar-style' content='default' />
-        <meta name='apple-mobile-web-app-title' content='Triple Monstre' />
-        <meta name='msapplication-TileColor' content='#f7533c' />
-        <meta name='msapplication-config' content='/browserconfig.xml' />
-      </head> */}
       <body
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <ToastContainer />
       </body>
     </html>
   )

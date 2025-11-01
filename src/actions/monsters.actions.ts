@@ -7,6 +7,7 @@ import type { CreateMonsterFormValues } from '@/types/forms/create-monster-form'
 import type { DBMonster } from '@/types/monster'
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
+import { Types } from 'mongoose'
 
 export async function createMonster (monsterData: CreateMonsterFormValues): Promise<void> {
   await connectMongooseToDatabase()
@@ -44,5 +45,24 @@ export async function getMonsters (): Promise<DBMonster[]> {
   } catch (error) {
     console.error('Error fetching monsters:', error)
     return []
+  }
+}
+
+export async function getMonsterById (id: string): Promise<DBMonster | null> {
+  try {
+    await connectMongooseToDatabase()
+
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+    if (session === null || session === undefined) throw new Error('User not authenticated')
+
+    const { user } = session
+
+    const monster = await Monster.findOne({ ownerId: user.id, _id: id }).exec()
+    return JSON.parse(JSON.stringify(monster))
+  } catch (error) {
+    console.error('Error fetching monster by ID:', error)
+    return null
   }
 }
