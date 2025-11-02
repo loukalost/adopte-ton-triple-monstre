@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "dev:docs": "cd documentation && npm run start",
-    "build": "next build --turbopack && cd documentation && npm run build",
+    "build": "next build --turbopack",
+    "build:full": "next build --turbopack && cd documentation && npm install && npm run build",
     "build:next": "next build --turbopack",
     "build:docs": "cd documentation && npm run build",
     "start": "next start",
