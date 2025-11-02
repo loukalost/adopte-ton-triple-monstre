@@ -59,7 +59,14 @@ export async function getMonsterById (id: string): Promise<DBMonster | null> {
 
     const { user } = session
 
-    const monster = await Monster.findOne({ ownerId: user.id, _id: id }).exec()
+    const _id = id[0]
+
+    if (!Types.ObjectId.isValid(_id)) {
+      console.error('Invalid monster ID format')
+      return null
+    }
+
+    const monster = await Monster.findOne({ ownerId: user.id, _id }).exec()
     return JSON.parse(JSON.stringify(monster))
   } catch (error) {
     console.error('Error fetching monster by ID:', error)

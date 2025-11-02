@@ -17,6 +17,7 @@ import {
   type MonsterState
 } from '@/types/monster'
 import type { CreateMonsterFormProps } from '@/types/forms/create-monster-form'
+import { PixelMonster } from '../monsters'
 
 const MONSTER_STATE_LABELS: Record<MonsterState, string> = {
   happy: 'Heureux 😊',
