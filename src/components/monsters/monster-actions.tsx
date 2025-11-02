@@ -1,23 +1,81 @@
 'use client'
 
-import { useState } from 'react'
+import { useMonsterAction, type MonsterAction } from '@/hooks/monsters'
 
-type MonsterAction = 'feed' | 'comfort' | 'hug' | 'wake' | null
-
+/**
+ * Props pour le composant MonsterActions
+ */
 interface MonsterActionsProps {
+  /** Callback appelé lorsqu'une action est déclenchée */
   onAction: (action: MonsterAction) => void
 }
 
-interface ActionButtonProps {
+/**
+ * Définition d'une action disponible sur un monstre
+ */
+interface ActionDefinition {
+  /** Clé de l'action */
   action: MonsterAction
+  /** Emoji représentant l'action */
   emoji: string
+  /** Label textuel de l'action */
   label: string
+}
+
+/**
+ * Liste des actions disponibles pour interagir avec un monstre
+ */
+const AVAILABLE_ACTIONS: ActionDefinition[] = [
+  { action: 'feed', emoji: '🍎', label: 'Nourrir' },
+  { action: 'comfort', emoji: '💙', label: 'Consoler' },
+  { action: 'hug', emoji: '🤗', label: 'Câliner' },
+  { action: 'wake', emoji: '⏰', label: 'Réveiller' }
+]
+
+/**
+ * Props pour le composant ActionButton
+ */
+interface ActionButtonProps {
+  /** Action associée au bouton */
+  action: MonsterAction
+  /** Emoji à afficher */
+  emoji: string
+  /** Label du bouton */
+  label: string
+  /** Si true, le bouton est dans son état actif */
   isActive: boolean
+  /** Si true, le bouton est désactivé */
   isDisabled: boolean
+  /** Callback au clic */
   onClick: () => void
 }
 
-function ActionButton ({ action, emoji, label, isActive, isDisabled, onClick }: ActionButtonProps): React.ReactNode {
+/**
+ * Bouton d'action individuel pour interagir avec un monstre
+ *
+ * Responsabilité unique : afficher un bouton d'action avec
+ * ses états visuels (normal, actif, désactivé).
+ *
+ * @param {ActionButtonProps} props - Props du composant
+ * @returns {React.ReactNode} Bouton stylisé
+ *
+ * @example
+ * <ActionButton
+ *   action="feed"
+ *   emoji="🍎"
+ *   label="Nourrir"
+ *   isActive={false}
+ *   isDisabled={false}
+ *   onClick={handleFeed}
+ * />
+ */
+function ActionButton ({
+  emoji,
+  label,
+  isActive,
+  isDisabled,
+  onClick
+}: ActionButtonProps): React.ReactNode {
   const baseClass = 'px-4 py-2 text-md rounded-md font-medium flex items-center justify-center gap-2 transition-all duration-300'
   const activeClass = isActive
     ? 'bg-moccaccino-200 text-moccaccino-400 ring-4 ring-moccaccino-300 ring-offset-2 scale-95'
@@ -38,17 +96,31 @@ function ActionButton ({ action, emoji, label, isActive, isDisabled, onClick }: 
   )
 }
 
+/**
+ * Composant de gestion des actions sur un monstre
+ *
+ * Responsabilité unique : orchestrer l'affichage des boutons d'action
+ * et gérer l'état de l'action en cours.
+ *
+ * Applique SRP en déléguant :
+ * - La gestion de l'état d'action au hook useMonsterAction
+ * - L'affichage de chaque bouton à ActionButton
+ *
+ * @param {MonsterActionsProps} props - Props du composant
+ * @returns {React.ReactNode} Section d'actions
+ *
+ * @example
+ * <MonsterActions onAction={(action) => console.log(action)} />
+ */
 export function MonsterActions ({ onAction }: MonsterActionsProps): React.ReactNode {
-  const [activeAction, setActiveAction] = useState<MonsterAction>(null)
+  const { activeAction, triggerAction } = useMonsterAction()
 
+  /**
+   * Gère le déclenchement d'une action
+   * @param {MonsterAction} action - Action à déclencher
+   */
   const handleAction = (action: MonsterAction): void => {
-    setActiveAction(action)
-    onAction(action)
-
-    // Réinitialiser l'action après l'animation
-    setTimeout(() => {
-      setActiveAction(null)
-    }, 2500)
+    triggerAction(action, onAction)
   }
 
   return (
@@ -56,39 +128,19 @@ export function MonsterActions ({ onAction }: MonsterActionsProps): React.ReactN
       <h3 className='text-xl font-bold text-center text-lochinvar-700 mb-4'>
         Actions
       </h3>
+
       <div className='grid grid-cols-2 gap-3'>
-        <ActionButton
-          action='feed'
-          emoji='🍎'
-          label='Nourrir'
-          isActive={activeAction === 'feed'}
-          isDisabled={activeAction !== null}
-          onClick={() => { handleAction('feed') }}
-        />
-        <ActionButton
-          action='comfort'
-          emoji='💙'
-          label='Consoler'
-          isActive={activeAction === 'comfort'}
-          isDisabled={activeAction !== null}
-          onClick={() => { handleAction('comfort') }}
-        />
-        <ActionButton
-          action='hug'
-          emoji='🤗'
-          label='Câliner'
-          isActive={activeAction === 'hug'}
-          isDisabled={activeAction !== null}
-          onClick={() => { handleAction('hug') }}
-        />
-        <ActionButton
-          action='wake'
-          emoji='⏰'
-          label='Réveiller'
-          isActive={activeAction === 'wake'}
-          isDisabled={activeAction !== null}
-          onClick={() => { handleAction('wake') }}
-        />
+        {AVAILABLE_ACTIONS.map(({ action, emoji, label }) => (
+          <ActionButton
+            key={action}
+            action={action}
+            emoji={emoji}
+            label={label}
+            isActive={activeAction === action}
+            isDisabled={activeAction !== null}
+            onClick={() => { handleAction(action) }}
+          />
+        ))}
       </div>
 
       {/* Indicateur d'action en cours */}
