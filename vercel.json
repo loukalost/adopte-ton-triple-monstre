@@ -1,6 +1,7 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build && cd documentation && npm ci && npm run build",
   "outputDirectory": ".next",
+  "installCommand": "npm install && cd documentation && npm ci",
   "rewrites": [
     {
       "source": "/documentation/:path*",

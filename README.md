@@ -55,16 +55,29 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 La documentation complète du projet est disponible dans le dossier `/documentation` et accessible en ligne :
 
-- **Production** : [https://tamagotcho.vercel.app/documentation](https://tamagotcho.vercel.app/documentation)
-- **Local** : `npm run dev:docs` puis [http://localhost:3000](http://localhost:3000)
+- **Production** : [https://adopte-ton-triple-monstre.vercel.app/documentation](https://adopte-ton-triple-monstre.vercel.app/documentation)
+- **Local** : `npm run dev:docs` puis visitez [http://localhost:3000](http://localhost:3000)
 
 ### Sections disponibles
 
-- 📐 **Architecture** - Principes SOLID et Clean Architecture
+- 🏠 **Introduction** - Vue d'ensemble du projet
+- 📐 **Architecture** - Principes SOLID et Clean Architecture  
 - 🧩 **Composants** - Documentation des composants React
-- 👾 **Système de Monstres** - Génération et gestion des créatures
+- 🎮 **Fonctionnalités** - Dashboard, Actions des monstres
+- � **API Reference** - Documentation complète de l'API REST
+- �👾 **Système de Monstres** - Génération et gestion des créatures
 - 🔒 **Authentification** - Configuration et utilisation de Better Auth
+- ⏰ **Cron** - Système de mise à jour automatique
 - 🛠️ **Guide de développement** - Instructions pour contribuer
+
+### Développer la documentation
+
+```bash
+# Démarrer Docusaurus en mode dev
+cd documentation
+npm install
+npm run start
+```
 
 ## 🏗️ Stack technique
 

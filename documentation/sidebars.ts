@@ -15,6 +15,21 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Fonctionnalités',
+      items: [
+        'features/dashboard',
+        'features/monster-actions'
+      ]
+    },
+    {
+      type: 'category',
+      label: 'API',
+      items: [
+        'api/api-reference'
+      ]
+    },
+    {
+      type: 'category',
       label: 'Composants',
       items: [
         'components/ui-components'

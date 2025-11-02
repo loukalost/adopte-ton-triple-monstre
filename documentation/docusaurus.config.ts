@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://tamagotcho.vercel.app',
+  url: 'https://adopte-ton-triple-monstre.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/documentation/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'RiusmaX', // Usually your GitHub org/user name.
-  projectName: 'tamagotcho', // Usually your repo name.
+  organizationName: 'loukalost', // Usually your GitHub org/user name.
+  projectName: 'adopte-ton-triple-monstre', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -44,7 +44,7 @@ const config: Config = {
           routeBasePath: '/',
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/RiusmaX/tamagotcho/tree/master/documentation/'
+            'https://github.com/loukalost/adopte-ton-triple-monstre/tree/main/documentation/'
         },
         blog: false,
         theme: {
@@ -61,9 +61,9 @@ const config: Config = {
       respectPrefersColorScheme: true
     },
     navbar: {
-      title: 'Tamagotcho',
+      title: 'Adopte ton Triple Monstre',
       logo: {
-        alt: 'Tamagotcho Logo',
+        alt: 'Triple Monstre Logo',
         src: 'img/logo.svg'
       },
       items: [
@@ -74,7 +74,7 @@ const config: Config = {
           label: 'Documentation'
         },
         {
-          href: 'https://github.com/RiusmaX/tamagotcho',
+          href: 'https://github.com/loukalost/adopte-ton-triple-monstre',
           label: 'GitHub',
           position: 'right'
         }
@@ -97,12 +97,12 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/RiusmaX/tamagotcho'
+              href: 'https://github.com/loukalost/adopte-ton-triple-monstre'
             }
           ]
         }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Digital School - Tamagotcho.`
+      copyright: `Copyright © ${new Date().getFullYear()} My Digital School - Adopte ton Triple Monstre.`
     },
     prism: {
       theme: prismThemes.github,
