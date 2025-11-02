@@ -1,0 +1,9 @@
+{
+  "label": "Système de Mise à Jour Automatique",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Documentation du système de mise à jour automatique des états des monstres (Cron System)."
+  }
+}
+

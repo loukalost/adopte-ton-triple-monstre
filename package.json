@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev:docs": "cd documentation && npm run start",
+    "build": "next build --turbopack && cd documentation && npm run build",
+    "build:next": "next build --turbopack",
+    "build:docs": "cd documentation && npm run build",
     "start": "next start",
     "lint": "eslint"
   },
