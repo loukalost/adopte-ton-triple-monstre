@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "dev:docs": "cd documentation && npm run start",
-    "build": "next build --turbopack",
-    "build:full": "next build --turbopack && cd documentation && npm install && npm run build",
-    "build:next": "next build --turbopack",
+    "build": "next build && cd documentation && npm run build",
+    "build:next": "next build",
     "build:docs": "cd documentation && npm run build",
     "start": "next start",
     "lint": "eslint"

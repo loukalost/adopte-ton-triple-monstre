@@ -22,9 +22,11 @@ import { CreaturePageClient } from '@/components/creature/creature-page-client'
  * // Accès direct à la route
  * // GET /creature/507f1f77bcf86cd799439011
  */
-async function CreaturePage ({ params }: { params: { id: string } }): Promise<React.ReactNode> {
+export default async function Page ({ params }: { params: Promise<{ id: string | string[] }> }): Promise<React.ReactNode> {
+  // Résolution asynchrone des params (Next.js 15 fournit des params awaités)
+  const resolved = await params
   // Extraction de l'ID depuis les paramètres de route
-  const { id } = await params
+  const id = Array.isArray(resolved.id) ? resolved.id[0] : resolved.id
 
   // Récupération du monstre depuis la base de données
   const monster = await getMonsterById(id)
@@ -37,5 +39,3 @@ async function CreaturePage ({ params }: { params: { id: string } }): Promise<Re
   // Affichage de la page de détail
   return <CreaturePageClient monster={monster} />
 }
-
-export default CreaturePage
