@@ -1,5 +1,6 @@
 'use client'
 
+import { doActionOnMonster } from '@/actions/monsters.actions'
 import { useMonsterAction, type MonsterAction } from '@/hooks/monsters'
 
 /**
@@ -8,6 +9,8 @@ import { useMonsterAction, type MonsterAction } from '@/hooks/monsters'
 interface MonsterActionsProps {
   /** Callback appelé lorsqu'une action est déclenchée */
   onAction: (action: MonsterAction) => void
+  /** ID du monstre */
+  monsterId: string
 }
 
 /**
@@ -112,7 +115,7 @@ function ActionButton ({
  * @example
  * <MonsterActions onAction={(action) => console.log(action)} />
  */
-export function MonsterActions ({ onAction }: MonsterActionsProps): React.ReactNode {
+export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): React.ReactNode {
   const { activeAction, triggerAction } = useMonsterAction()
 
   /**
@@ -121,6 +124,7 @@ export function MonsterActions ({ onAction }: MonsterActionsProps): React.ReactN
    */
   const handleAction = (action: MonsterAction): void => {
     triggerAction(action, onAction)
+    void doActionOnMonster(monsterId, action)
   }
 
   return (

@@ -17,6 +17,8 @@ interface CreatureMonsterDisplayProps {
   currentAction: MonsterAction
   /** Callback appelé lors d'une action */
   onAction: (action: MonsterAction) => void
+  /** ID du monstre */
+  monsterId: string
 }
 
 /**
@@ -46,7 +48,8 @@ export function CreatureMonsterDisplay ({
   state,
   level,
   currentAction,
-  onAction
+  onAction,
+  monsterId
 }: CreatureMonsterDisplayProps): React.ReactNode {
   return (
     <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg border-4 border-lochinvar-200'>
@@ -70,7 +73,7 @@ export function CreatureMonsterDisplay ({
       </div>
 
       {/* Actions disponibles */}
-      <MonsterActions onAction={onAction} />
+      <MonsterActions onAction={onAction} monsterId={monsterId} />
     </div>
   )
 }
