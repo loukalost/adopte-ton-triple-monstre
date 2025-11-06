@@ -1,9 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { connectToDatabase } from './db.js'
+import { connectToDatabase, updateMonstersStates } from './db.js'
 
-dotenv.config({ path: './.env' })
+dotenv.config({ path: '../.env.local' })
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -35,6 +35,7 @@ const server = app.listen(PORT, () => {
       try {
         // Replace this with the real work you want the worker to do
         console.log('[worker] run -', new Date().toISOString(), `(delay ${delay}ms)`)
+        await updateMonstersStates()
       } catch (err) {
         console.error('[worker] error', err)
       }

@@ -9,8 +9,6 @@ import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
 import { Types } from 'mongoose'
 
-const MONSTER_STATES = ['sad', 'angry', 'hungry', 'sleepy']
-
 /**
  * Crée un nouveau monstre pour l'utilisateur authentifié
  *
@@ -163,23 +161,4 @@ export async function getMonsterById (id: string): Promise<DBMonster | null> {
     console.error('Error fetching monster by ID:', error)
     return null
   }
-}
-
-export async function updateMonsterState (monsterId: string): Promise<void> {
-  // Cette fonction peut être implémentée pour mettre à jour l'état du monstre
-  console.log('updateMonsterState called from server action')
-
-  // Logique pour mettre à jour l'état du monstre
-  const randomState = MONSTER_STATES[Math.floor(Math.random() * MONSTER_STATES.length)]
-  console.log(`Nouvel état du monstre : ${randomState}`)
-
-  await connectMongooseToDatabase()
-  const result = await Monster.updateOne(
-    { _id: monsterId },
-    { state: randomState }
-  ).orFail()
-  console.log(`Résultat de la mise à jour en base de données : ${result}`)
-  revalidatePath('/creature/' + monsterId)
-  revalidatePath('/dashboard')
-  revalidatePath('/')
 }
