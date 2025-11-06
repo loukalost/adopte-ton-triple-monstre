@@ -52,7 +52,9 @@ export async function createMonster (monsterData: CreateMonsterFormValues): Prom
     name: monsterData.name,
     traits: monsterData.traits,
     state: monsterData.state,
-    level: monsterData.level
+    level: monsterData.level,
+    xp: monsterData.xp,
+    maxXp: monsterData.maxXp
   })
 
   await monster.save()
@@ -156,6 +158,27 @@ export async function getMonsterById (id: string): Promise<DBMonster | null> {
     // Récupération du monstre avec vérification de propriété
     const monster = await Monster.findOne({ ownerId: user.id, _id }).exec()
 
+    if (monster !== null && monster !== undefined) {
+      // Initialiser les champs XP s'ils sont manquants (migration automatique)
+      let needsUpdate = false
+
+      if (monster.xp === undefined || monster.xp === null) {
+        monster.xp = 0
+        needsUpdate = true
+      }
+
+      if (monster.maxXp === undefined || monster.maxXp === null) {
+        monster.maxXp = (monster.level ?? 1) * 100
+        needsUpdate = true
+      }
+
+      if (needsUpdate) {
+        monster.markModified('xp')
+        monster.markModified('maxXp')
+        await monster.save()
+      }
+    }
+
     // Sérialisation JSON pour éviter les problèmes de typage Next.js
     return JSON.parse(JSON.stringify(monster))
   } catch (error) {
@@ -198,11 +221,39 @@ export async function doActionOnMonster (id: string, action: MonsterAction): Pro
       throw new Error('Monster not found')
     }
 
+    // Initialisation des champs XP si nécessaires
+    if (monster.xp === undefined || monster.xp === null) {
+      monster.xp = 0
+    }
+    if (monster.maxXp === undefined || monster.maxXp === null) {
+      monster.maxXp = monster.level * 100
+    }
+
     // Mise à jour de l'état du monstre en fonction de l'action
     if (action !== null && action !== undefined && action in actionsStatesMap) {
       if (monster.state === actionsStatesMap[action]) {
+        // Action correcte : passer à l'état happy
         monster.state = 'happy'
+
+        // Gain d'XP pour action correcte (25 XP)
+        const xpGain = 25
+        const currentXp = Number(monster.xp)
+
+        monster.xp = currentXp + xpGain
+
+        // Vérification du passage de niveau
+        while (Number(monster.xp) >= Number(monster.maxXp)) {
+          // Passage au niveau supérieur
+          monster.level = Number(monster.level) + 1
+          monster.xp = Number(monster.xp) - Number(monster.maxXp)
+          // Nouveau palier d'XP : level * 100
+          monster.maxXp = Number(monster.level) * 100
+        }
+
         monster.markModified('state')
+        monster.markModified('xp')
+        monster.markModified('maxXp')
+        monster.markModified('level')
         await monster.save()
       }
     }

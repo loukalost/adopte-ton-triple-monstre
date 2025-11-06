@@ -21,6 +21,29 @@ export async function GET (request: NextRequest): Promise<Response> {
   await connectMongooseToDatabase()
   const monster = await Monster.findOne({ ownerId: session.user.id, _id: monsterId }).exec()
 
+  if (monster === null) {
+    return new Response('Monster not found', { status: 404 })
+  }
+
+  // Initialiser les champs XP s'ils sont manquants (migration automatique)
+  let needsUpdate = false
+
+  if (monster.xp === undefined || monster.xp === null) {
+    monster.xp = 0
+    needsUpdate = true
+  }
+
+  if (monster.maxXp === undefined || monster.maxXp === null) {
+    monster.maxXp = (monster.level ?? 1) * 100
+    needsUpdate = true
+  }
+
+  if (needsUpdate) {
+    monster.markModified('xp')
+    monster.markModified('maxXp')
+    await monster.save()
+  }
+
   // Sérialisation JSON pour éviter les problèmes de typage Next.js
   return Response.json(monster)
 }

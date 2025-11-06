@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import type { MonsterTraits, DBMonster } from '@/types/monster'
 import type { MonsterAction } from '@/hooks/monsters'
 import { parseMonsterTraits } from '@/lib/utils'
@@ -9,6 +9,9 @@ import { CreatureMonsterDisplay } from './creature-monster-display'
 import { CreatureStatsPanel } from './creature-stats-panel'
 import { CreatureTraitsPanel } from './creature-traits-panel'
 import { CreatureColorsPanel } from './creature-colors-panel'
+import { LevelUpAnimation } from './level-up-animation'
+import Button from '../button'
+import { useRouter } from 'next/navigation'
 
 /**
  * Props pour le composant CreaturePageClient
@@ -38,6 +41,11 @@ interface CreaturePageClientProps {
 export function CreaturePageClient ({ monster }: CreaturePageClientProps): React.ReactNode {
   const [currentAction, setCurrentAction] = useState<MonsterAction>(null)
   const [currentMonster, setCurrentMonster] = useState<DBMonster>(monster)
+  const [showXpGain, setShowXpGain] = useState(false)
+  const [xpGained, setXpGained] = useState(0)
+  const [showLevelUp, setShowLevelUp] = useState(false)
+  const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const router = useRouter()
 
   // Parse des traits depuis le JSON stocké en base
   const traits: MonsterTraits = parseMonsterTraits(monster.traits) ?? {
@@ -59,6 +67,31 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
         const response = await fetch(`/api/monster?id=${monster._id}`)
         if (response.ok) {
           const updatedMonster: DBMonster = await response.json()
+
+          // Détection du gain d'XP
+          if (updatedMonster.xp !== currentMonster.xp ||
+              updatedMonster.level !== currentMonster.level) {
+            // Calcul du gain d'XP
+            const xpDiff = updatedMonster.level > currentMonster.level
+              ? updatedMonster.xp + (updatedMonster.level - currentMonster.level - 1) * currentMonster.maxXp + (currentMonster.maxXp - currentMonster.xp)
+              : updatedMonster.xp - currentMonster.xp
+
+            if (xpDiff > 0) {
+              setXpGained(xpDiff)
+              setShowXpGain(true)
+
+              // Masquer l'animation après 2 secondes
+              setTimeout(() => {
+                setShowXpGain(false)
+              }, 2000)
+            }
+
+            // Détection du level-up
+            if (updatedMonster.level > currentMonster.level) {
+              setShowLevelUp(true)
+            }
+          }
+
           setCurrentMonster(updatedMonster)
         }
       } catch (error) {
@@ -71,20 +104,45 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [monster])
+  }, [monster, currentMonster])
+
+  // Nettoyage du timer d'action au démontage du composant
+  useEffect(() => {
+    return () => {
+      if (actionTimerRef.current !== null) {
+        clearTimeout(actionTimerRef.current)
+      }
+    }
+  }, [])
 
   /**
    * Gère le déclenchement d'une action sur le monstre
    * @param {MonsterAction} action - Action déclenchée
    */
   const handleAction = (action: MonsterAction): void => {
+    // Nettoyer le timer précédent si existant
+    if (actionTimerRef.current !== null) {
+      clearTimeout(actionTimerRef.current)
+    }
+
     setCurrentAction(action)
+
+    // Réinitialiser l'action après l'animation (doit correspondre au délai de useMonsterAction)
+    const timer = setTimeout(() => {
+      setCurrentAction(null)
+      actionTimerRef.current = null
+    }, 2500)
+
+    actionTimerRef.current = timer
   }
 
   return (
     <div className='min-h-screen bg-gradient-to-b from-lochinvar-50 to-fuchsia-blue-50 py-12'>
       <div className='container mx-auto px-4 max-w-4xl'>
         {/* En-tête avec nom et niveau */}
+        <Button onClick={() => { void router.push('/dashboard') }}>
+          {'< '}Retour au dashboard
+        </Button>
         <CreatureHeader name={currentMonster.name} level={currentMonster.level} />
 
         {/* Grille principale : monstre + informations */}
@@ -103,15 +161,26 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
           <div className='space-y-6'>
             <CreatureStatsPanel
               level={currentMonster.level}
+              xp={currentMonster.xp ?? 0}
+              maxXp={currentMonster.maxXp ?? currentMonster.level * 100}
               state={currentMonster.state}
               createdAt={currentMonster.createdAt}
               updatedAt={currentMonster.updatedAt}
+              showXpGain={showXpGain}
+              xpGained={xpGained}
             />
             <CreatureTraitsPanel traits={traits} />
             <CreatureColorsPanel traits={traits} />
           </div>
         </div>
       </div>
+
+      {/* Animation de level-up */}
+      <LevelUpAnimation
+        newLevel={currentMonster.level}
+        show={showLevelUp}
+        onComplete={() => setShowLevelUp(false)}
+      />
     </div>
   )
 }

@@ -29,6 +29,8 @@ export interface DBMonster {
   _id: string
   name: string
   level: number
+  xp: number
+  maxXp: number
   traits: string // JSON serialized MonsterTraits
   state: MonsterState
   ownerId: string

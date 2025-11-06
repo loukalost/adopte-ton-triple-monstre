@@ -64,7 +64,7 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
 
     const interval = setInterval(() => {
       void fetchAndUpdateMonsters()
-    }, 1000) // Met à jour toutes les 60 secondes
+    }, 10000) // Met à jour toutes les 60 secondes
 
     return () => clearInterval(interval)
   }, [])

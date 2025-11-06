@@ -37,6 +37,8 @@ export const validateCreateMonsterForm = (
       name: trimmedName,
       traits: JSON.stringify(traits),
       level: DEFAULT_MONSTER_LEVEL,
+      xp: 0,
+      maxXp: DEFAULT_MONSTER_LEVEL * 100,
       state: DEFAULT_MONSTER_STATE
     }
   }
