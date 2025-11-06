@@ -1,5 +1,3 @@
-import express from 'express'
-import cors from 'cors'
 import dotenv from 'dotenv'
 import { connectToDatabase, updateMonstersStates } from './db.js'
 
@@ -11,12 +9,16 @@ app.use(cors())
 
 connectToDatabase()
 
+app.get('/', (req, res) => {
+  res.status(200).send('Hello from the cron server!')
+})
+
 app.get('/health', (req, res) => {
   res.status(200).send('Server is healthy')
 })
 
 const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+  console.info(`Server is running on port ${PORT}`)
 
   // Background worker: loop forever and run work after a random timeout (1-10s)
   let stopped = false
@@ -34,13 +36,13 @@ const server = app.listen(PORT, () => {
 
       try {
         // Replace this with the real work you want the worker to do
-        console.log('[worker] run -', new Date().toISOString(), `(delay ${delay}ms)`)
+        console.info('[worker] run -', new Date().toISOString(), `(delay ${delay}ms)`)
         await updateMonstersStates()
       } catch (err) {
         console.error('[worker] error', err)
       }
     }
-    console.log('[worker] stopped')
+    console.info('[worker] stopped')
   }
 
   // Start the worker (no await; it runs in background)
@@ -48,14 +50,14 @@ const server = app.listen(PORT, () => {
 
   // Graceful shutdown: stop the loop, clear any pending timeout and close server
   const shutdown = (signal) => {
-    console.log(`Received ${signal}, shutting down worker and server...`)
+    console.info(`Received ${signal}, shutting down worker and server...`)
     stopped = true
     if (currentTimeout) {
       clearTimeout(currentTimeout)
       currentTimeout = null
     }
     server.close(() => {
-      console.log('HTTP server closed')
+      console.info('HTTP server closed')
       process.exit(0)
     })
     // force exit if server doesn't close in time
@@ -65,3 +67,5 @@ const server = app.listen(PORT, () => {
   process.on('SIGINT', () => shutdown('SIGINT'))
   process.on('SIGTERM', () => shutdown('SIGTERM'))
 })
+
+export default app
