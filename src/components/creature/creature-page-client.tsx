@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import type { MonsterTraits, DBMonster } from '@/types/monster'
 import type { MonsterAction } from '@/hooks/monsters'
 import { parseMonsterTraits } from '@/lib/utils'
@@ -38,6 +37,7 @@ interface CreaturePageClientProps {
  */
 export function CreaturePageClient ({ monster }: CreaturePageClientProps): React.ReactNode {
   const [currentAction, setCurrentAction] = useState<MonsterAction>(null)
+  const [currentMonster, setCurrentMonster] = useState<DBMonster>(monster)
 
   // Parse des traits depuis le JSON stocké en base
   const traits: MonsterTraits = parseMonsterTraits(monster.traits) ?? {
@@ -53,6 +53,26 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
     accessory: 'none'
   }
 
+  useEffect(() => {
+    const fetchMonster = async (): Promise<void> => {
+      try {
+        const response = await fetch(`/api/monster?id=${monster._id}`)
+        if (response.ok) {
+          const updatedMonster: DBMonster = await response.json()
+          setCurrentMonster(updatedMonster)
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération du monstre :', error)
+      }
+    }
+
+    const interval = setInterval(() => {
+      void fetchMonster()
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [monster])
+
   /**
    * Gère le déclenchement d'une action sur le monstre
    * @param {MonsterAction} action - Action déclenchée
@@ -65,14 +85,15 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
     <div className='min-h-screen bg-gradient-to-b from-lochinvar-50 to-fuchsia-blue-50 py-12'>
       <div className='container mx-auto px-4 max-w-4xl'>
         {/* En-tête avec nom et niveau */}
-        <CreatureHeader name={monster.name} level={monster.level} />
+        <CreatureHeader name={currentMonster.name} level={currentMonster.level} />
+
         {/* Grille principale : monstre + informations */}
         <div className='grid md:grid-cols-2 gap-8'>
           {/* Colonne gauche : Monstre animé et actions */}
           <CreatureMonsterDisplay
             traits={traits}
-            state={monster.state}
-            level={monster.level}
+            state={currentMonster.state}
+            level={currentMonster.level}
             currentAction={currentAction}
             onAction={handleAction}
           />
@@ -80,10 +101,10 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
           {/* Colonne droite : Panneaux d'informations */}
           <div className='space-y-6'>
             <CreatureStatsPanel
-              level={monster.level}
-              state={monster.state}
-              createdAt={monster.createdAt}
-              updatedAt={monster.updatedAt}
+              level={currentMonster.level}
+              state={currentMonster.state}
+              createdAt={currentMonster.createdAt}
+              updatedAt={currentMonster.updatedAt}
             />
             <CreatureTraitsPanel traits={traits} />
             <CreatureColorsPanel traits={traits} />
