@@ -144,7 +144,7 @@ export async function getMonsterById (id: string): Promise<DBMonster | null> {
     const { user } = session
 
     // Extraction de l'ID depuis le tableau de route dynamique
-    const _id = id[0]
+    const _id = id
 
     // Validation du format ObjectId MongoDB
     if (!Types.ObjectId.isValid(_id)) {
