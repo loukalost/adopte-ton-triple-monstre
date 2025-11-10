@@ -1,8 +1,9 @@
 'use client'
 
-import { addKoins, subtractKoins, type DBWallet } from '@/actions/wallet.actions'
-import { useState, useTransition } from 'react'
-import Button from '../button'
+import { type DBWallet } from '@/actions/wallet.actions'
+import { pricingTable } from '@/config/pricing'
+import { useState } from 'react'
+import type React from 'react'
 
 interface WalletClientProps {
   initialWallet: DBWallet
@@ -13,81 +14,85 @@ interface WalletClientProps {
  *
  * Fonctionnalités :
  * - Affichage du solde de Koins avec animations spectaculaires
- * - Boutons fun pour ajouter/retirer des Koins
- * - Animations de particules explosives lors des transactions
+ * - Cartes d'achat de Koins via Stripe
+ * - Animations de particules explosives
  * - Design kawaii et engageant
  *
  * @param {WalletClientProps} props - Les propriétés du composant
  * @param {DBWallet} props.initialWallet - Le wallet initial de l'utilisateur
  */
-export default function WalletClient ({ initialWallet }: WalletClientProps): React.ReactNode {
-  const [wallet, setWallet] = useState<DBWallet>(initialWallet)
-  const [isPending, startTransition] = useTransition()
+export default function WalletClient ({ initialWallet }: WalletClientProps): React.ReactElement {
+  const [wallet] = useState<DBWallet>(initialWallet)
+  const [isPurchasing, setIsPurchasing] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [animatingAmount, setAnimatingAmount] = useState<number | null>(null)
-  const [animationType, setAnimationType] = useState<'add' | 'subtract' | null>(null)
-
-  const handleBuyKoins = async (): Promise<void> => {
-    const response = await fetch('/api/checkout/sessions', {
-      method: 'POST',
-      body: JSON.stringify({ amount: 500 })
-    })
-    const data = await response.json()
-    console.log(data)
-    window.location.href = data.url
-  }
 
   /**
-   * Gère l'ajout de Koins au wallet
-   * @param amount - Montant à ajouter
+   * Gère l'achat de Koins via Stripe
+   * @param amount - Montant de Koins à acheter
    */
-  const handleAddKoins = (amount: number): void => {
+  const handlePurchase = async (amount: number): Promise<void> => {
     setError(null)
-    setAnimatingAmount(amount)
-    setAnimationType('add')
+    setIsPurchasing(true)
 
-    startTransition(async () => {
-      try {
-        const updatedWallet = await addKoins(amount)
-        setWallet(updatedWallet)
+    try {
+      const response = await fetch('/api/checkout/sessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amount })
+      })
 
-        setTimeout(() => {
-          setAnimatingAmount(null)
-          setAnimationType(null)
-        }, 2000)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erreur lors de l\'ajout de Koins')
-        setAnimatingAmount(null)
-        setAnimationType(null)
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session de paiement')
       }
-    })
+
+      const { url } = await response.json()
+
+      if (url !== null && url !== undefined && url !== '') {
+        window.location.href = url
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de l\'achat de Koins')
+      setIsPurchasing(false)
+    }
   }
 
-  /**
-   * Gère le retrait de Koins du wallet
-   * @param amount - Montant à retirer
-   */
-  const handleSubtractKoins = (amount: number): void => {
-    setError(null)
-    setAnimatingAmount(amount)
-    setAnimationType('subtract')
-
-    startTransition(async () => {
-      try {
-        const updatedWallet = await subtractKoins(amount)
-        setWallet(updatedWallet)
-
-        setTimeout(() => {
-          setAnimatingAmount(null)
-          setAnimationType(null)
-        }, 2000)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erreur lors du retrait de Koins')
-        setAnimatingAmount(null)
-        setAnimationType(null)
-      }
-    })
-  }
+  // Packages d'achat avec leurs caractéristiques
+  const packages = [
+    {
+      amount: 10,
+      price: pricingTable[10].price,
+      emoji: '🪙',
+      color: 'from-yellow-400 to-orange-500',
+      badge: 'Débutant',
+      popular: false
+    },
+    {
+      amount: 50,
+      price: pricingTable[50].price,
+      emoji: '💰',
+      color: 'from-orange-400 to-red-500',
+      badge: 'Populaire',
+      popular: true
+    },
+    {
+      amount: 500,
+      price: pricingTable[500].price,
+      emoji: '💎',
+      color: 'from-blue-400 to-cyan-500',
+      badge: 'Pro',
+      popular: false
+    },
+    {
+      amount: 1000,
+      price: pricingTable[1000].price,
+      emoji: '👑',
+      color: 'from-purple-400 to-pink-500',
+      badge: 'Royal',
+      popular: false
+    }
+  ]
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-yellow-100 via-orange-100 to-pink-200 p-8'>
@@ -103,79 +108,40 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
       <div className='pointer-events-none fixed top-40 left-20 text-5xl animate-twinkle-delayed'>💎</div>
       <div className='pointer-events-none fixed bottom-40 right-60 text-6xl animate-twinkle'>🪙</div>
 
-      <div className='relative max-w-5xl mx-auto'>
+      <div className='relative max-w-6xl mx-auto'>
         {/* En-tête ultra fun */}
         <div className='text-center mb-12'>
           <div className='inline-flex items-center gap-4 mb-6'>
             <span className='text-7xl animate-bounce'>💰</span>
             <h1 className='text-6xl font-black text-transparent bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 bg-clip-text'>
-              Mon Wallet
+              Boutique de Koins
             </h1>
             <span className='text-7xl animate-bounce' style={{ animationDelay: '0.2s' }}>🪙</span>
           </div>
           <p className='text-2xl font-bold text-orange-600 flex items-center justify-center gap-3'>
             <span className='text-3xl'>✨</span>
-            Gérez vos précieux Koins !
+            Achète des Koins pour ton aventure !
             <span className='text-3xl'>✨</span>
           </p>
         </div>
 
-        {/* Carte principale du wallet - GROSSE ET VISIBLE */}
+        {/* Carte du solde actuel */}
         <div className='relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-12 mb-12 shadow-[0_30px_90px_rgba(0,0,0,0.25)] ring-8 ring-white/80'>
-          {/* Effet de fond animé */}
+
           <div className='absolute inset-0 bg-gradient-to-br from-yellow-200/30 via-orange-200/30 to-red-200/30 animate-pulse-slow' />
-
-          {/* Particules d'animation */}
-          {animatingAmount !== null && (
-            <>
-              <div className='absolute inset-0 pointer-events-none'>
-                {[...Array(12)].map((_, i) => (
-                  <div
-                    key={i}
-                    className={`absolute text-4xl animate-explode-particle ${
-                      animationType === 'add' ? 'text-green-500' : 'text-red-500'
-                    }`}
-                    style={{
-                      left: '50%',
-                      top: '40%',
-                      animationDelay: `${i * 0.1}s`,
-                      transform: `rotate(${i * 30}deg)`
-                    }}
-                  >
-                    {animationType === 'add' ? '💚' : '💔'}
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-
           <div className='relative z-10'>
-            {/* Affichage du solde - ÉNORME */}
-            <div className='text-center mb-12'>
+            <div className='text-center'>
+
               <p className='text-xl font-bold text-orange-600 uppercase tracking-widest mb-4 flex items-center justify-center gap-2'>
                 <span className='text-2xl'>💎</span>
-                Ton Trésor
+                Ton Trésor Actuel
                 <span className='text-2xl'>💎</span>
               </p>
               <div className='flex items-center justify-center gap-6'>
                 <span className='text-8xl animate-spin-slow'>🪙</span>
-                <div className='relative'>
-                  <h2 className='text-9xl font-black text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text drop-shadow-2xl'>
-                    {wallet.balance.toLocaleString('fr-FR')}
-                  </h2>
-
-                  {/* Animation de changement de montant - EXPLOSIVE */}
-                  {animatingAmount !== null && (
-                    <div
-                      className={`absolute top-0 left-full ml-8 text-6xl font-black animate-explode ${
-                        animationType === 'add' ? 'text-green-500' : 'text-red-500'
-                      }`}
-                    >
-                      {animationType === 'add' ? '+' : '-'}
-                      {animatingAmount}
-                    </div>
-                  )}
-                </div>
+                <h2 className='text-9xl font-black text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text drop-shadow-2xl'>
+                  {wallet.balance.toLocaleString('fr-FR')}
+                </h2>
                 <span className='text-8xl animate-spin-slow' style={{ animationDelay: '1s' }}>🪙</span>
               </div>
               <p className='text-3xl font-black text-orange-600 mt-6'>
@@ -184,110 +150,121 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
                 {wallet.balance > 1 && 'Koins'}
               </p>
             </div>
-
-            {/* Message d'erreur */}
-            {error !== null && (
-              <div className='bg-red-100 border-4 border-red-300 text-red-700 px-8 py-5 rounded-3xl mb-8 text-center text-xl font-bold shadow-xl'>
-                <span className='text-4xl mr-3'>⚠️</span>
-                {error}
-              </div>
-            )}
-
-            {/* Boutons d'action - GROS ET FUN */}
-            <div className='border-t-4 border-orange-300 pt-10'>
-              <p className='text-center text-orange-700 text-xl font-bold mb-6 flex items-center justify-center gap-2'>
-                <span className='text-2xl'>🎮</span>
-                Boutons Magiques de Test
-                <span className='text-2xl'>🎮</span>
-              </p>
-
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-                {/* Bouton Ajouter */}
-                <div className='space-y-4'>
-                  <p className='text-center text-2xl font-black text-green-600 flex items-center justify-center gap-2'>
-                    <span className='text-3xl'>💚</span>
-                    Gagner des Koins
-                  </p>
-                  <Button onClick={() => { void handleBuyKoins() }}>
-                    Acheter 500 Koins
-                  </Button>
-                  <div className='flex flex-col gap-4'>
-                    {[10, 50, 100].map((amount) => (
-                      <button
-                        key={amount}
-                        onClick={() => { handleAddKoins(amount) }}
-                        disabled={isPending}
-                        className='group relative overflow-hidden bg-gradient-to-r from-green-400 via-emerald-500 to-green-500 hover:from-green-500 hover:via-emerald-600 hover:to-green-600 text-white font-black text-2xl py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-2xl ring-4 ring-green-200/50 hover:shadow-[0_20px_50px_rgba(34,197,94,0.4)] active:scale-105'
-                      >
-                        <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
-                        <span className='relative flex items-center justify-center gap-3'>
-                          <span className='text-4xl'>➕</span>
-                          <span>{amount}</span>
-                          <span className='text-4xl'>🪙</span>
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bouton Retirer */}
-                <div className='space-y-4'>
-                  <p className='text-center text-2xl font-black text-red-600 flex items-center justify-center gap-2'>
-                    <span className='text-3xl'>💔</span>
-                    Dépenser des Koins
-                  </p>
-                  <div className='flex flex-col gap-4'>
-                    {[10, 50, 100].map((amount) => (
-                      <button
-                        key={amount}
-                        onClick={() => { handleSubtractKoins(amount) }}
-                        disabled={isPending || wallet.balance < amount}
-                        className='group relative overflow-hidden bg-gradient-to-r from-red-400 via-rose-500 to-red-500 hover:from-red-500 hover:via-rose-600 hover:to-red-600 text-white font-black text-2xl py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-2xl ring-4 ring-red-200/50 hover:shadow-[0_20px_50px_rgba(239,68,68,0.4)] active:scale-105'
-                      >
-                        <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
-                        <span className='relative flex items-center justify-center gap-3'>
-                          <span className='text-4xl'>➖</span>
-                          <span>{amount}</span>
-                          <span className='text-4xl'>🪙</span>
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-
-          {/* Indicateur de chargement */}
-          {isPending && (
-            <div className='absolute inset-0 bg-white/80 backdrop-blur-md flex items-center justify-center z-20 rounded-[3rem]'>
-              <div className='text-center'>
-                <div className='inline-block animate-spin-fast text-9xl mb-4'>🪙</div>
-                <p className='text-3xl font-black text-orange-600'>Traitement...</p>
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* Informations supplémentaires - Fun */}
+        {/* Message d'erreur */}
+        {error !== null && (
+          <div className='bg-red-100 border-4 border-red-300 text-red-700 px-8 py-5 rounded-3xl mb-8 text-center text-xl font-bold shadow-xl'>
+            <span className='text-4xl mr-3'>⚠️</span>
+            {error}
+          </div>
+        )}
+
+        {/* Titre de la boutique */}
+        <div className='text-center mb-8'>
+          <h2 className='text-5xl font-black text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text mb-4'>
+            Choisis ton Pack de Koins ! 🎁
+          </h2>
+          <p className='text-xl text-gray-700 font-bold'>
+            Paiement sécurisé par Stripe 🔒
+          </p>
+        </div>
+
+        {/* Grille des packages */}
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12'>
+          {packages.map((pkg) => (
+            <div
+              key={pkg.amount}
+              className={`group relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-pink-50 to-purple-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-4 ring-white/80 transition-all duration-300 hover:scale-105 hover:shadow-[0_30px_90px_rgba(0,0,0,0.25)] ${
+                pkg.popular ? 'ring-8 ring-yellow-400 transform scale-105' : ''
+              }`}
+            >
+              {/* Badge populaire */}
+              {pkg.popular && (
+                <div className='absolute -top-4 -right-4'>
+                  <div className='bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-black text-sm px-6 py-2 rounded-full shadow-xl ring-4 ring-white transform rotate-12 animate-bounce'>
+                    ⭐ {pkg.badge} ⭐
+                  </div>
+                </div>
+              )}
+
+              {/* Badge du pack */}
+              {!pkg.popular && (
+                <div className='absolute top-4 right-4'>
+                  <div className={`bg-gradient-to-r ${pkg.color} text-white font-black text-xs px-4 py-2 rounded-full shadow-lg`}>
+                    {pkg.badge}
+                  </div>
+                </div>
+              )}
+
+              {/* Bulles décoratives */}
+              <div className='pointer-events-none absolute -right-8 top-8 h-24 w-24 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-300/30 blur-xl group-hover:scale-150 transition-transform duration-500' />
+
+              {/* Contenu */}
+              <div className='relative text-center'>
+                {/* Emoji du pack */}
+                <div className='text-8xl mb-6 animate-float'>{pkg.emoji}</div>
+
+                {/* Montant de Koins */}
+                <div className='mb-6'>
+                  <div className={`inline-block bg-gradient-to-r ${pkg.color} text-white font-black text-5xl px-8 py-4 rounded-3xl shadow-2xl ring-4 ring-white/50`}>
+                    {pkg.amount.toLocaleString('fr-FR')}
+                  </div>
+                  <p className='text-2xl font-bold text-purple-600 mt-3'>Koins</p>
+                </div>
+
+                {/* Prix */}
+                <div className='mb-8'>
+                  <div className='text-5xl font-black text-transparent bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text mb-2'>
+                    {pkg.price}€
+                  </div>
+                  <p className='text-sm text-gray-600 font-medium'>
+                    Soit {(pkg.price / pkg.amount).toFixed(2)}€ par Koin
+                  </p>
+                </div>
+
+                {/* Bouton d'achat */}
+                <button
+                  onClick={() => { void handlePurchase(pkg.amount) }}
+                  disabled={isPurchasing}
+                  className={`group/btn relative overflow-hidden w-full bg-gradient-to-r ${pkg.color} hover:brightness-110 text-white font-black text-xl py-5 px-6 rounded-2xl transition-all duration-300 transform hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-2xl ring-4 ring-white/50 active:scale-105`}
+                >
+                  <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover/btn:animate-shine' />
+                  <span className='relative flex items-center justify-center gap-3'>
+                    {isPurchasing
+                      ? (
+                        <>
+                          <span className='animate-spin text-2xl'>⏳</span>
+                          <span>Chargement...</span>
+                        </>
+                        )
+                      : (
+                        <>
+                          <span className='text-2xl'>🛒</span>
+                          <span>Acheter</span>
+                          <span className='text-2xl'>✨</span>
+                        </>
+                        )}
+                  </span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Informations supplémentaires */}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
           {[
-            { icon: '📅', label: 'Créé le', value: new Date(wallet.createdAt).toLocaleDateString('fr-FR'), color: 'from-blue-400 to-cyan-500' },
-            { icon: '🔄', label: 'Mis à jour le', value: new Date(wallet.updatedAt).toLocaleDateString('fr-FR'), color: 'from-purple-400 to-pink-500' },
-            {
-              icon: wallet.balance > 100 ? '🤑' : wallet.balance > 50 ? '😊' : '😅',
-              label: 'Statut',
-              value: wallet.balance > 100 ? 'Riche !' : wallet.balance > 50 ? 'Confortable' : 'Économe',
-              color: 'from-yellow-400 to-orange-500'
-            }
+            { icon: '🔒', title: 'Paiement Sécurisé', text: 'Crypté SSL via Stripe' },
+            { icon: '⚡', title: 'Instantané', text: 'Koins ajoutés immédiatement' },
+            { icon: '💳', title: 'Tous moyens', text: 'CB, PayPal, Apple Pay...' }
           ].map((item, index) => (
-            <div key={index} className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${item.color} p-8 shadow-2xl ring-4 ring-white/50 transform hover:scale-105 transition-transform duration-300`}>
+            <div key={index} className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-white to-purple-100 p-6 shadow-xl ring-4 ring-white/50 transform hover:scale-105 transition-transform duration-300'>
               <div className='text-center'>
-                <div className='text-6xl mb-3'>{item.icon}</div>
-                <p className='text-sm font-bold text-white/90 uppercase mb-2'>{item.label}</p>
-                <p className='text-xl font-black text-white drop-shadow-lg'>
-                  {item.value}
-                </p>
+                <div className='text-5xl mb-3'>{item.icon}</div>
+                <h3 className='text-xl font-black text-purple-600 mb-2'>{item.title}</h3>
+                <p className='text-gray-700 font-medium'>{item.text}</p>
               </div>
             </div>
           ))}
@@ -298,7 +275,7 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-40px); }
+          50% { transform: translateY(-20px); }
         }
 
         @keyframes float-delayed {
@@ -320,18 +297,6 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
           0%, 100% { opacity: 0.4; transform: scale(0.9) rotate(0deg); }
           50% { opacity: 1; transform: scale(1.2) rotate(-180deg); }
         }
-
-        @keyframes explode {
-          0% { opacity: 1; transform: scale(1); }
-          100% { opacity: 0; transform: scale(3) translateY(-150px); }
-        }
-
-        @keyframes explode-particle {
-          0% { opacity: 0; transform: translate(0, 0) scale(0); }
-          20% { opacity: 1; }
-          100% { opacity: 0; transform: translate(0, -200px) scale(1.5); }
-        }
-
         @keyframes shine {
           0% { transform: translateX(-100%) skewX(-12deg); }
           100% { transform: translateX(200%) skewX(-12deg); }
@@ -342,21 +307,14 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
           100% { transform: rotate(360deg); }
         }
 
-        @keyframes spin-fast {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(720deg); }
-        }
-
-        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float { animation: float 4s ease-in-out infinite; }
         .animate-float-delayed { animation: float-delayed 7s ease-in-out infinite; }
         .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
         .animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
         .animate-twinkle-delayed { animation: twinkle-delayed 4s ease-in-out infinite; }
-        .animate-explode { animation: explode 2s ease-out forwards; }
-        .animate-explode-particle { animation: explode-particle 1.5s ease-out forwards; }
         .animate-shine { animation: shine 1.5s ease-in-out; }
         .animate-spin-slow { animation: spin-slow 8s linear infinite; }
-        .animate-spin-fast { animation: spin-fast 1s linear infinite; }
+
       `}
       </style>
     </div>
