@@ -2,6 +2,7 @@
 
 import { addKoins, subtractKoins, type DBWallet } from '@/actions/wallet.actions'
 import { useState, useTransition } from 'react'
+import Button from '../button'
 
 interface WalletClientProps {
   initialWallet: DBWallet
@@ -19,12 +20,22 @@ interface WalletClientProps {
  * @param {WalletClientProps} props - Les propriétés du composant
  * @param {DBWallet} props.initialWallet - Le wallet initial de l'utilisateur
  */
-export default function WalletClient ({ initialWallet }: WalletClientProps): JSX.Element {
+export default function WalletClient ({ initialWallet }: WalletClientProps): React.ReactNode {
   const [wallet, setWallet] = useState<DBWallet>(initialWallet)
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [animatingAmount, setAnimatingAmount] = useState<number | null>(null)
   const [animationType, setAnimationType] = useState<'add' | 'subtract' | null>(null)
+
+  const handleBuyKoins = async (): Promise<void> => {
+    const response = await fetch('/api/checkout/sessions', {
+      method: 'POST',
+      body: JSON.stringify({ amount: 500 })
+    })
+    const data = await response.json()
+    console.log(data)
+    window.location.href = data.url
+  }
 
   /**
    * Gère l'ajout de Koins au wallet
@@ -197,6 +208,9 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): JSX
                     <span className='text-3xl'>💚</span>
                     Gagner des Koins
                   </p>
+                  <Button onClick={() => { void handleBuyKoins() }}>
+                    Acheter 500 Koins
+                  </Button>
                   <div className='flex flex-col gap-4'>
                     {[10, 50, 100].map((amount) => (
                       <button
