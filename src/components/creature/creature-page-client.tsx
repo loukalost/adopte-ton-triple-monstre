@@ -10,8 +10,8 @@ import { CreatureStatsPanel } from './creature-stats-panel'
 import { CreatureTraitsPanel } from './creature-traits-panel'
 import { CreatureColorsPanel } from './creature-colors-panel'
 import { LevelUpAnimation } from './level-up-animation'
-
 import { useRouter } from 'next/navigation'
+import { ShopModal } from './shop-modal'
 
 /**
  * Props pour le composant CreaturePageClient
@@ -41,6 +41,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   const [showXpGain, setShowXpGain] = useState(false)
   const [xpGained, setXpGained] = useState(0)
   const [showLevelUp, setShowLevelUp] = useState(false)
+  const [showShop, setShowShop] = useState(false)
   const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
@@ -148,15 +149,28 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
       <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
 
       <div className='container relative z-10 mx-auto px-4 max-w-6xl'>
-        {/* Bouton retour stylisé */}
-        <button
-          onClick={() => { void router.push('/dashboard') }}
-          className='group relative overflow-hidden mb-8 inline-flex items-center gap-3 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-black text-lg px-6 py-3 rounded-2xl shadow-2xl ring-4 ring-purple-200/50 transition-all duration-300 transform hover:scale-110 active:scale-105'
-        >
-          <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
-          <span className='relative text-2xl group-hover:translate-x-[-4px] transition-transform duration-300'>←</span>
-          <span className='relative'>Retour au Dashboard</span>
-        </button>
+        {/* Barre de navigation avec boutons */}
+        <div className='flex justify-between items-center mb-8 gap-4 flex-wrap'>
+          {/* Bouton retour stylisé */}
+          <button
+            onClick={() => { void router.push('/dashboard') }}
+            className='group relative overflow-hidden inline-flex items-center gap-3 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-black text-lg px-6 py-3 rounded-2xl shadow-2xl ring-4 ring-purple-200/50 transition-all duration-300 transform hover:scale-110 active:scale-105'
+          >
+            <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
+            <span className='relative text-2xl group-hover:translate-x-[-4px] transition-transform duration-300'>←</span>
+            <span className='relative'>Retour au Dashboard</span>
+          </button>
+
+          {/* Bouton boutique */}
+          <button
+            onClick={() => { setShowShop(true) }}
+            className='group relative overflow-hidden inline-flex items-center gap-3 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black text-lg px-6 py-3 rounded-2xl shadow-2xl ring-4 ring-green-200/50 transition-all duration-300 transform hover:scale-110 active:scale-105'
+          >
+            <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
+            <span className='relative text-2xl'>🛍️</span>
+            <span className='relative'>Boutique</span>
+          </button>
+        </div>
 
         {/* En-tête avec nom et niveau */}
         <CreatureHeader name={currentMonster.name} level={currentMonster.level} />
@@ -199,6 +213,14 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
         show={showLevelUp}
         onComplete={() => setShowLevelUp(false)}
       />
+
+      {/* Modal de la boutique */}
+      {showShop && (
+        <ShopModal
+          onClose={() => { setShowShop(false) }}
+          creatureName={currentMonster.name}
+        />
+      )}
 
       {/* Styles pour les animations */}
       <style jsx>{`

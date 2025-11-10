@@ -34,8 +34,8 @@ export async function POST (request: Request): Promise<Response> {
     ],
     customer_email: session.user.email,
     mode: 'payment',
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL as string}/wallet`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL as string}/wallet`,
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL as string}/wallet?success=true`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL as string}/wallet?success=false`,
     metadata: {
       userId: session.user.id,
       productId: product.productId

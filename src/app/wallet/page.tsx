@@ -17,9 +17,9 @@ import { redirect } from 'next/navigation'
  * - Affichage du solde et des boutons de gestion
  * - Animations lors des transactions
  *
- * @returns {Promise<JSX.Element>} La page du wallet
+ * @returns {Promise<React.ReactNode>} La page du wallet
  */
-export default async function WalletPage (): Promise<JSX.Element> {
+export default async function WalletPage (): Promise<React.ReactNode> {
   // Vérification de l'authentification
   const session = await auth.api.getSession({
     headers: await headers()
