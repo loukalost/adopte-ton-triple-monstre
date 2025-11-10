@@ -219,6 +219,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
         <ShopModal
           onClose={() => { setShowShop(false) }}
           creatureName={currentMonster.name}
+          creatureId={currentMonster._id}
         />
       )}
 
