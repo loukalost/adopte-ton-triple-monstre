@@ -33,7 +33,6 @@ const walletSchema = new Schema({
   timestamps: true // Ajoute automatiquement createdAt et updatedAt
 })
 
-// Index pour optimiser les recherches par ownerId
-walletSchema.index({ ownerId: 1 })
+// Note: Index créé automatiquement par l'option unique: true sur ownerId
 
 export default mongoose.models.Wallet ?? mongoose.model('Wallet', walletSchema)
