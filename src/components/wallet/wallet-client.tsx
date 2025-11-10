@@ -1,9 +1,9 @@
 'use client'
 
 import { type DBWallet } from '@/actions/wallet.actions'
-import { pricingTable } from '@/config/pricing'
 import { useState } from 'react'
 import type React from 'react'
+import { pricingTable } from '@/config/pricing'
 
 interface WalletClientProps {
   initialWallet: DBWallet
@@ -127,11 +127,9 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
 
         {/* Carte du solde actuel */}
         <div className='relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-12 mb-12 shadow-[0_30px_90px_rgba(0,0,0,0.25)] ring-8 ring-white/80'>
-
           <div className='absolute inset-0 bg-gradient-to-br from-yellow-200/30 via-orange-200/30 to-red-200/30 animate-pulse-slow' />
           <div className='relative z-10'>
             <div className='text-center'>
-
               <p className='text-xl font-bold text-orange-600 uppercase tracking-widest mb-4 flex items-center justify-center gap-2'>
                 <span className='text-2xl'>💎</span>
                 Ton Trésor Actuel
@@ -176,13 +174,13 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
           {packages.map((pkg) => (
             <div
               key={pkg.amount}
-              className={`group relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-pink-50 to-purple-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-4 ring-white/80 transition-all duration-300 hover:scale-105 hover:shadow-[0_30px_90px_rgba(0,0,0,0.25)] ${
+              className={`group relative rounded-[2rem] bg-gradient-to-br from-white via-pink-50 to-purple-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-4 ring-white/80 transition-all duration-300 hover:scale-105 hover:shadow-[0_30px_90px_rgba(0,0,0,0.25)] ${
                 pkg.popular ? 'ring-8 ring-yellow-400 transform scale-105' : ''
               }`}
             >
               {/* Badge populaire */}
               {pkg.popular && (
-                <div className='absolute -top-4 -right-4'>
+                <div className='absolute -top-6 -right-6 z-20'>
                   <div className='bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-black text-sm px-6 py-2 rounded-full shadow-xl ring-4 ring-white transform rotate-12 animate-bounce'>
                     ⭐ {pkg.badge} ⭐
                   </div>
@@ -191,7 +189,7 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
 
               {/* Badge du pack */}
               {!pkg.popular && (
-                <div className='absolute top-4 right-4'>
+                <div className='absolute top-4 right-4 z-10'>
                   <div className={`bg-gradient-to-r ${pkg.color} text-white font-black text-xs px-4 py-2 rounded-full shadow-lg`}>
                     {pkg.badge}
                   </div>
@@ -199,7 +197,7 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
               )}
 
               {/* Bulles décoratives */}
-              <div className='pointer-events-none absolute -right-8 top-8 h-24 w-24 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-300/30 blur-xl group-hover:scale-150 transition-transform duration-500' />
+              <div className='pointer-events-none absolute -right-8 top-8 h-24 w-24 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-300/30 blur-xl group-hover:scale-150 transition-transform duration-500 overflow-hidden' />
 
               {/* Contenu */}
               <div className='relative text-center'>
@@ -297,6 +295,7 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
           0%, 100% { opacity: 0.4; transform: scale(0.9) rotate(0deg); }
           50% { opacity: 1; transform: scale(1.2) rotate(-180deg); }
         }
+
         @keyframes shine {
           0% { transform: translateX(-100%) skewX(-12deg); }
           100% { transform: translateX(200%) skewX(-12deg); }
@@ -314,7 +313,6 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
         .animate-twinkle-delayed { animation: twinkle-delayed 4s ease-in-out infinite; }
         .animate-shine { animation: shine 1.5s ease-in-out; }
         .animate-spin-slow { animation: spin-slow 8s linear infinite; }
-
       `}
       </style>
     </div>
