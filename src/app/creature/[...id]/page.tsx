@@ -1,6 +1,7 @@
 import { getMonsterById } from '@/actions/monsters.actions'
 import ErrorClient from '@/components/error-client'
 import { CreaturePageClient } from '@/components/creature/creature-page-client'
+import { AppLayout } from '@/components/navigation'
 
 /**
  * Page de détail d'une créature/monstre
@@ -33,9 +34,17 @@ export default async function Page ({ params }: { params: Promise<{ id: string |
 
   // Gestion du cas où le monstre n'existe pas
   if (monster === null || monster === undefined) {
-    return <ErrorClient error='Creature not found.' />
+    return (
+      <AppLayout>
+        <ErrorClient error='Creature not found.' />
+      </AppLayout>
+    )
   }
 
   // Affichage de la page de détail
-  return <CreaturePageClient monster={monster} />
+  return (
+    <AppLayout>
+      <CreaturePageClient monster={monster} />
+    </AppLayout>
+  )
 }

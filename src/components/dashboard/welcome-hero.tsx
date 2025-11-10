@@ -1,4 +1,3 @@
-import Button from '../button'
 import type { UserDisplay } from '@/hooks/dashboard'
 
 /**
@@ -9,54 +8,101 @@ interface WelcomeHeroProps {
   userDisplay: UserDisplay
   /** Callback pour créer un nouveau monstre */
   onCreateMonster: () => void
-  /** Callback pour se déconnecter */
-  onLogout: () => void
 }
 
 /**
- * Section héro de bienvenue du dashboard
+ * Section héro de bienvenue du dashboard - Version Jeu Vidéo Fun
  *
  * Responsabilité unique : afficher le message de bienvenue personnalisé
- * et les actions principales (créer un monstre, se déconnecter).
+ * et l'action principale (créer un monstre).
+ *
+ * Nouveau design :
+ * - Plus coloré et engageant
+ * - Animation et effets visuels
+ * - Style jeu vidéo kawaii
  *
  * @param {WelcomeHeroProps} props - Props du composant
  * @returns {React.ReactNode} Section de bienvenue
- *
- * @example
- * <WelcomeHero
- *   userDisplay={userDisplay}
- *   onCreateMonster={handleCreateMonster}
- *   onLogout={handleLogout}
- * />
  */
 export function WelcomeHero ({
   userDisplay,
-  onCreateMonster,
-  onLogout
+  onCreateMonster
+
 }: WelcomeHeroProps): React.ReactNode {
   return (
-    <div className='max-w-xl space-y-6'>
-      <div className='inline-flex items-center gap-3 rounded-full border border-moccaccino-200/80 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-moccaccino-500'>
-        <span aria-hidden='true'>🌈</span>
-        <span>Hey {userDisplay.displayName}</span>
+    <div className='space-y-6'>
+      {/* Badge de bienvenue super fun */}
+      <div className='inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 shadow-lg ring-4 ring-pink-200/50'>
+        <span className='text-2xl animate-wave' aria-hidden='true'>👋</span>
+        <span className='text-white font-bold text-lg tracking-wide'>
+          Salut {userDisplay.displayName} !
+        </span>
       </div>
 
-      <h1 className='text-4xl font-black text-slate-900 sm:text-5xl'>
-        Bienvenue dans ton QG Tamagotcho
+      {/* Titre principal avec gradient */}
+      <h1 className='text-5xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text leading-tight sm:text-6xl'>
+        Bienvenue dans ton
+        <br />
+        Univers Tamagotcho ! 🎮
       </h1>
 
-      <p className='text-base text-slate-600 sm:text-lg'>
-        Dompte des créatures adorables, surveille leur humeur et transforme chaque journée en mini-aventure numérique.
+      {/* Description fun */}
+      <p className='text-xl text-gray-700 font-medium leading-relaxed'>
+        <span className='text-2xl mr-2'>✨</span>
+        Prends soin de tes créatures adorables et vis des aventures
+        <span className='inline-block mx-2 text-2xl animate-bounce'>💖</span>
+        inoubliables !
       </p>
 
-      <div className='flex flex-wrap items-center gap-3'>
-        <Button size='lg' onClick={onCreateMonster}>
-          Créer une créature
-        </Button>
-        <Button size='lg' variant='ghost' onClick={onLogout}>
-          Se déconnecter
-        </Button>
+      {/* Bouton d'action principal - GROS et visible */}
+      <div className='pt-4'>
+        <button
+          onClick={onCreateMonster}
+          className='group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 px-10 py-5 text-xl font-black text-white shadow-2xl ring-4 ring-green-200/50 transition-all duration-300 hover:scale-110 hover:shadow-[0_20px_50px_rgba(16,185,129,0.4)] active:scale-105'
+        >
+          {/* Effet de brillance */}
+          <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
+
+          <span className='relative flex items-center gap-3'>
+            <span className='text-3xl group-hover:rotate-12 transition-transform duration-300'>🌟</span>
+            <span>Créer une Créature</span>
+            <span className='text-3xl group-hover:-rotate-12 transition-transform duration-300'>🎨</span>
+          </span>
+        </button>
       </div>
+
+      {/* Styles pour les animations */}
+      <style jsx>{`
+        @keyframes wave {
+          0%, 100% {
+            transform: rotate(0deg);
+          }
+          25% {
+            transform: rotate(20deg);
+          }
+          75% {
+            transform: rotate(-20deg);
+          }
+        }
+
+        @keyframes shine {
+          0% {
+            transform: translateX(-100%) skewX(-12deg);
+          }
+          100% {
+            transform: translateX(200%) skewX(-12deg);
+          }
+        }
+
+        .animate-wave {
+          animation: wave 2s ease-in-out infinite;
+        }
+
+        .group:hover .animate-shine {
+          animation: shine 1s ease-in-out;
+        }
+      `}
+      </style>
     </div>
   )
 }

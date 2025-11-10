@@ -13,20 +13,18 @@ interface MonstersListProps {
 }
 
 /**
- * Liste d'affichage de tous les monstres de l'utilisateur
+ * Liste d'affichage de tous les monstres de l'utilisateur - Version Jeu Vidéo
  *
  * Responsabilité unique : orchestrer l'affichage de la grille de monstres
  * ou de l'état vide selon le contenu.
  *
- * Applique SRP en déléguant :
- * - L'affichage de l'état vide à EmptyMonstersState
- * - L'affichage de chaque monstre à MonsterCard
+ * Nouveau design :
+ * - Header plus fun et engageant
+ * - Grille optimisée pour mettre les cartes en avant
+ * - Espacement généreux pour une meilleure lisibilité
  *
  * @param {MonstersListProps} props - Props du composant
  * @returns {React.ReactNode} Grille de monstres ou état vide
- *
- * @example
- * <MonstersList monsters={monsters} className="mt-12" />
  */
 function MonstersList ({ monsters, className }: MonstersListProps): React.ReactNode {
   // Affichage de l'état vide si aucun monstre
@@ -36,14 +34,47 @@ function MonstersList ({ monsters, className }: MonstersListProps): React.ReactN
 
   return (
     <section className={`mt-12 w-full space-y-8 ${className ?? ''}`}>
-      <header className='space-y-2'>
-        <h2 className='text-2xl font-bold text-slate-900'>Tes compagnons animés</h2>
-        <p className='text-sm text-slate-600'>
-          Un coup d&apos;oeil rapide sur ta ménagerie digitale pour préparer la prochaine aventure.
-        </p>
+      {/* Header super fun et engageant */}
+      <header className='relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 p-8 shadow-2xl'>
+        {/* Bulles décoratives */}
+        <div className='pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/20 blur-2xl' />
+        <div className='pointer-events-none absolute -left-10 bottom-0 h-32 w-32 rounded-full bg-white/20 blur-2xl' />
+
+        <div className='relative flex items-center justify-between flex-wrap gap-4'>
+          <div className='space-y-3'>
+            <div className='flex items-center gap-3'>
+              <span className='text-5xl animate-bounce'>🎮</span>
+              <h2 className='text-4xl font-black text-white drop-shadow-lg'>
+                Ta Collection de Créatures
+              </h2>
+            </div>
+            <p className='text-xl text-white/90 font-medium flex items-center gap-2'>
+              <span className='text-2xl'>✨</span>
+              {monsters.length} {monsters.length === 1 ? 'compagnon adorable' : 'compagnons adorables'} prêts pour l&apos;aventure !
+            </p>
+          </div>
+
+          {/* Badge du nombre de monstres */}
+          <div className='flex items-center gap-3'>
+            <div className='relative'>
+              <div className='absolute inset-0 bg-white rounded-3xl blur-lg opacity-50' />
+              <div className='relative bg-white/90 backdrop-blur-sm rounded-3xl px-8 py-4 shadow-xl ring-4 ring-white/50'>
+                <div className='text-center'>
+                  <div className='text-5xl font-black text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text'>
+                    {monsters.length}
+                  </div>
+                  <div className='text-sm font-bold text-purple-600 uppercase tracking-wider'>
+                    Créatures
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-3'>
+      {/* Grille de monstres - Plus spacieuse */}
+      <div className='grid gap-8 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3'>
         {monsters.map((monster) => {
           const cardKey = monster._id
 
@@ -60,6 +91,13 @@ function MonstersList ({ monsters, className }: MonstersListProps): React.ReactN
             />
           )
         })}
+      </div>
+
+      {/* Message d'encouragement en bas */}
+      <div className='text-center py-8'>
+        <p className='text-lg text-gray-600 font-medium'>
+          Continue de prendre soin de tes créatures ! 💖
+        </p>
       </div>
     </section>
   )

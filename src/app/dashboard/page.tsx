@@ -1,5 +1,6 @@
 import { getMonsters } from '@/actions/monsters.actions'
 import DashboardContent from '@/components/dashboard/dashboard-content'
+import { AppLayout } from '@/components/navigation'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -35,7 +36,9 @@ async function DashboardPage (): Promise<React.ReactNode> {
   }
 
   return (
-    <DashboardContent session={session} monsters={monsters} />
+    <AppLayout>
+      <DashboardContent session={session} monsters={monsters} />
+    </AppLayout>
   )
 }
 

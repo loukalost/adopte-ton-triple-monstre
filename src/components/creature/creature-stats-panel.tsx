@@ -1,186 +1,152 @@
-'use client'
-
-import { useEffect, useState, useRef } from 'react'
-import type { MonsterTraits, DBMonster } from '@/types/monster'
-import type { MonsterAction } from '@/hooks/monsters'
-import { parseMonsterTraits } from '@/lib/utils'
-import { CreatureHeader } from './creature-header'
-import { CreatureMonsterDisplay } from './creature-monster-display'
-import { CreatureStatsPanel } from './creature-stats-panel'
-import { CreatureTraitsPanel } from './creature-traits-panel'
-import { CreatureColorsPanel } from './creature-colors-panel'
-import { LevelUpAnimation } from './level-up-animation'
-import Button from '../button'
-import { useRouter } from 'next/navigation'
+import { getStateLabel } from '@/lib/utils'
+import { XpProgressBar } from './xp-progress-bar'
 
 /**
- * Props pour le composant CreaturePageClient
+ * Props pour le composant StatItem
  */
-interface CreaturePageClientProps {
-  /** Données du monstre à afficher */
-  monster: DBMonster
+interface StatItemProps {
+  /** Label de la statistique */
+  label: string
+  /** Valeur de la statistique */
+  value: string
+  /** Emoji associé */
+  emoji: string
+  /** Couleur du gradient */
+  color: string
 }
 
 /**
- * Composant client de la page de détail d'une créature
+ * Élément de statistique (ligne label/valeur) - Version Jeu Vidéo Fun
  *
- * Responsabilité unique : orchestrer l'affichage de toutes les sections
- * de la page de détail (header, monstre animé, stats, traits, couleurs).
+ * Responsabilité unique : afficher une paire label/valeur
+ * dans un format de ligne de statistique coloré et fun.
  *
- * Applique les principes SOLID :
- * - SRP : Délègue chaque section à un composant spécialisé
- * - OCP : Extensible via l'ajout de nouveaux panneaux
- * - DIP : Dépend des abstractions (types, interfaces)
- *
- * @param {CreaturePageClientProps} props - Props du composant
- * @returns {React.ReactNode} Page complète de détail de la créature
- *
- * @example
- * <CreaturePageClient monster={monsterData} />
+ * @param {StatItemProps} props - Props du composant
+ * @returns {React.ReactNode} Ligne de statistique
  */
-export function CreaturePageClient ({ monster }: CreaturePageClientProps): React.ReactNode {
-  const [currentAction, setCurrentAction] = useState<MonsterAction>(null)
-  const [currentMonster, setCurrentMonster] = useState<DBMonster>(monster)
-  const [showXpGain, setShowXpGain] = useState(false)
-  const [xpGained, setXpGained] = useState(0)
-  const [showLevelUp, setShowLevelUp] = useState(false)
-  const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const router = useRouter()
-
-  // Parse des traits depuis le JSON stocké en base
-  const traits: MonsterTraits = parseMonsterTraits(monster.traits) ?? {
-    bodyColor: '#FFB5E8',
-    accentColor: '#FF9CEE',
-    eyeColor: '#2C2C2C',
-    antennaColor: '#FFE66D',
-    bobbleColor: '#FFE66D',
-    cheekColor: '#FFB5D5',
-    bodyStyle: 'round',
-    eyeStyle: 'big',
-    antennaStyle: 'single',
-    accessory: 'none'
-  }
-
-  useEffect(() => {
-    const fetchMonster = async (): Promise<void> => {
-      try {
-        const response = await fetch(`/api/monster?id=${monster._id}`)
-        if (response.ok) {
-          const updatedMonster: DBMonster = await response.json()
-
-          // Détection du gain d'XP
-          if (updatedMonster.xp !== currentMonster.xp ||
-              updatedMonster.level !== currentMonster.level) {
-            // Calcul du gain d'XP
-            const xpDiff = updatedMonster.level > currentMonster.level
-              ? updatedMonster.xp + (updatedMonster.level - currentMonster.level - 1) * currentMonster.maxXp + (currentMonster.maxXp - currentMonster.xp)
-              : updatedMonster.xp - currentMonster.xp
-
-            if (xpDiff > 0) {
-              setXpGained(xpDiff)
-              setShowXpGain(true)
-
-              // Masquer l'animation après 2 secondes
-              setTimeout(() => {
-                setShowXpGain(false)
-              }, 2000)
-            }
-
-            // Détection du level-up
-            if (updatedMonster.level > currentMonster.level) {
-              setShowLevelUp(true)
-            }
-          }
-
-          setCurrentMonster(updatedMonster)
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération du monstre :', error)
-      }
-    }
-
-    const interval = setInterval(() => {
-      void fetchMonster()
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [monster, currentMonster])
-
-  // Nettoyage du timer d'action au démontage du composant
-  useEffect(() => {
-    return () => {
-      if (actionTimerRef.current !== null) {
-        clearTimeout(actionTimerRef.current)
-      }
-    }
-  }, [])
-
-  /**
-   * Gère le déclenchement d'une action sur le monstre
-   * @param {MonsterAction} action - Action déclenchée
-   */
-  const handleAction = (action: MonsterAction): void => {
-    // Nettoyer le timer précédent si existant
-    if (actionTimerRef.current !== null) {
-      clearTimeout(actionTimerRef.current)
-    }
-
-    setCurrentAction(action)
-
-    // Réinitialiser l'action après l'animation (doit correspondre au délai de useMonsterAction)
-    const timer = setTimeout(() => {
-      setCurrentAction(null)
-      actionTimerRef.current = null
-    }, 2500)
-
-    actionTimerRef.current = timer
-  }
-
+export function StatItem ({ label, value, emoji, color }: StatItemProps): React.ReactNode {
   return (
-    <div className='min-h-screen bg-gradient-to-b from-lochinvar-50 to-fuchsia-blue-50 py-12'>
-      <div className='container mx-auto px-4 max-w-4xl'>
-        {/* En-tête avec nom et niveau */}
-        <Button onClick={() => { void router.push('/dashboard') }}>
-          {'< '}Retour au dashboard
-        </Button>
-        <CreatureHeader name={currentMonster.name} level={currentMonster.level} />
+    <div className={`flex justify-between items-center py-4 px-6 rounded-2xl bg-gradient-to-r ${color} shadow-lg ring-2 ring-white/50 transform hover:scale-105 transition-all duration-300`}>
+      <div className='flex items-center gap-3'>
+        <span className='text-3xl'>{emoji}</span>
+        <span className='text-white font-bold text-lg'>{label}</span>
+      </div>
+      <span className='text-white font-black text-xl'>{value}</span>
+    </div>
+  )
+}
 
-        {/* Grille principale : monstre + informations */}
-        <div className='grid md:grid-cols-2 gap-8'>
-          {/* Colonne gauche : Monstre animé et actions */}
-          <CreatureMonsterDisplay
-            traits={traits}
-            state={currentMonster.state}
-            level={currentMonster.level}
-            currentAction={currentAction}
-            onAction={handleAction}
-            monsterId={currentMonster._id}
+/**
+ * Props pour le composant CreatureStatsPanel
+ */
+interface CreatureStatsPanelProps {
+  /** Niveau du monstre */
+  level: number
+  /** XP actuel du monstre */
+  xp: number
+  /** XP maximum pour le niveau actuel */
+  maxXp: number
+  /** État du monstre */
+  state: string
+  /** Date de création (timestamp ou string) */
+  createdAt: string | Date
+  /** Date de dernière mise à jour (timestamp ou string) */
+  updatedAt: string | Date
+  /** Si true, affiche l'animation de gain d'XP */
+  showXpGain?: boolean
+  /** Montant d'XP gagné (pour l'animation) */
+  xpGained?: number
+}
+
+/**
+ * Panneau d'affichage des statistiques du monstre - Version Jeu Vidéo Fun
+ *
+ * Responsabilité unique : afficher toutes les statistiques
+ * du monstre dans un panneau formaté super coloré.
+ *
+ * Nouveau design :
+ * - Cartes colorées individuelles
+ * - Émojis partout
+ * - Animations hover
+ *
+ * @param {CreatureStatsPanelProps} props - Props du composant
+ * @returns {React.ReactNode} Panneau de statistiques
+ */
+export function CreatureStatsPanel ({
+  level,
+  xp,
+  maxXp,
+  state,
+  createdAt,
+  updatedAt,
+  showXpGain = false,
+  xpGained = 0
+}: CreatureStatsPanelProps): React.ReactNode {
+  return (
+    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
+      {/* Effet de fond */}
+      <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-orange-200/20 to-red-200/20 animate-pulse-slow' />
+
+      <div className='relative'>
+        {/* Titre du panneau */}
+        <div className='text-center mb-8'>
+          <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text flex items-center justify-center gap-3'>
+            <span className='text-5xl'>📊</span>
+            Statistiques
+            <span className='text-5xl'>📊</span>
+          </h2>
+        </div>
+
+        {/* Barre d'XP avec animations */}
+        <div className='mb-8'>
+          <XpProgressBar
+            currentXp={xp}
+            maxXp={maxXp}
+            level={level}
+            showXpGain={showXpGain}
+            xpGained={xpGained}
           />
+        </div>
 
-          {/* Colonne droite : Panneaux d'informations */}
-          <div className='space-y-6'>
-            <CreatureStatsPanel
-              level={currentMonster.level}
-              xp={currentMonster.xp ?? 0}
-              maxXp={currentMonster.maxXp ?? currentMonster.level * 100}
-              state={currentMonster.state}
-              createdAt={currentMonster.createdAt}
-              updatedAt={currentMonster.updatedAt}
-              showXpGain={showXpGain}
-              xpGained={xpGained}
-            />
-            <CreatureTraitsPanel traits={traits} />
-            <CreatureColorsPanel traits={traits} />
-          </div>
+        {/* Statistiques en cartes colorées */}
+        <div className='space-y-4'>
+          <StatItem
+            label='Niveau'
+            value={level.toString()}
+            emoji='⭐'
+            color='from-yellow-400 to-orange-500'
+          />
+          <StatItem
+            label='État'
+            value={getStateLabel(state)}
+            emoji='💖'
+            color='from-pink-400 to-rose-500'
+          />
+          <StatItem
+            label='Adopté le'
+            value={new Date(createdAt).toLocaleDateString('fr-FR')}
+            emoji='📅'
+            color='from-blue-400 to-cyan-500'
+          />
+          <StatItem
+            label='Dernière activité'
+            value={new Date(updatedAt).toLocaleDateString('fr-FR')}
+            emoji='🔄'
+            color='from-purple-400 to-indigo-500'
+          />
         </div>
       </div>
 
-      {/* Animation de level-up */}
-      <LevelUpAnimation
-        newLevel={currentMonster.level}
-        show={showLevelUp}
-        onComplete={() => setShowLevelUp(false)}
-      />
+      {/* Styles pour les animations */}
+      <style jsx>{`
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.6; }
+        }
+
+        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+      `}
+      </style>
     </div>
   )
 }

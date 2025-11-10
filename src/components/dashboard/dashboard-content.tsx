@@ -14,8 +14,6 @@ import {
 } from '@/hooks/dashboard'
 import CreateMonsterModal from './create-monster-modal'
 import { WelcomeHero } from './welcome-hero'
-import { UserProfileCard } from './user-profile-card'
-import { StatsCard } from './stats-card'
 import { QuestsSection } from './quests-section'
 import { MoodTipSection } from './mood-tip-section'
 import MonstersList from '../monsters/monsters-list'
@@ -23,23 +21,20 @@ import MonstersList from '../monsters/monsters-list'
 type Session = typeof authClient.$Infer.Session
 
 /**
- * Composant principal du contenu du dashboard
+ * Composant principal du contenu du dashboard - Version Jeu Vidéo Fun
  *
  * Responsabilité unique : orchestrer l'affichage des différentes sections
  * du dashboard (bienvenue, statistiques, quêtes, monstres, etc.).
  *
- * Applique les principes SOLID :
- * - SRP : Délègue le calcul des stats et l'affichage UI aux hooks et sous-composants
- * - OCP : Extensible via l'ajout de nouveaux hooks/composants
- * - DIP : Dépend des abstractions (hooks) plutôt que des implémentations concrètes
+ * Nouveau design :
+ * - Layout repensé pour mettre les monstres en avant
+ * - Couleurs fun et engageantes
+ * - Animations ludiques
  *
  * @param {Object} props - Props du composant
  * @param {Session} props.session - Session utilisateur Better Auth
  * @param {DBMonster[]} props.monsters - Liste des monstres de l'utilisateur
  * @returns {React.ReactNode} Contenu complet du dashboard
- *
- * @example
- * <DashboardContent session={session} monsters={monsters} />
  */
 function DashboardContent ({ session, monsters }: { session: Session, monsters: DBMonster[] }): React.ReactNode {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -64,18 +59,10 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
 
     const interval = setInterval(() => {
       void fetchAndUpdateMonsters()
-    }, 10000) // Met à jour toutes les 60 secondes
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [])
-
-  /**
-   * Déconnecte l'utilisateur et redirige vers la page de connexion
-   */
-  const handleLogout = (): void => {
-    void authClient.signOut()
-    window.location.href = '/sign-in'
-  }
 
   /**
    * Ouvre le modal de création de monstre
@@ -102,65 +89,79 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
   }
 
   return (
-    <div className='relative min-h-screen overflow-hidden bg-gradient-to-br from-moccaccino-100 via-white to-fuchsia-blue-100'>
-      {/* Bulles décoratives de fond */}
-      <div className='pointer-events-none absolute -right-32 top-24 h-72 w-72 rounded-full bg-fuchsia-blue-200/40 blur-3xl' aria-hidden='true' />
-      <div className='pointer-events-none absolute -left-32 bottom-24 h-80 w-80 rounded-full bg-lochinvar-200/50 blur-3xl' aria-hidden='true' />
+    <div className='relative min-h-screen overflow-hidden bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-200'>
+      {/* Bulles décoratives de fond plus colorées */}
+      <div className='pointer-events-none absolute -right-32 top-24 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-300/40 to-orange-400/40 blur-3xl animate-float' aria-hidden='true' />
+      <div className='pointer-events-none absolute -left-32 bottom-24 h-96 w-96 rounded-full bg-gradient-to-br from-pink-300/40 to-purple-400/40 blur-3xl animate-float-delayed' aria-hidden='true' />
+      <div className='pointer-events-none absolute top-1/2 left-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-blue-300/30 to-indigo-400/30 blur-3xl animate-pulse-slow' aria-hidden='true' />
 
-      <main className='relative z-10 mx-auto w-full max-w-6xl px-4 pb-24 pt-20 sm:px-6 lg:px-8'>
-        {/* Section héro avec bienvenue et profil */}
-        <section className='relative overflow-hidden rounded-3xl bg-white/80 px-6 py-10 shadow-[0_20px_60px_rgba(15,23,42,0.18)] ring-1 ring-white/60 sm:px-10'>
+      {/* Étoiles décoratives */}
+      <div className='pointer-events-none absolute top-20 right-40 text-6xl animate-twinkle'>⭐</div>
+      <div className='pointer-events-none absolute top-40 left-20 text-5xl animate-twinkle-delayed'>✨</div>
+      <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
+
+      <main className='relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-20 sm:px-6 lg:px-8'>
+        {/* Section principale : monstres EN AVANT */}
+        <div className='space-y-8'>
+          {/* Liste des monstres - PRIORITÉ VISUELLE */}
+          <MonstersList monsters={monsterList} className='mt-0' />
+
+        </div>
+        {/* Sidebar en dessous sur mobile, à côté sur desktop */}
+        <div className='grid gap-6 lg:grid-cols-2 my-8'>
+          <QuestsSection quests={quests} />
+          <MoodTipSection message={favoriteMoodMessage} />
+        </div>
+        {/* Section héro avec bienvenue - Plus compacte */}
+        <section className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white/90 via-purple-50/80 to-pink-50/80 px-8 py-8 shadow-2xl ring-4 ring-white/80 backdrop-blur-lg mb-12'>
           {/* Bulles décoratives internes */}
-          <div className='pointer-events-none absolute -right-28 -top-16 h-64 w-64 rounded-full bg-gradient-to-br from-moccaccino-200/70 via-fuchsia-blue-200/50 to-white/40 blur-3xl' aria-hidden='true' />
-          <div className='pointer-events-none absolute -left-32 bottom-0 h-64 w-64 translate-y-1/2 rounded-full bg-gradient-to-tr from-lochinvar-200/60 via-white/30 to-fuchsia-blue-100/60 blur-3xl' aria-hidden='true' />
+          <div className='pointer-events-none absolute -right-20 -top-10 h-48 w-48 rounded-full bg-gradient-to-br from-yellow-200/50 to-orange-300/50 blur-2xl' aria-hidden='true' />
+          <div className='pointer-events-none absolute -left-24 bottom-0 h-48 w-48 rounded-full bg-gradient-to-tr from-pink-200/50 to-purple-300/50 blur-2xl' aria-hidden='true' />
 
-          <div className='relative flex flex-col gap-10 lg:flex-row lg:items-center'>
-            {/* Message de bienvenue et actions principales */}
+          <div className='relative grid gap-8 lg:grid-cols-[1fr,auto]'>
+            {/* Message de bienvenue */}
             <WelcomeHero
               userDisplay={userDisplay}
               onCreateMonster={handleCreateMonster}
-              onLogout={handleLogout}
+
             />
 
-            {/* Carte de profil et statistiques */}
-            <div className='flex flex-1 flex-col gap-4 rounded-3xl bg-gradient-to-br from-lochinvar-100/80 via-white to-fuchsia-blue-100/70 p-6 ring-1 ring-white/70 backdrop-blur'>
-              <UserProfileCard userDisplay={userDisplay} />
+            {/* Statistiques en cartes compactes */}
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1 lg:min-w-[200px]'>
+              <div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 p-5 shadow-xl ring-4 ring-white/50'>
+                <div className='relative text-center'>
+                  <div className='text-4xl font-black text-white drop-shadow-lg'>
+                    {stats.totalMonsters}
+                  </div>
+                  <div className='text-sm font-bold text-white/90 uppercase'>
+                    🎮 Compagnons
+                  </div>
+                </div>
+              </div>
 
-              <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-                <StatsCard
-                  title='Compagnons'
-                  value={stats.totalMonsters}
-                  description="Monstres prêts pour l'aventure"
-                  color='lochinvar'
-                />
-                <StatsCard
-                  title='Niveau max'
-                  value={stats.highestLevel}
-                  description='Ton monstre le plus expérimenté'
-                  color='fuchsia-blue'
-                />
-                <StatsCard
-                  title='Dernière adoption'
-                  value={latestAdoptionLabel}
-                  description={stats.totalMonsters === 0 ? 'Ton prochain compagnon est à un clic !' : 'Continue de créer pour agrandir ta bande.'}
-                  color='moccaccino'
-                  fullWidth
-                />
+              <div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 p-5 shadow-xl ring-4 ring-white/50'>
+                <div className='relative text-center'>
+                  <div className='text-4xl font-black text-white drop-shadow-lg'>
+                    {stats.highestLevel}
+                  </div>
+                  <div className='text-sm font-bold text-white/90 uppercase'>
+                    ⭐ Niveau Max
+                  </div>
+                </div>
+              </div>
+
+              <div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 p-5 shadow-xl ring-4 ring-white/50'>
+                <div className='relative text-center'>
+                  <div className='text-2xl font-black text-white drop-shadow-lg'>
+                    {latestAdoptionLabel}
+                  </div>
+                  <div className='text-sm font-bold text-white/90 uppercase'>
+                    🗓️ Dernière
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
-
-        {/* Section grille principale : liste des monstres + sidebar */}
-        <section className='mt-12 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]'>
-          <div>
-            <MonstersList monsters={monsterList} className='mt-0' />
-          </div>
-
-          <aside className='flex flex-col gap-6'>
-            <QuestsSection quests={quests} />
-            <MoodTipSection message={favoriteMoodMessage} />
-          </aside>
         </section>
       </main>
 
@@ -170,6 +171,81 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
         onClose={handleCloseModal}
         onSubmit={handleMonsterSubmit}
       />
+
+      {/* Styles pour les animations */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-30px);
+          }
+        }
+
+        @keyframes float-delayed {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-25px);
+          }
+        }
+
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.6;
+            transform: scale(1.1);
+          }
+        }
+
+        @keyframes twinkle {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(0.8) rotate(0deg);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.2) rotate(180deg);
+          }
+        }
+
+        @keyframes twinkle-delayed {
+          0%, 100% {
+            opacity: 0.4;
+            transform: scale(0.9) rotate(0deg);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.1) rotate(-180deg);
+          }
+        }
+
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+          animation: float-delayed 7s ease-in-out infinite;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 4s ease-in-out infinite;
+        }
+
+        .animate-twinkle {
+          animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .animate-twinkle-delayed {
+          animation: twinkle-delayed 4s ease-in-out infinite;
+        }
+      `}
+      </style>
     </div>
   )
 }
