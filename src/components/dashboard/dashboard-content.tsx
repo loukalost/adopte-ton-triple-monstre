@@ -100,25 +100,14 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
       <div className='pointer-events-none absolute top-40 left-20 text-5xl animate-twinkle-delayed'>✨</div>
       <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
 
-      <main className='relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-20 sm:px-6 lg:px-8'>
-        {/* Section principale : monstres EN AVANT */}
-        <div className='space-y-8'>
-          {/* Liste des monstres - PRIORITÉ VISUELLE */}
-          <MonstersList monsters={monsterList} className='mt-0' />
-
-        </div>
-        {/* Sidebar en dessous sur mobile, à côté sur desktop */}
-        <div className='grid gap-6 lg:grid-cols-2 my-8'>
-          <QuestsSection quests={quests} />
-          <MoodTipSection message={favoriteMoodMessage} />
-        </div>
-        {/* Section héro avec bienvenue - Plus compacte */}
-        <section className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white/90 via-purple-50/80 to-pink-50/80 px-8 py-8 shadow-2xl ring-4 ring-white/80 backdrop-blur-lg mb-12'>
+      <main className='relative z-10 mx-auto w-full max-w-7xl px-4 pb-24 pt-8 sm:px-6 lg:px-8'>
+        {/* Section héro avec bienvenue - EN HAUT */}
+        <section className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white/95 via-purple-50/90 to-pink-50/90 px-8 py-10 shadow-2xl ring-4 ring-white/80 backdrop-blur-lg mb-12'>
           {/* Bulles décoratives internes */}
           <div className='pointer-events-none absolute -right-20 -top-10 h-48 w-48 rounded-full bg-gradient-to-br from-yellow-200/50 to-orange-300/50 blur-2xl' aria-hidden='true' />
           <div className='pointer-events-none absolute -left-24 bottom-0 h-48 w-48 rounded-full bg-gradient-to-tr from-pink-200/50 to-purple-300/50 blur-2xl' aria-hidden='true' />
 
-          <div className='relative grid gap-8 lg:grid-cols-[1fr,auto]'>
+          <div className='relative space-y-8'>
             {/* Message de bienvenue */}
             <WelcomeHero
               userDisplay={userDisplay}
@@ -126,43 +115,76 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
 
             />
 
-            {/* Statistiques en cartes compactes */}
-            <div className='grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1 lg:min-w-[200px]'>
-              <div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 p-5 shadow-xl ring-4 ring-white/50'>
-                <div className='relative text-center'>
-                  <div className='text-4xl font-black text-white drop-shadow-lg'>
-                    {stats.totalMonsters}
+            {/* Statistiques en grille horizontale - AMÉLIORÉ */}
+            <div className='grid grid-cols-1 gap-6 sm:grid-cols-3'>
+              {/* Stat 1: Total Compagnons */}
+              <div className='group relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-400 via-orange-400 to-orange-500 p-6 shadow-xl ring-4 ring-yellow-200/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl'>
+                <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
+                <div className='relative flex items-center justify-between'>
+                  <div>
+                    <div className='text-6xl font-black text-white drop-shadow-2xl'>
+                      {stats.totalMonsters}
+                    </div>
+                    <div className='mt-2 text-base font-bold text-white/95 uppercase tracking-wide'>
+                      Compagnons
+                    </div>
                   </div>
-                  <div className='text-sm font-bold text-white/90 uppercase'>
-                    🎮 Compagnons
-                  </div>
-                </div>
-              </div>
-
-              <div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-400 to-purple-500 p-5 shadow-xl ring-4 ring-white/50'>
-                <div className='relative text-center'>
-                  <div className='text-4xl font-black text-white drop-shadow-lg'>
-                    {stats.highestLevel}
-                  </div>
-                  <div className='text-sm font-bold text-white/90 uppercase'>
-                    ⭐ Niveau Max
+                  <div className='text-6xl opacity-20 group-hover:opacity-30 transition-opacity'>
+                    🎮
                   </div>
                 </div>
               </div>
 
-              <div className='relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 p-5 shadow-xl ring-4 ring-white/50'>
-                <div className='relative text-center'>
-                  <div className='text-2xl font-black text-white drop-shadow-lg'>
-                    {latestAdoptionLabel}
+              {/* Stat 2: Niveau Max */}
+              <div className='group relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-400 via-purple-400 to-purple-500 p-6 shadow-xl ring-4 ring-pink-200/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl'>
+                <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
+                <div className='relative flex items-center justify-between'>
+                  <div>
+                    <div className='text-6xl font-black text-white drop-shadow-2xl'>
+                      {stats.highestLevel}
+                    </div>
+                    <div className='mt-2 text-base font-bold text-white/95 uppercase tracking-wide'>
+                      Niveau Max
+                    </div>
                   </div>
-                  <div className='text-sm font-bold text-white/90 uppercase'>
-                    🗓️ Dernière
+                  <div className='text-6xl opacity-20 group-hover:opacity-30 transition-opacity group-hover:animate-bounce'>
+                    ⭐
+                  </div>
+                </div>
+              </div>
+
+              {/* Stat 3: Dernière Adoption */}
+              <div className='group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-400 via-indigo-400 to-indigo-500 p-6 shadow-xl ring-4 ring-blue-200/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl'>
+                <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
+                <div className='relative flex items-center justify-between'>
+                  <div>
+                    <div className='text-3xl font-black text-white drop-shadow-2xl'>
+                      {latestAdoptionLabel}
+                    </div>
+                    <div className='mt-2 text-base font-bold text-white/95 uppercase tracking-wide'>
+                      Dernière Adoption
+                    </div>
+                  </div>
+                  <div className='text-6xl opacity-20 group-hover:opacity-30 transition-opacity'>
+                    🗓️
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
+        {/* Section principale : monstres */}
+        <div className='space-y-8'>
+          {/* Liste des monstres */}
+          <MonstersList monsters={monsterList} className='mt-0' />
+        </div>
+
+        {/* Quêtes et conseils */}
+        <div className='grid gap-6 lg:grid-cols-2 my-8'>
+          <QuestsSection quests={quests} />
+          <MoodTipSection message={favoriteMoodMessage} />
+        </div>
       </main>
 
       {/* Modal de création de monstre */}

@@ -2,7 +2,7 @@
 import ActionsSection from '@/components/sections/actions-section'
 import BenefitsSection from '@/components/sections/benefits-section'
 import Footer from '@/components/sections/footer'
-import Header from '@/components/sections/header'
+import HeaderWrapper from '@/components/sections/header-wrapper'
 import HeroSection from '@/components/sections/hero-section'
 import MonstersSection from '@/components/sections/monsters-section'
 import NewsletterSection from '@/components/sections/newsletter-section'
@@ -26,7 +26,7 @@ export const metadata: Readonly<Metadata> = {
 export default function Home (): React.ReactNode {
   return (
     <div className='font-sans'>
-      <Header />
+      <HeaderWrapper />
       <HeroSection />
       <BenefitsSection />
       <MonstersSection />

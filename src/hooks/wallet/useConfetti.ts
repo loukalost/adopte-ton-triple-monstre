@@ -6,9 +6,9 @@ import confetti from 'canvas-confetti'
  * Principe SRP: Responsabilité unique de gestion des confettis
  *
  * @param {boolean} isActive - Déclenche les confettis quand true
- * @returns {React.RefObject<HTMLCanvasElement>} Référence au canvas pour les confettis
+ * @returns {React.RefObject<HTMLCanvasElement | null>} Référence au canvas pour les confettis
  */
-export function useConfetti (isActive: boolean): React.RefObject<HTMLCanvasElement> {
+export function useConfetti (isActive: boolean): React.RefObject<HTMLCanvasElement | null> {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {

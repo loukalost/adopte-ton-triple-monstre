@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { ToastContainer } from 'react-toastify'
+import { MonstersAutoUpdater } from '@/components/monsters/auto-updater'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -41,6 +42,7 @@ export default function RootLayout ({
       >
         {children}
         <ToastContainer />
+        {/* Note: MonstersAutoUpdater déplacé dans les pages spécifiques (dashboard, creature) */}
       </body>
     </html>
   )

@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation'
  *
  * Cette page affiche le portefeuille virtuel de l'utilisateur
  * contenant sa monnaie (Koins).
+ * La protection de la route est gérée par le layout parent (src/app/app/layout.tsx).
  *
  * Fonctionnalités :
  * - Vérification de l'authentification
@@ -51,9 +52,5 @@ export default async function WalletPage (): Promise<React.ReactNode> {
     )
   }
 
-  return (
-    <AppLayout>
-      <WalletClient initialWallet={wallet} />
-    </AppLayout>
-  )
+  return <WalletClient initialWallet={wallet} />
 }

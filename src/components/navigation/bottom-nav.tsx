@@ -1,9 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { authClient } from '@/lib/auth-client'
 import { useState } from 'react'
+
+interface BottomNavProps {
+  /** Solde du wallet de l'utilisateur */
+  walletBalance: number
+}
 
 /**
  * Barre de navigation en bas pour mobile et tablette - Version Jeu Vidéo Fun
@@ -13,13 +18,38 @@ import { useState } from 'react'
  *
  * Responsabilité unique : Gérer la navigation mobile/tablette de l'application
  */
-export default function BottomNav (): JSX.Element {
+export default function BottomNav ({ walletBalance }: BottomNavProps): React.ReactNode {
   const pathname = usePathname()
+  const router = useRouter()
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
 
-  const handleLogout = (): void => {
-    void authClient.signOut()
-    window.location.href = '/sign-in'
+  const handleLogout = async (): Promise<void> => {
+    if (isLoggingOut) return
+
+    try {
+      setIsLoggingOut(true)
+      setShowLogoutConfirm(false)
+
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push('/sign-in')
+            router.refresh()
+          },
+          onError: (ctx) => {
+            console.error('Erreur lors de la déconnexion:', ctx.error)
+            router.push('/sign-in')
+            router.refresh()
+          }
+        }
+      })
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error)
+      window.location.href = '/sign-in'
+    } finally {
+      setIsLoggingOut(false)
+    }
   }
 
   const isActive = (path: string): boolean => {
@@ -27,8 +57,8 @@ export default function BottomNav (): JSX.Element {
   }
 
   const navItems = [
-    { href: '/dashboard', label: 'Home', icon: '🏠', color: 'from-purple-400 to-pink-500' },
-    { href: '/wallet', label: 'Wallet', icon: '🪙', color: 'from-yellow-400 to-orange-500' },
+    { href: '/app', label: 'Home', icon: '🏠', color: 'from-purple-400 to-pink-500' },
+    { href: '/app/wallet', label: String(walletBalance.toLocaleString()), icon: '🪙', color: 'from-yellow-400 to-orange-500', isWallet: true },
     { href: '#logout', label: 'Quitter', icon: '🚪', action: 'logout', color: 'from-red-400 to-rose-500' }
   ]
 
@@ -94,7 +124,9 @@ export default function BottomNav (): JSX.Element {
 
               <div className='flex flex-col gap-4'>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => {
+                    void handleLogout()
+                  }}
                   className='group relative overflow-hidden w-full bg-gradient-to-r from-red-500 to-rose-600 text-white font-black text-xl py-5 px-6 rounded-2xl hover:from-red-600 hover:to-rose-700 transition-all duration-300 transform active:scale-95 shadow-2xl ring-4 ring-red-200/50'
                 >
                   <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />

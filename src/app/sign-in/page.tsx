@@ -1,8 +1,29 @@
 import AuthFormContent from '@/components/forms/auth-form-content'
 import { connectMongooseToDatabase } from '@/db'
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 
+/**
+ * Page de connexion
+ *
+ * Si l'utilisateur est déjà connecté, il est redirigé vers /app
+ *
+ * @returns {Promise<React.ReactNode>} Page de connexion ou redirection
+ */
 async function SignInPage (): Promise<React.ReactNode> {
   await connectMongooseToDatabase()
+
+  // Vérifier si l'utilisateur est déjà connecté
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
+  // Si connecté, rediriger vers l'application
+  if (session !== null && session !== undefined) {
+    redirect('/app')
+  }
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-moccaccino-50 via-fuchsia-blue-50 to-lochinvar-50 flex items-center justify-center p-4 relative overflow-hidden'>
       {/* Animated floating monsters */}

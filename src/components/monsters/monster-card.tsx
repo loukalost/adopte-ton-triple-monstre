@@ -54,7 +54,7 @@ export function MonsterCard ({
   const levelLabel = level ?? 1
 
   return (
-    <Link href={`/creature/${id}`}>
+    <Link href={`/app/creatures/${id}`}>
       <article
         className='group relative flex flex-col overflow-hidden rounded-[2rem] bg-gradient-to-br from-yellow-50 via-pink-50 to-purple-100 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)] ring-4 ring-white/80 transition-all duration-300 hover:scale-105 hover:shadow-[0_20px_60px_rgb(0,0,0,0.2)] hover:ring-yellow-300 cursor-pointer'
       >

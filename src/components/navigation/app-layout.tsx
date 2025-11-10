@@ -21,11 +21,11 @@ interface AppLayoutProps {
  * @param {AppLayoutProps} props - Les propriétés du composant
  * @param {React.ReactNode} props.children - Le contenu de la page
  */
-export default function AppLayout ({ children }: AppLayoutProps): JSX.Element {
+export default function AppLayout ({ children }: AppLayoutProps): React.ReactNode {
   return (
     <div className='min-h-screen flex flex-col'>
       {/* Header desktop (masqué sur mobile) */}
-      <AppHeader />
+      <AppHeader walletBalance={0} />
 
       {/* Contenu principal avec padding pour la barre mobile */}
       <main className='flex-1 pb-20 md:pb-0'>
@@ -33,7 +33,7 @@ export default function AppLayout ({ children }: AppLayoutProps): JSX.Element {
       </main>
 
       {/* Navigation mobile (masquée sur desktop) */}
-      <BottomNav />
+      <BottomNav walletBalance={0} />
     </div>
   )
 }

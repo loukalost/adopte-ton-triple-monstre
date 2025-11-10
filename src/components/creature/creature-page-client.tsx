@@ -4,11 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 import type { MonsterTraits, DBMonster } from '@/types/monster'
 import type { MonsterAction } from '@/hooks/monsters'
 import { parseMonsterTraits } from '@/lib/utils'
-import { CreatureHeader } from './creature-header'
 import { CreatureMonsterDisplay } from './creature-monster-display'
 import { CreatureStatsPanel } from './creature-stats-panel'
-import { CreatureTraitsPanel } from './creature-traits-panel'
-import { CreatureColorsPanel } from './creature-colors-panel'
 import { LevelUpAnimation } from './level-up-animation'
 import { useRouter } from 'next/navigation'
 import { ShopModal } from './shop-modal'
@@ -135,7 +132,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-200 py-8 relative overflow-hidden'>
+    <div className='min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-200 py-6 relative overflow-hidden'>
       {/* Bulles décoratives animées */}
       <div className='pointer-events-none absolute inset-0'>
         <div className='absolute -right-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-400/30 blur-3xl animate-float' />
@@ -148,37 +145,43 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
       <div className='pointer-events-none absolute top-40 left-20 text-5xl animate-twinkle-delayed'>✨</div>
       <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
 
-      <div className='container relative z-10 mx-auto px-4 max-w-6xl'>
-        {/* Barre de navigation avec boutons */}
-        <div className='flex justify-between items-center mb-8 gap-4 flex-wrap'>
-          {/* Bouton retour stylisé */}
-          <button
-            onClick={() => { void router.push('/dashboard') }}
-            className='group relative overflow-hidden inline-flex items-center gap-3 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-black text-lg px-6 py-3 rounded-2xl shadow-2xl ring-4 ring-purple-200/50 transition-all duration-300 transform hover:scale-110 active:scale-105'
-          >
-            <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
-            <span className='relative text-2xl group-hover:translate-x-[-4px] transition-transform duration-300'>←</span>
-            <span className='relative'>Retour au Dashboard</span>
-          </button>
+      <div className='container relative z-10 mx-auto px-4 max-w-7xl'>
+        {/* Barre de navigation - Plus compacte */}
+        <div className='flex justify-between items-center mb-6 gap-4'>
+          {/* Bouton retour + nom */}
+          <div className='flex items-center gap-4'>
+            <button
+              onClick={() => { void router.push('/app') }}
+              className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-purple-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
+            >
+              <span className='text-xl'>←</span>
+              <span className='hidden sm:inline'>Retour</span>
+            </button>
+
+            {/* Nom du monstre inline */}
+            <div className='flex items-center gap-2'>
+              <span className='text-3xl'>👋</span>
+              <h1 className='text-3xl sm:text-4xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text'>
+                {currentMonster.name}
+              </h1>
+            </div>
+          </div>
 
           {/* Bouton boutique */}
           <button
             onClick={() => { setShowShop(true) }}
-            className='group relative overflow-hidden inline-flex items-center gap-3 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black text-lg px-6 py-3 rounded-2xl shadow-2xl ring-4 ring-green-200/50 transition-all duration-300 transform hover:scale-110 active:scale-105'
+            className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-green-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
           >
-            <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
-            <span className='relative text-2xl'>🛍️</span>
-            <span className='relative'>Boutique</span>
+            <span className='text-xl'>🛍️</span>
+            <span className='hidden sm:inline'>Boutique</span>
+
           </button>
         </div>
 
-        {/* En-tête avec nom et niveau */}
-        <CreatureHeader name={currentMonster.name} level={currentMonster.level} />
-
-        {/* Grille principale : monstre + informations */}
-        <div className='grid lg:grid-cols-2 gap-8'>
-          {/* Colonne gauche : Monstre animé et actions - PLUS GRANDE */}
-          <div className='lg:col-span-1'>
+        {/* Grille principale - Alignée */}
+        <div className='grid lg:grid-cols-2 gap-6 items-start'>
+          {/* Colonne gauche : Monstre animé + Actions */}
+          <div className='space-y-6'>
             <CreatureMonsterDisplay
               traits={traits}
               state={currentMonster.state}
@@ -189,8 +192,8 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
             />
           </div>
 
-          {/* Colonne droite : Panneaux d'informations */}
-          <div className='space-y-6'>
+          {/* Colonne droite : Statistiques */}
+          <div>
             <CreatureStatsPanel
               level={currentMonster.level}
               xp={currentMonster.xp ?? 0}

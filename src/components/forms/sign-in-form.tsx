@@ -1,4 +1,7 @@
+'use client'
+
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import InputField from '../input'
 import { authClient } from '@/lib/auth-client'
 import Button from '../button'
@@ -9,6 +12,7 @@ interface Credentials {
 }
 
 function SignInForm ({ onError }: { onError: (error: string) => void }): React.ReactNode {
+  const router = useRouter()
   const [credentials, setCredentials] = useState<Credentials>({
     email: 'titi@titi.titi',
     password: 'zizoulezinzin'
@@ -23,7 +27,7 @@ function SignInForm ({ onError }: { onError: (error: string) => void }): React.R
     void authClient.signIn.email({
       email: credentials.email,
       password: credentials.password,
-      callbackURL: '/dashboard'
+      callbackURL: '/app'
     }, {
       onRequest: (ctx) => {
         console.log('Signing in...', ctx)
@@ -31,6 +35,9 @@ function SignInForm ({ onError }: { onError: (error: string) => void }): React.R
       onSuccess: (ctx) => {
         console.log('User signed in:', ctx)
         setIsLoading(false)
+        // Redirection explicite vers l'application
+        router.push('/app')
+        router.refresh() // Rafraîchir pour charger la session
       },
       onError: (ctx) => {
         console.error('Sign in error:', ctx)

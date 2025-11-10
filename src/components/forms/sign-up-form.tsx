@@ -1,4 +1,7 @@
+'use client'
+
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import InputField from '../input'
 import Button from '../button'
 import { authClient } from '@/lib/auth-client'
@@ -10,10 +13,12 @@ interface Credentials {
 }
 
 function SignUpForm ({ onError }: { onError: (error: string) => void }): React.ReactNode {
+  const router = useRouter()
   const [credentials, setCredentials] = useState<Credentials>({
     email: 'titi@titi.titi',
     password: 'zizoulezinzin',
-    name: 'Titi'
+    name: 'Titi',
+    callbackURL: '/app'
   })
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -35,6 +40,9 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
         console.log('User signed up:', ctx)
         setIsLoading(false)
         onError('') // Clear error on success
+        // Redirection explicite vers l'application
+        router.push('/app')
+        router.refresh() // Rafraîchir pour charger la session
       },
       onError: (ctx) => {
         console.error('Sign up error:', ctx)

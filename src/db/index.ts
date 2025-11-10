@@ -22,4 +22,23 @@ async function connectMongooseToDatabase (): Promise<void> {
   }
 }
 
+// Promise globale pour réutiliser la connexion
+let clientPromise: Promise<MongoClient>
+
+if (process.env.NODE_ENV === 'development') {
+  // En dev, utiliser une variable globale pour préserver la connexion entre HMR
+  const globalWithMongo = global as typeof globalThis & {
+    _mongoClientPromise?: Promise<MongoClient>
+  }
+
+  if (globalWithMongo._mongoClientPromise == null) {
+    globalWithMongo._mongoClientPromise = client.connect()
+  }
+  clientPromise = globalWithMongo._mongoClientPromise
+} else {
+  // En production, créer une nouvelle connexion
+  clientPromise = client.connect()
+}
+
 export { client, connectMongooseToDatabase }
+export default clientPromise
