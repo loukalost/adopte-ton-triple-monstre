@@ -19,13 +19,13 @@ const features: Feature[] = [
  */
 export function PaymentFeatures (): React.ReactElement {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+    <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
       {features.map((feature, index) => (
         <Card key={index} hover>
           <div className='text-center'>
-            <div className='text-5xl mb-3'>{feature.icon}</div>
-            <h3 className='text-xl font-black text-purple-600 mb-2'>{feature.title}</h3>
-            <p className='text-gray-700 font-medium'>{feature.text}</p>
+            <div className='text-2xl mb-2'>{feature.icon}</div>
+            <h3 className='text-sm font-bold text-[color:var(--color-electric-600)] mb-1'>{feature.title}</h3>
+            <p className='text-xs text-[color:var(--color-neutral-600)]'>{feature.text}</p>
           </div>
         </Card>
       ))}

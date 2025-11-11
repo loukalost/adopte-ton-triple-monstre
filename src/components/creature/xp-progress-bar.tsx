@@ -82,63 +82,47 @@ export function XpProgressBar ({
 
   return (
     <div className='relative'>
-      {/* Label XP avec émojis */}
-      <div className='flex justify-between items-center mb-4'>
+      {/* Label XP */}
+      <div className='flex justify-between items-center mb-2'>
         <div className='flex items-center gap-2'>
-          <span className='text-3xl'>⚡</span>
-          <span className='text-xl font-black text-purple-600'>Expérience</span>
+          <span className='text-xl'>⚡</span>
+          <span className='text-sm font-bold text-[color:var(--color-electric-600)]'>Expérience</span>
         </div>
-        <div className='bg-gradient-to-r from-purple-500 to-pink-500 text-white font-black text-lg px-4 py-2 rounded-xl shadow-lg'>
+        <div className='bg-[color:var(--color-electric-500)] text-white font-bold text-xs px-3 py-1 rounded-lg shadow-lg'>
           {displayXp} / {maxXp} XP
         </div>
       </div>
 
-      {/* Barre de progression - GROSSE */}
-      <div className='relative w-full h-16 bg-gray-200 rounded-3xl overflow-hidden ring-4 ring-white shadow-2xl'>
-        {/* Barre de remplissage avec dégradé animé */}
+      {/* Barre de progression */}
+      <div className='relative w-full h-8 bg-[color:var(--color-neutral-200)] rounded-lg overflow-hidden border border-[color:var(--color-neutral-300)] shadow-lg'>
+        {/* Barre de remplissage */}
         <div
-          className='absolute top-0 left-0 h-full bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 transition-all duration-500 ease-out flex items-center justify-end pr-4'
-          style={{
-            width: `${percentage}%`,
-            backgroundSize: '200% 200%',
-            animation: 'gradient-shift 3s ease infinite'
-          }}
+          className='absolute top-0 left-0 h-full bg-[color:var(--color-electric-500)] transition-all duration-500 ease-out flex items-center justify-end pr-2'
+          style={{ width: `${percentage}%` }}
         >
-          {/* Effet de brillance qui traverse */}
-          <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer' />
-
           {/* Étoiles de progression */}
           {percentage > 15 && (
-            <div className='flex items-center gap-2'>
-              <span className='text-white text-3xl animate-bounce'>⭐</span>
-              {percentage > 50 && (
-                <span className='text-white text-3xl animate-bounce' style={{ animationDelay: '0.2s' }}>✨</span>
-              )}
-              {percentage > 80 && (
-                <span className='text-white text-3xl animate-bounce' style={{ animationDelay: '0.4s' }}>💫</span>
-              )}
-            </div>
+            <span className='text-white text-lg'>⭐</span>
           )}
         </div>
 
         {/* Niveau à l'intérieur de la barre */}
         <div className='absolute inset-0 flex items-center justify-center'>
-          <div className='bg-white/90 px-4 py-2 rounded-2xl shadow-lg ring-2 ring-purple-300'>
-            <span className='text-lg font-black text-purple-600'>
+          <div className='bg-white/90 px-3 py-1 rounded-lg shadow-lg border border-[color:var(--color-electric-300)]'>
+            <span className='text-xs font-bold text-[color:var(--color-electric-600)]'>
               Niveau {level}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Animation de gain d'XP - EXPLOSIVE */}
+      {/* Animation de gain d'XP */}
       {showGainAnimation && xpGained > 0 && (
         <>
-          <div className='absolute -top-12 right-0 animate-explode-up'>
-            <div className='bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 text-white px-6 py-3 rounded-2xl text-2xl font-black shadow-2xl flex items-center gap-3 ring-4 ring-green-200/50'>
-              <span className='text-3xl'>🎉</span>
+          <div className='absolute -top-8 right-0 animate-explode-up'>
+            <div className='bg-[color:var(--color-electric-500)] text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg flex items-center gap-2'>
+              <span className='text-lg'>🎉</span>
               <span>+{xpGained} XP</span>
-              <span className='text-3xl animate-spin-slow'>✨</span>
             </div>
           </div>
 

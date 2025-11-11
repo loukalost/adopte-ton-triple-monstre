@@ -17,8 +17,7 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
   const [credentials, setCredentials] = useState<Credentials>({
     email: 'titi@titi.titi',
     password: 'zizoulezinzin',
-    name: 'Titi',
-    callbackURL: '/app'
+    name: 'Titi'
   })
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -53,17 +52,17 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
   }
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-4'>
       <div className='text-center'>
-        <h2 className='text-2xl font-bold text-gray-800 mb-2'>
+        <h2 className='text-xl font-bold text-gray-800 mb-1'>
           🆕 Créer un compte
         </h2>
-        <p className='text-gray-600 text-sm'>
+        <p className='text-gray-600 text-xs'>
           Rejoignez l'aventure Adopte ton triple monstre ! 🎆
         </p>
       </div>
 
-      <form className='flex flex-col justify-center space-y-4' onSubmit={handleSubmit}>
+      <form className='flex flex-col justify-center space-y-3' onSubmit={handleSubmit}>
         <InputField
           label="Nom d'utilisateur"
           type='text'
@@ -87,7 +86,7 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
         />
         <Button
           type='submit'
-          size='lg'
+          size='md'
           disabled={isLoading}
           variant='primary'
         >

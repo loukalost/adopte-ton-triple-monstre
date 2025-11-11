@@ -57,8 +57,8 @@ interface CreatureColorsPanelProps {
  */
 export function CreatureColorsPanel ({ traits }: CreatureColorsPanelProps): React.ReactNode {
   return (
-    <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border-4 border-lochinvar-200'>
-      <h2 className='text-2xl font-bold text-lochinvar-600 mb-4'>
+    <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border-4 border-electric-200'>
+      <h2 className='text-2xl font-bold text-electric-600 mb-4'>
         Palette de couleurs
       </h2>
       <div className='grid grid-cols-3 gap-3'>

@@ -101,26 +101,22 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
       <div className='fixed inset-0 z-[70] flex items-center justify-center p-4'>
         <div className='relative max-w-7xl w-full animate-scale-in'>
           {/* Contenu du modal */}
-          <div className='bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl shadow-2xl p-8 relative overflow-hidden'>
-            {/* Éléments décoratifs */}
-            <div className='absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-yellow-300/20 to-orange-400/20 rounded-full blur-3xl' />
-            <div className='absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-pink-300/20 to-purple-400/20 rounded-full blur-3xl' />
-
+          <div className='bg-white rounded-lg shadow-2xl p-6 relative border border-[color:var(--color-neutral-200)]'>
             {/* Bouton fermer */}
             <button
               onClick={onClose}
-              className='absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-pink-500 text-white font-bold text-xl hover:from-red-500 hover:to-pink-600 transition-all duration-300 shadow-lg hover:scale-110 active:scale-95'
+              className='absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[color:var(--color-neon-purple-500)] hover:bg-[color:var(--color-neon-purple-600)] text-white font-bold text-lg transition-all duration-300 shadow-lg hover:scale-110 active:scale-95'
               aria-label='Fermer'
             >
               ✕
             </button>
 
             {/* En-tête du modal */}
-            <div className='relative z-10 text-center mb-6'>
-              <h2 className='text-4xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-2'>
+            <div className='relative z-10 text-center mb-4'>
+              <h2 className='text-2xl font-bold text-[color:var(--color-electric-600)] mb-2'>
                 🛍️ Boutique de {creatureName}
               </h2>
-              <p className='text-gray-600 text-lg'>
+              <p className='text-[color:var(--color-neutral-600)] text-sm'>
                 Boostez l'XP de votre créature avec nos offres spéciales !
               </p>
             </div>
@@ -128,19 +124,19 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
             {/* Section Boosts d'XP */}
             <div className='relative z-10'>
               {/* Titre de section */}
-              <div className='mb-6 text-center'>
-                <h3 className='text-2xl font-black text-indigo-700 mb-2 inline-flex items-center gap-2'>
-                  <span className='text-3xl'>⚡</span>
+              <div className='mb-4 text-center'>
+                <h3 className='text-lg font-bold text-[color:var(--color-electric-600)] mb-1 inline-flex items-center gap-2'>
+                  <span className='text-xl'>⚡</span>
                   Boosts d'XP
-                  <span className='text-3xl'>⚡</span>
+                  <span className='text-xl'>⚡</span>
                 </h3>
-                <p className='text-sm text-gray-600'>
+                <p className='text-xs text-[color:var(--color-neutral-600)]'>
                   Faites progresser votre créature plus rapidement !
                 </p>
               </div>
 
               {/* Grille des boosts */}
-              <div className='grid grid-cols-1 md:grid-cols-4 gap-6 px-2 py-8 pb-2'>
+              <div className='grid grid-cols-1 md:grid-cols-4 gap-4 px-2 py-4 pb-2'>
                 {xpBoosts.map((boost) => (
                   <XPBoostCard
                     key={boost.id}

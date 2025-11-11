@@ -24,10 +24,10 @@ export function LevelUpModal ({ open, newLevel, xpGained = 0, onClose }: LevelUp
       <div className='absolute inset-0 bg-black/30 backdrop-blur-sm pointer-events-auto' onClick={onClose} />
 
       <div className='relative pointer-events-auto bg-white rounded-2xl p-6 shadow-2xl w-[320px] text-center'>
-        <h3 className='text-2xl font-bold text-moccaccino-600 mb-2'>Nouveau niveau !</h3>
+        <h3 className='text-2xl font-bold text-electric-600 mb-2'>Nouveau niveau !</h3>
         <p className='text-gray-700 mb-4'>Votre monstre a atteint le niveau <span className='font-semibold'>{newLevel}</span></p>
         <p className='text-sm text-gray-500 mb-4'>+{xpGained} XP</p>
-        <button type='button' onClick={onClose} className='mt-2 px-4 py-2 rounded-md bg-moccaccino-500 text-white font-semibold'>Fermer</button>
+        <button type='button' onClick={onClose} className='mt-2 px-4 py-2 rounded-md bg-electric-500 text-white font-semibold hover:bg-electric-600'>Fermer</button>
       </div>
 
       {/* Confettis */}

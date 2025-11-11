@@ -24,14 +24,14 @@ export function EmptyMonstersState ({ className }: EmptyMonstersStateProps): Rea
   return (
     <div
       className={mergeClasses(
-        'mt-10 w-full rounded-3xl bg-gradient-to-br from-white/90 via-lochinvar-50/80 to-fuchsia-blue-50/80 p-8 text-center shadow-[0_16px_40px_rgba(15,23,42,0.12)] ring-1 ring-white/70 backdrop-blur',
+        'mt-6 w-full rounded-lg bg-white/95 p-6 text-center shadow-md border border-[color:var(--color-neutral-200)]',
         className
       )}
     >
-      <h2 className='text-xl font-semibold text-slate-900'>
+      <h2 className='text-lg font-semibold text-slate-900'>
         Tu n&apos;as pas encore de compagnon
       </h2>
-      <p className='mt-2 text-sm text-slate-600'>
+      <p className='mt-2 text-xs text-slate-600'>
         Clique sur &quot;Créer une créature&quot; pour lancer ta première adoption magique.
       </p>
     </div>

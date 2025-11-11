@@ -15,10 +15,10 @@ export function Card ({ children, className = '', hover = false }: CardProps): R
   return (
     <div
       className={`
-        relative overflow-hidden rounded-3xl 
-        bg-gradient-to-br from-white to-purple-100 
-        p-6 shadow-xl ring-4 ring-white/50 
-        ${hover ? 'transform hover:scale-105 transition-transform duration-300' : ''}
+        relative overflow-hidden rounded-lg 
+        bg-[color:var(--color-neutral-50)] 
+        p-4 shadow-md border border-[color:var(--color-neutral-200)]
+        ${hover ? 'hover:shadow-lg transition-shadow duration-200' : ''}
         ${className}
       `}
     >

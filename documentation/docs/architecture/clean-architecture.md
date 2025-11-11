@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Clean Architecture
 
-Le projet Tamagotcho implémente les principes de **Clean Architecture** pour garantir une séparation claire des responsabilités et une testabilité optimale.
+Le projet ATTM implémente les principes de **Clean Architecture** pour garantir une séparation claire des responsabilités et une testabilité optimale.
 
 ## Vue d'ensemble de l'architecture
 

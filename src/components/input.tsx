@@ -31,8 +31,8 @@ function InputField ({
         className={`
           w-full px-4 py-3 rounded-xl border-2 bg-white/50 backdrop-blur-sm
           transition-all duration-300 text-gray-800 placeholder-gray-400
-          focus:outline-none focus:ring-2 focus:ring-moccaccino-400 focus:border-moccaccino-400
-          hover:border-moccaccino-300 hover:bg-white/70
+          focus:outline-none focus:ring-2 focus:ring-electric-400 focus:border-electric-400
+          hover:border-electric-300 hover:bg-white/70
           ${(error != null && error.length > 0) ? 'border-red-400 bg-red-50/50' : 'border-gray-200'}
         `}
         type={type}

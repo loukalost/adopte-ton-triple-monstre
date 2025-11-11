@@ -59,92 +59,82 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
     return pathname === path
   }
 
-  const navItems = [{ href: '/app', label: 'Dashboard', icon: '🏠', color: 'from-purple-400 to-pink-500' }]
+  const navItems = [{ href: '/app', label: 'Dashboard', icon: '🏠' }]
 
   return (
-    <header className='hidden md:block bg-gradient-to-r from-purple-100 via-pink-100 to-orange-100 border-b-4 border-purple-300 sticky top-0 z-50 shadow-lg'>
+    <header className='hidden md:block bg-[color:var(--color-neutral-100)] border-b-2 border-[color:var(--color-neutral-300)] sticky top-0 z-50 shadow-sm'>
       <nav className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex justify-between items-center h-20'>
-          {/* Logo - Plus fun */}
+        <div className='flex justify-between items-center h-16'>
+          {/* Logo */}
           <Link href='/app' className='flex-shrink-0 group'>
-            <div className='flex items-center space-x-3 transform transition-transform duration-300 group-hover:scale-110'>
+            <div className='flex items-center space-x-2 transform transition-transform duration-200 group-hover:scale-105'>
               <div className='relative'>
-                <div className='absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full blur-md opacity-50 group-hover:opacity-75 transition-opacity' />
                 <Image
                   src='/logo_comp.webp'
-                  alt='Tamagotcho Logo'
-                  width={48}
-                  height={48}
-                  className='w-12 h-12 relative rounded-full ring-4 ring-white shadow-lg'
+                  alt='ATTM Logo'
+                  width={32}
+                  height={32}
+                  className='w-8 h-8 relative rounded-full shadow-sm'
                   priority
                 />
               </div>
-              <span className='text-3xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text'>
-                Tamagotcho
+              <span className='text-lg font-bold text-[color:var(--color-electric-600)]'>
+                ATTM
               </span>
             </div>
           </Link>
 
           {/* Navigation + Wallet */}
-          <div className='flex items-center space-x-3'>
+          <div className='flex items-center space-x-2'>
             {/* Navigation principale */}
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative overflow-hidden flex items-center gap-3 px-6 py-3 rounded-2xl text-lg font-black transition-all duration-300 transform hover:scale-110 active:scale-105 ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   isActive(item.href)
-                    ? `bg-gradient-to-r ${item.color} text-white shadow-xl ring-4 ring-white/50`
-                    : 'bg-white/80 text-gray-700 hover:bg-white hover:shadow-lg ring-2 ring-gray-200'
+                    ? 'bg-[color:var(--color-electric-500)] text-white shadow-sm'
+                    : 'bg-white text-[color:var(--color-neutral-700)] hover:bg-[color:var(--color-neutral-50)] border border-[color:var(--color-neutral-200)]'
                 }`}
               >
-                {/* Effet de brillance au hover */}
-                {!isActive(item.href) && (
-                  <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
-                )}
-
-                <span className={`text-3xl relative z-10 ${isActive(item.href) ? 'animate-bounce-slow' : 'group-hover:scale-125 transition-transform duration-300'}`}>
+                <span className='text-lg'>
                   {item.icon}
                 </span>
-                <span className='relative z-10'>{item.label}</span>
+                <span>{item.label}</span>
               </Link>
             ))}
 
             {/* Mini Wallet Display */}
             <Link
               href='/app/wallet'
-              className='group relative overflow-hidden flex items-center gap-2 px-6 py-3 rounded-2xl text-lg font-black transition-all duration-300 transform hover:scale-110 active:scale-105 bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-xl ring-4 ring-yellow-200/50 hover:from-yellow-500 hover:to-orange-600'
+              className='flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 bg-[color:var(--color-electric-500)] text-white hover:bg-[color:var(--color-electric-600)] shadow-sm'
             >
-              {/* Effet de brillance au hover */}
-              <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
-
-              <span className='text-3xl relative z-10 group-hover:scale-125 transition-transform duration-300'>
+              <span className='text-lg'>
                 🪙
               </span>
-              <span className='relative z-10 text-2xl font-black'>{walletBalance.toLocaleString()}</span>
-              <span className='relative z-10 text-sm uppercase tracking-wider opacity-90'>Koins</span>
+              <span className='font-bold'>{walletBalance.toLocaleString()}</span>
+              <span className='text-xs uppercase opacity-90'>Koins</span>
             </Link>
           </div>
 
-          {/* Actions utilisateur - Plus fun */}
-          <div className='flex items-center space-x-4'>
+          {/* Actions utilisateur */}
+          <div className='flex items-center space-x-2'>
             <button
               onClick={() => { void handleLogout() }}
               disabled={isLoggingOut}
-              className='group relative overflow-hidden flex items-center gap-3 px-6 py-3 rounded-2xl text-lg font-black bg-gradient-to-r from-red-400 to-rose-500 text-white hover:from-red-500 hover:to-rose-600 transition-all duration-300 transform hover:scale-110 active:scale-105 shadow-xl ring-4 ring-red-200/50 hover:shadow-[0_10px_30px_rgba(239,68,68,0.3)] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none'
+              className='flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed'
             >
-              <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 group-hover:animate-shine' />
               {isLoggingOut
                 ? (
                   <>
-                    <span className='text-2xl relative z-10 animate-spin'>⏳</span>
-                    <span className='relative z-10'>Déconnexion...</span>
+                    <span className='text-base animate-spin'>⏳</span>
+                    <span>Déconnexion...</span>
                   </>
                   )
                 : (
                   <>
-                    <span className='text-2xl relative z-10 group-hover:scale-125 transition-transform duration-300'>🚪</span>
-                    <span className='relative z-10'>Quitter</span>
+                    <span className='text-base'>🚪</span>
+                    <span>Quitter</span>
                   </>
                   )}
             </button>

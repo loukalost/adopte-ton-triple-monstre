@@ -4,11 +4,11 @@ sidebar_position: 3
 
 # Configuration Vercel
 
-Guide complet pour déployer Tamagotcho (Next.js + Docusaurus) sur Vercel.
+Guide complet pour déployer ATTM (Next.js + Docusaurus) sur Vercel.
 
 ## 🚀 Vue d'ensemble
 
-Le projet Tamagotcho utilise une configuration spéciale pour héberger à la fois :
+Le projet ATTM utilise une configuration spéciale pour héberger à la fois :
 - **Application Next.js** sur `/` (routes principales)
 - **Documentation Docusaurus** sur `/documentation/` (sous-chemin)
 
@@ -323,4 +323,4 @@ Activer Vercel Analytics pour :
 
 ---
 
-**Configuration réalisée pour Tamagotcho - My Digital School**
+**Configuration réalisée pour ATTM - My Digital School**

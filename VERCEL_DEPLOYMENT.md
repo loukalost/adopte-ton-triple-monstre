@@ -1,6 +1,6 @@
 # Déploiement Vercel - Guide Rapide
 
-Ce guide explique comment déployer Tamagotcho (Next.js + Docusaurus) sur Vercel.
+Ce guide explique comment déployer ATTM (Next.js + Docusaurus) sur Vercel.
 
 ## 🚀 Première installation
 

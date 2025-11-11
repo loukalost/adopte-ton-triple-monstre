@@ -43,27 +43,22 @@ export function CreatureMonsterDisplay ({
   onAction,
   monsterId
 }: CreatureMonsterDisplayProps): React.ReactNode {
-  // Couleurs selon l'état
-  const stateColors: Record<string, { bg: string, text: string, emoji: string }> = {
-    happy: { bg: 'from-green-400 to-emerald-500', text: 'Joyeux', emoji: '😊' },
-    sad: { bg: 'from-blue-400 to-cyan-500', text: 'Triste', emoji: '😢' },
-    angry: { bg: 'from-red-400 to-rose-500', text: 'En colère', emoji: '😠' },
-    hungry: { bg: 'from-orange-400 to-yellow-500', text: 'Affamé', emoji: '😋' },
-    sleepy: { bg: 'from-purple-400 to-indigo-500', text: 'Fatigué', emoji: '😴' }
+  // Couleurs selon l'état - Version simplifiée
+  const stateEmojis: Record<string, string> = {
+    happy: '😊',
+    sad: '😢',
+    angry: '😠',
+    hungry: '😋',
+    sleepy: '😴'
   }
 
-  const currentState = stateColors[state] ?? stateColors.happy
+  const currentEmoji = stateEmojis[state] ?? stateEmojis.happy
 
   return (
-    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-pink-50 to-purple-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
-      {/* Bulles décoratives */}
-      <div className='pointer-events-none absolute -right-12 top-10 h-40 w-40 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-300/30 blur-2xl animate-float' />
-      <div className='pointer-events-none absolute -left-16 -top-12 h-48 w-48 rounded-full bg-gradient-to-br from-pink-300/30 to-purple-300/30 blur-2xl animate-float-delayed' />
-
-      {/* Zone d'affichage du monstre animé - PLUS GRANDE */}
-      <div className='relative aspect-square max-w-lg mx-auto mb-8'>
-        <div className='absolute inset-0 bg-gradient-to-br from-yellow-100/50 via-pink-100/50 to-purple-100/50 rounded-3xl animate-pulse-slow' />
-        <div className='relative p-8'>
+    <div className='rounded-lg bg-white p-6 shadow-lg border border-[color:var(--color-neutral-200)]'>
+      {/* Zone d'affichage du monstre animé */}
+      <div className='relative aspect-square max-w-md mx-auto mb-4'>
+        <div className='relative p-4'>
           <AnimatedMonster
             state={state}
             traits={traits}
@@ -71,23 +66,16 @@ export function CreatureMonsterDisplay ({
             currentAction={currentAction}
           />
         </div>
-
-        {/* Effet de particules décoratives */}
-        <div className='pointer-events-none absolute top-10 right-10 text-3xl animate-twinkle'>⭐</div>
-        <div className='pointer-events-none absolute bottom-10 left-10 text-3xl animate-twinkle-delayed'>💫</div>
       </div>
 
-      {/* Badge d'état du monstre - GROS ET FUN */}
-      <div className='mb-8 text-center'>
-        <div className='inline-block relative'>
-          <div className={`absolute inset-0 bg-gradient-to-r ${currentState.bg} rounded-3xl blur-lg opacity-50`} />
-          <div className={`relative bg-gradient-to-r ${currentState.bg} px-8 py-4 rounded-3xl shadow-2xl ring-4 ring-white/70`}>
-            <div className='flex items-center gap-4'>
-              <span className='text-5xl'>{currentState.emoji}</span>
-              <div className='text-left'>
-                <p className='text-sm font-bold text-white/90 uppercase tracking-wider'>État actuel</p>
-                <p className='text-2xl font-black text-white'>{getStateLabel(state)}</p>
-              </div>
+      {/* Badge d'état du monstre */}
+      <div className='mb-4 text-center'>
+        <div className='inline-block bg-[color:var(--color-electric-500)] px-6 py-3 rounded-lg shadow-lg'>
+          <div className='flex items-center gap-3'>
+            <span className='text-3xl'>{currentEmoji}</span>
+            <div className='text-left'>
+              <p className='text-xs font-medium text-white/90 uppercase tracking-wider'>État actuel</p>
+              <p className='text-base font-bold text-white'>{getStateLabel(state)}</p>
             </div>
           </div>
         </div>

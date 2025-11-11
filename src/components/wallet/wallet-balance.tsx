@@ -20,29 +20,27 @@ export function WalletBalance ({ balance }: WalletBalanceProps): React.ReactElem
   }
 
   return (
-    <div className='relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-12 mb-12 shadow-[0_30px_90px_rgba(0,0,0,0.25)] ring-8 ring-white/80'>
-      <div className='absolute inset-0 bg-gradient-to-br from-yellow-200/30 via-orange-200/30 to-red-200/30 animate-pulse-slow' />
-
+    <div className='relative overflow-hidden rounded-lg bg-[color:var(--color-neutral-50)] p-6 mb-6 shadow-md border-2 border-[color:var(--color-neutral-200)]'>
       <div className='relative z-10'>
         <div className='text-center'>
-          <p className='text-xl font-bold text-orange-600 uppercase tracking-widest mb-4 flex items-center justify-center gap-2'>
-            <span className='text-2xl'>💎</span>
+          <p className='text-xs font-semibold text-[color:var(--color-neutral-600)] uppercase tracking-wider mb-2 flex items-center justify-center gap-1'>
+            <span>💎</span>
             Ton Trésor Actuel
-            <span className='text-2xl'>💎</span>
+            <span>💎</span>
           </p>
-          <div className='flex items-center justify-center gap-6'>
-            <AnimatedEmoji emoji='🪙' size='lg' animation='animate-spin-slow' />
-            <h2 className='text-9xl font-black text-transparent bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text drop-shadow-2xl transition-all duration-300'>
+          <div className='flex items-center justify-center gap-3'>
+            <AnimatedEmoji emoji='🪙' size='md' animation='animate-spin-slow' />
+            <h2 className='text-4xl font-bold text-[color:var(--color-electric-600)] transition-all duration-300'>
               {animatedBalance.toLocaleString('fr-FR')}
             </h2>
             <AnimatedEmoji
               emoji='🪙'
-              size='lg'
+              size='md'
               animation='animate-spin-slow'
               className='[animation-delay:1s]'
             />
           </div>
-          <p className='text-3xl font-black text-orange-600 mt-6'>
+          <p className='text-base font-semibold text-[color:var(--color-neutral-700)] mt-2'>
             {getKoinLabel()}
           </p>
         </div>

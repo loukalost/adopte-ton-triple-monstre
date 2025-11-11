@@ -4,11 +4,11 @@ sidebar_position: 1
 
 # Système de Monstres
 
-Documentation complète du système de génération et de gestion des créatures Tamagotcho.
+Documentation complète du système de génération et de gestion des créatures ATTM.
 
 ## Vue d'ensemble
 
-Le système de monstres est au cœur de l'application Tamagotcho. Chaque monstre est une créature unique générée aléatoirement avec des traits visuels et des états émotionnels dynamiques.
+Le système de monstres est au cœur de l'application ATTM. Chaque monstre est une créature unique générée aléatoirement avec des traits visuels et des états émotionnels dynamiques.
 
 ## Types de données
 

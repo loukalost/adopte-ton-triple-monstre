@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Composants UI
 
-Documentation des composants d'interface utilisateur réutilisables du projet Tamagotcho.
+Documentation des composants d'interface utilisateur réutilisables du projet ATTM.
 
 ## Vue d'ensemble
 
@@ -331,7 +331,7 @@ import { Header } from '@/components'
 
 ### Fonctionnalités
 
-- Logo Tamagotcho
+- Logo ATTM
 - Navigation responsive
 - Liens vers Dashboard, Créatures, etc.
 - Bouton de connexion/déconnexion

@@ -23,7 +23,7 @@ interface UserProfileCardProps {
 export function UserProfileCard ({ userDisplay }: UserProfileCardProps): React.ReactNode {
   return (
     <div className='flex items-center gap-4'>
-      <div className='flex h-14 w-14 items-center justify-center rounded-2xl bg-white/80 text-2xl font-bold text-moccaccino-500 shadow-inner'>
+      <div className='flex h-14 w-14 items-center justify-center rounded-2xl bg-white/80 text-2xl font-bold text-electric-500 shadow-inner'>
         {userDisplay.initial}
       </div>
       <div>

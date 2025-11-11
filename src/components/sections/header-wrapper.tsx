@@ -1,7 +1,7 @@
 
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
-import Header from './header'
+import Header from '../header'
 
 /**
  * Wrapper server-side pour le Header public

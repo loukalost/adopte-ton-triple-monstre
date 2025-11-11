@@ -9,6 +9,8 @@ import { CreatureStatsPanel } from './creature-stats-panel'
 import { LevelUpAnimation } from './level-up-animation'
 import { useRouter } from 'next/navigation'
 import { ShopModal } from './shop-modal'
+import { CreatureTraitsPanel } from './creature-traits-panel'
+import { CreatureColorsPanel } from './creature-colors-panel'
 
 /**
  * Props pour le composant CreaturePageClient
@@ -132,36 +134,24 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-yellow-100 via-pink-100 to-purple-200 py-6 relative overflow-hidden'>
-      {/* Bulles décoratives animées */}
-      <div className='pointer-events-none absolute inset-0'>
-        <div className='absolute -right-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-400/30 blur-3xl animate-float' />
-        <div className='absolute -left-32 bottom-20 h-96 w-96 rounded-full bg-gradient-to-br from-pink-300/30 to-purple-400/30 blur-3xl animate-float-delayed' />
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-blue-300/20 to-indigo-400/20 blur-3xl animate-pulse-slow' />
-      </div>
-
-      {/* Étoiles décoratives */}
-      <div className='pointer-events-none absolute top-20 right-40 text-6xl animate-twinkle'>⭐</div>
-      <div className='pointer-events-none absolute top-40 left-20 text-5xl animate-twinkle-delayed'>✨</div>
-      <div className='pointer-events-none absolute bottom-40 right-60 text-4xl animate-twinkle'>💫</div>
-
+    <div className='min-h-screen bg-[color:var(--color-neutral-50)] py-4 relative'>
       <div className='container relative z-10 mx-auto px-4 max-w-7xl'>
-        {/* Barre de navigation - Plus compacte */}
-        <div className='flex justify-between items-center mb-6 gap-4'>
+        {/* Barre de navigation */}
+        <div className='flex justify-between items-center mb-4 gap-4'>
           {/* Bouton retour + nom */}
           <div className='flex items-center gap-4'>
             <button
               onClick={() => { void router.push('/app') }}
-              className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-purple-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
+              className='inline-flex items-center gap-2 bg-[color:var(--color-neon-purple-500)] hover:bg-[color:var(--color-neon-purple-600)] text-white font-bold px-3 py-2 rounded-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95'
             >
-              <span className='text-xl'>←</span>
+              <span className='text-lg'>←</span>
               <span className='hidden sm:inline'>Retour</span>
             </button>
 
             {/* Nom du monstre inline */}
             <div className='flex items-center gap-2'>
-              <span className='text-3xl'>👋</span>
-              <h1 className='text-3xl sm:text-4xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text'>
+              <span className='text-2xl'>👋</span>
+              <h1 className='text-xl sm:text-2xl font-bold text-[color:var(--color-electric-600)]'>
                 {currentMonster.name}
               </h1>
             </div>
@@ -170,9 +160,9 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
           {/* Bouton boutique */}
           <button
             onClick={() => { setShowShop(true) }}
-            className='group relative overflow-hidden inline-flex items-center gap-2 bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black px-4 py-2 rounded-xl shadow-lg ring-2 ring-green-200/50 transition-all duration-300 hover:scale-105 active:scale-95'
+            className='inline-flex items-center gap-2 bg-[color:var(--color-electric-500)] hover:bg-[color:var(--color-electric-600)] text-white font-bold px-3 py-2 rounded-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-95'
           >
-            <span className='text-xl'>🛍️</span>
+            <span className='text-lg'>🛍️</span>
             <span className='hidden sm:inline'>Boutique</span>
 
           </button>

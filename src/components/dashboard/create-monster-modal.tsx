@@ -53,7 +53,7 @@ function CreateMonsterModal ({ isOpen, onClose, onSubmit }: CreateMonsterModalPr
 
   return (
     <ModalOverlay onClose={onClose}>
-      <div className='w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-moccaccino-100'>
+      <div className='w-full max-w-lg rounded-lg bg-white p-4 shadow-lg border border-[color:var(--color-electric-200)]'>
         <ModalHeader
           title='Créer une nouvelle créature'
           onClose={onClose}

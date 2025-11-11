@@ -1,6 +1,6 @@
 # 🔄 Système de mise à jour automatique des monstres (Cron)
 
-Ce document explique comment fonctionne le système de mise à jour automatique des états des monstres dans l'application Tamagotcho.
+Ce document explique comment fonctionne le système de mise à jour automatique des états des monstres dans l'application ATTM.
 
 ## 📋 Vue d'ensemble
 

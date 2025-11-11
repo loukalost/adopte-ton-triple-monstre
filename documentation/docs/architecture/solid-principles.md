@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Principes SOLID
 
-Le projet Tamagotcho applique rigoureusement les **principes SOLID** pour garantir une architecture maintenable et évolutive.
+Le projet ATTM applique rigoureusement les **principes SOLID** pour garantir une architecture maintenable et évolutive.
 
 ## Vue d'ensemble des principes
 
@@ -21,7 +21,7 @@ Le projet Tamagotcho applique rigoureusement les **principes SOLID** pour garant
 ### Définition
 Chaque composant, fonction ou classe doit avoir **une seule raison de changer**.
 
-### Application dans Tamagotcho
+### Application dans ATTM
 
 #### Composants UI
 Chaque composant a une responsabilité unique et bien définie :
@@ -70,7 +70,7 @@ export function generateRandomTraits(): MonsterTraits {
 ### Définition
 Les entités logicielles doivent être **ouvertes à l'extension, fermées à la modification**.
 
-### Application dans Tamagotcho
+### Application dans ATTM
 
 #### Extension via Props
 Les composants acceptent de nouvelles configurations sans modification du code :
@@ -109,7 +109,7 @@ size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' // Extension
 ### Définition
 Les objets d'un programme doivent pouvoir être **remplacés par des instances de leurs sous-types** sans altérer le bon fonctionnement du programme.
 
-### Application dans Tamagotcho
+### Application dans ATTM
 
 #### Cards interchangeables
 Toutes les cards suivent des interfaces cohérentes :
@@ -140,7 +140,7 @@ interface CardProps {
 ### Définition
 Les clients ne doivent pas dépendre d'interfaces qu'ils n'utilisent pas.
 
-### Application dans Tamagotcho
+### Application dans ATTM
 
 #### Interfaces spécialisées
 Chaque type a des interfaces focalisées dans `src/types/components.ts` :
@@ -200,7 +200,7 @@ interface UniversalCardProps {
 ### Définition
 Les modules de haut niveau ne doivent pas dépendre des modules de bas niveau. Les deux doivent dépendre d'**abstractions**.
 
-### Application dans Tamagotcho
+### Application dans ATTM
 
 #### Dépendances vers des interfaces TypeScript
 

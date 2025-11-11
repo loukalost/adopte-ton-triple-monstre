@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Guide de Développement
 
-Guide complet pour contribuer au projet Tamagotcho.
+Guide complet pour contribuer au projet ATTM.
 
 ## 🚀 Installation
 
@@ -229,7 +229,7 @@ Utilisation :
 
 ```tsx
 <div className="bg-moccaccino-500 text-white">
-  Tamagotcho
+  ATTM
 </div>
 ```
 

@@ -4,11 +4,11 @@ sidebar_position: 1
 
 # Système d'Authentification
 
-Documentation complète du système d'authentification basé sur **Better Auth** dans Tamagotcho.
+Documentation complète du système d'authentification basé sur **Better Auth** dans ATTM.
 
 ## Vue d'ensemble
 
-Tamagotcho utilise **Better Auth 1.3.24**, une solution d'authentification moderne et sécurisée pour Next.js, avec support de :
+ATTM utilise **Better Auth 1.3.24**, une solution d'authentification moderne et sécurisée pour Next.js, avec support de :
 - ✅ Email/Password (connexion classique)
 - ✅ GitHub OAuth (connexion sociale)
 - ✅ MongoDB comme base de données
@@ -129,7 +129,7 @@ GITHUB_CLIENT_SECRET="your_github_client_secret"
    - Cliquer sur "New OAuth App"
 
 2. **Remplir les informations**
-   - **Application name**: Tamagotcho
+   - **Application name**: ATTM
    - **Homepage URL**: `http://localhost:3000` (dev) ou votre URL de production
    - **Authorization callback URL**: `http://localhost:3000/api/auth/callback/github`
 

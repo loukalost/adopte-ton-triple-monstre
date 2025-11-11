@@ -24,14 +24,14 @@ interface StatItemProps {
  * @param {StatItemProps} props - Props du composant
  * @returns {React.ReactNode} Ligne de statistique
  */
-export function StatItem ({ label, value, emoji, color }: StatItemProps): React.ReactNode {
+export function StatItem ({ label, value, emoji }: Omit<StatItemProps, 'color'>): React.ReactNode {
   return (
-    <div className={`flex justify-between items-center py-4 px-6 rounded-2xl bg-gradient-to-r ${color} shadow-lg ring-2 ring-white/50 transform hover:scale-105 transition-all duration-300`}>
-      <div className='flex items-center gap-3'>
-        <span className='text-3xl'>{emoji}</span>
-        <span className='text-white font-bold text-lg'>{label}</span>
+    <div className='flex justify-between items-center py-3 px-4 rounded-lg bg-white border border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-500)] transition-all duration-300'>
+      <div className='flex items-center gap-2'>
+        <span className='text-xl'>{emoji}</span>
+        <span className='text-[color:var(--color-neutral-700)] font-medium text-sm'>{label}</span>
       </div>
-      <span className='text-white font-black text-xl'>{value}</span>
+      <span className='text-[color:var(--color-electric-600)] font-bold text-sm'>{value}</span>
     </div>
   )
 }
@@ -83,22 +83,18 @@ export function CreatureStatsPanel ({
   xpGained = 0
 }: CreatureStatsPanelProps): React.ReactNode {
   return (
-    <div className='relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-yellow-50 to-orange-100 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] ring-8 ring-white/80'>
-      {/* Effet de fond */}
-      <div className='pointer-events-none absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-orange-200/20 to-red-200/20 animate-pulse-slow' />
-
+    <div className='rounded-lg bg-white p-4 shadow-lg border border-[color:var(--color-neutral-200)]'>
       <div className='relative'>
         {/* Titre du panneau */}
-        <div className='text-center mb-8'>
-          <h2 className='text-4xl font-black text-transparent bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text flex items-center justify-center gap-3'>
-            <span className='text-5xl'>📊</span>
+        <div className='text-center mb-4'>
+          <h2 className='text-lg font-bold text-[color:var(--color-electric-600)] flex items-center justify-center gap-2'>
+            <span className='text-xl'>📊</span>
             Statistiques
-            <span className='text-5xl'>📊</span>
           </h2>
         </div>
 
         {/* Barre d'XP avec animations */}
-        <div className='mb-8'>
+        <div className='mb-4'>
           <XpProgressBar
             currentXp={xp}
             maxXp={maxXp}
@@ -109,44 +105,29 @@ export function CreatureStatsPanel ({
         </div>
 
         {/* Statistiques en cartes colorées */}
-        <div className='space-y-4'>
+        <div className='space-y-3'>
           <StatItem
             label='Niveau'
             value={level.toString()}
             emoji='⭐'
-            color='from-yellow-400 to-orange-500'
           />
           <StatItem
             label='État'
             value={getStateLabel(state)}
             emoji='💖'
-            color='from-pink-400 to-rose-500'
           />
           <StatItem
             label='Adopté le'
             value={new Date(createdAt).toLocaleDateString('fr-FR')}
             emoji='📅'
-            color='from-blue-400 to-cyan-500'
           />
           <StatItem
             label='Dernière activité'
             value={new Date(updatedAt).toLocaleDateString('fr-FR')}
             emoji='🔄'
-            color='from-purple-400 to-indigo-500'
           />
         </div>
       </div>
-
-      {/* Styles pour les animations */}
-      <style jsx>{`
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.6; }
-        }
-
-        .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-      `}
-      </style>
     </div>
   )
 }

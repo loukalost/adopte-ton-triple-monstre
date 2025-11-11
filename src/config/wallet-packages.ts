@@ -11,7 +11,7 @@ export const walletPackages: KoinPackage[] = [
     amount: 10,
     price: pricingTable[10].price,
     emoji: '🪙',
-    color: 'from-yellow-400 to-orange-500',
+    color: 'bg-[color:var(--color-electric-500)]',
     badge: 'Débutant',
     popular: false
   },
@@ -19,7 +19,7 @@ export const walletPackages: KoinPackage[] = [
     amount: 50,
     price: pricingTable[50].price,
     emoji: '💰',
-    color: 'from-orange-400 to-red-500',
+    color: 'bg-[color:var(--color-neon-purple-500)]',
     badge: 'Populaire',
     popular: true
   },
@@ -27,7 +27,7 @@ export const walletPackages: KoinPackage[] = [
     amount: 500,
     price: pricingTable[500].price,
     emoji: '💎',
-    color: 'from-blue-400 to-cyan-500',
+    color: 'bg-[color:var(--color-electric-600)]',
     badge: 'Pro',
     popular: false
   },
@@ -35,7 +35,7 @@ export const walletPackages: KoinPackage[] = [
     amount: 1000,
     price: pricingTable[1000].price,
     emoji: '👑',
-    color: 'from-purple-400 to-pink-500',
+    color: 'bg-[color:var(--color-neon-purple-600)]',
     badge: 'Royal',
     popular: false
   }

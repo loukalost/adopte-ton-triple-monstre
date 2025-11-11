@@ -82,32 +82,28 @@ function ActionButton ({
 }: ActionButtonProps): React.ReactNode {
 // Couleurs spécifiques par action
   const actionColors: Record<string, string> = {
-    feed: 'from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 ring-orange-200',
-    comfort: 'from-blue-400 to-indigo-500 hover:from-blue-500 hover:to-indigo-600 ring-blue-200',
-    hug: 'from-pink-400 to-rose-500 hover:from-pink-500 hover:to-rose-600 ring-pink-200',
-    wake: 'from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 ring-yellow-200'
+    feed: 'bg-orange-500 hover:bg-orange-600',
+    comfort: 'bg-blue-500 hover:bg-blue-600',
+    hug: 'bg-pink-500 hover:bg-pink-600',
+    wake: 'bg-yellow-500 hover:bg-yellow-600'
   }
 
-  const colorClass = (action !== null && action !== undefined) ? actionColors[action] : 'from-gray-400 to-gray-500'
+  const colorClass = (action !== null && action !== undefined) ? actionColors[action] : 'bg-gray-500'
 
-  const baseClass = 'group relative overflow-hidden flex flex-col items-center justify-center gap-3 px-6 py-5 rounded-2xl font-black text-white shadow-xl transition-all duration-300'
+  const baseClass = 'group relative overflow-hidden flex flex-col items-center justify-center gap-2 px-4 py-4 rounded-lg font-bold text-white shadow-md transition-all duration-300'
   const activeClass = isActive
     ? 'scale-95 opacity-75'
     : isDisabled
       ? 'opacity-50 cursor-not-allowed'
-      : 'hover:scale-105 active:scale-95 cursor-pointer hover:shadow-2xl'
+      : 'hover:scale-105 active:scale-95 cursor-pointer hover:shadow-lg'
 
   return (
     <button
-      className={`${baseClass} bg-gradient-to-br ${colorClass} ring-4 ring-white/50 ${activeClass}`}
+      className={`${baseClass} ${colorClass} ${activeClass}`}
       onClick={onClick}
       disabled={isDisabled}
       type='button'
     >
-      {/* Effet de brillance */}
-      {!isActive && !isDisabled && (
-        <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:animate-shine' />
-      )}
 
       <span className='relative text-5xl group-hover:scale-110 transition-transform duration-300'>{emoji}</span>
       <span className='relative text-sm uppercase tracking-wider'>{label}</span>
@@ -144,19 +140,19 @@ export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): R
   }
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-4'>
       {/* Titre des actions */}
       <div className='text-center'>
-        <h3 className='text-3xl font-black text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text mb-2'>
+        <h3 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-1'>
           Actions
         </h3>
-        <p className='text-sm text-gray-600 font-medium'>
+        <p className='text-xs text-gray-600 font-medium'>
           Interagis avec ta créature ! ✨
         </p>
       </div>
 
       {/* Grille de boutons d'action */}
-      <div className='grid grid-cols-2 gap-4'>
+      <div className='grid grid-cols-2 gap-3'>
         {AVAILABLE_ACTIONS.map(({ action, emoji, label }) => (
           <ActionButton
             key={action}
@@ -173,9 +169,9 @@ export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): R
       {/* Indicateur d'action en cours */}
       {activeAction !== null && (
         <div className='text-center'>
-          <div className='inline-flex items-center gap-2 bg-purple-100 px-4 py-2 rounded-full animate-pulse'>
-            <div className='w-2 h-2 bg-purple-500 rounded-full animate-ping' />
-            <span className='text-sm font-medium text-purple-700'>
+          <div className='inline-flex items-center gap-2 bg-[color:var(--color-neon-purple-100)] px-3 py-2 rounded-full'>
+            <div className='w-2 h-2 bg-[color:var(--color-neon-purple-500)] rounded-full animate-ping' />
+            <span className='text-xs font-medium text-[color:var(--color-neon-purple-700)]'>
               Action en cours...
             </span>
           </div>

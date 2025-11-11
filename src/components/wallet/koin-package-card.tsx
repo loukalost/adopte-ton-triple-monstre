@@ -1,7 +1,6 @@
 import type React from 'react'
-import { Badge } from './ui/badge'
-import { GradientButton } from './ui/gradient-button'
 import { AnimatedEmoji } from './ui/animated-emoji'
+import Button from '@/components/button'
 
 export interface KoinPackage {
   amount: number
@@ -30,68 +29,64 @@ export function KoinPackageCard ({
   return (
     <div
       className={`
-        group relative rounded-[2rem] 
-        bg-gradient-to-br from-white via-pink-50 to-purple-100 
-        p-8 shadow-[0_20px_60px_rgba(0,0,0,0.15)] 
-        ring-4 ring-white/80 
-        transition-all duration-300 hover:scale-105 hover:shadow-[0_30px_90px_rgba(0,0,0,0.25)]
-        ${pkg.popular ? 'ring-8 ring-yellow-400 transform scale-105' : ''}
+        relative rounded-lg 
+        bg-[color:var(--color-neutral-50)] 
+        p-4 shadow-md 
+        border-2 ${pkg.popular ? 'border-[color:var(--color-electric-500)]' : 'border-[color:var(--color-neutral-200)]'}
+        transition-all duration-200 hover:shadow-lg
       `}
     >
       {/* Badge */}
-      <Badge
-        text={pkg.badge}
-        gradient={pkg.popular ? 'from-yellow-400 to-orange-500' : pkg.color}
-        isPopular={pkg.popular}
-      />
-
-      {/* Bulles décoratives */}
-      <div className='pointer-events-none absolute -right-8 top-8 h-24 w-24 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-300/30 blur-xl group-hover:scale-150 transition-transform duration-500 overflow-hidden' />
+      {pkg.popular && (
+        <div className='absolute -top-2 -right-2 bg-[color:var(--color-electric-500)] text-white font-bold text-xs px-3 py-1 rounded-full shadow'>
+          {pkg.badge}
+        </div>
+      )}
 
       {/* Contenu */}
       <div className='relative text-center'>
         {/* Emoji du pack */}
-        <AnimatedEmoji emoji={pkg.emoji} size='lg' className='mb-6' />
+        <AnimatedEmoji emoji={pkg.emoji} size='md' className='mb-3' />
 
         {/* Montant de Koins */}
-        <div className='mb-6'>
-          <div className={`inline-block bg-gradient-to-r ${pkg.color} text-white font-black text-5xl px-8 py-4 rounded-3xl shadow-2xl ring-4 ring-white/50`}>
+        <div className='mb-3'>
+          <div className='inline-block bg-[color:var(--color-electric-100)] text-[color:var(--color-electric-700)] font-bold text-2xl px-4 py-2 rounded-lg'>
             {pkg.amount.toLocaleString('fr-FR')}
           </div>
-          <p className='text-2xl font-bold text-purple-600 mt-3'>Koins</p>
+          <p className='text-sm font-medium text-[color:var(--color-neutral-600)] mt-1'>Koins</p>
         </div>
 
         {/* Prix */}
-        <div className='mb-8'>
-          <div className='text-5xl font-black text-transparent bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text mb-2'>
+        <div className='mb-4'>
+          <div className='text-2xl font-bold text-[color:var(--color-electric-600)]'>
             {pkg.price}€
           </div>
-          <p className='text-sm text-gray-600 font-medium'>
+          <p className='text-xs text-[color:var(--color-neutral-500)]'>
             Soit {(pkg.price / pkg.amount).toFixed(2)}€ par Koin
           </p>
         </div>
 
         {/* Bouton d'achat */}
-        <GradientButton
+        <Button
           onClick={() => { onPurchase(pkg.amount) }}
           disabled={isPurchasing}
-          gradient={pkg.color}
+          variant='primary'
+          size='md'
         >
           {isPurchasing
             ? (
               <>
-                <span className='animate-spin text-2xl'>⏳</span>
+                <span className='animate-spin mr-1'>⏳</span>
                 <span>Chargement...</span>
               </>
               )
             : (
               <>
-                <span className='text-2xl'>🛒</span>
+                <span className='mr-1'>🛒</span>
                 <span>Acheter</span>
-                <span className='text-2xl'>✨</span>
               </>
               )}
-        </GradientButton>
+        </Button>
       </div>
     </div>
   )

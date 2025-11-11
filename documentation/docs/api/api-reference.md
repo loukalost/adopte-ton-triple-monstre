@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # API Reference
 
-Documentation complète de l'API backend de Tamagotcho.
+Documentation complète de l'API backend de ATTM.
 
 ## Base URL
 

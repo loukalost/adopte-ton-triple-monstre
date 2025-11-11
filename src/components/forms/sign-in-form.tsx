@@ -48,17 +48,17 @@ function SignInForm ({ onError }: { onError: (error: string) => void }): React.R
   }
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-4'>
       <div className='text-center'>
-        <h2 className='text-2xl font-bold text-gray-800 mb-2'>
+        <h2 className='text-xl font-bold text-gray-800 mb-1'>
           🔐 Connexion
         </h2>
-        <p className='text-gray-600 text-sm'>
+        <p className='text-gray-600 text-xs'>
           Retrouvez vos petits compagnons ! 👾
         </p>
       </div>
 
-      <form className='flex flex-col justify-center space-y-4' onSubmit={handleSubmit}>
+      <form className='flex flex-col justify-center space-y-3' onSubmit={handleSubmit}>
         <InputField
           label='Email'
           type='email'
@@ -75,7 +75,7 @@ function SignInForm ({ onError }: { onError: (error: string) => void }): React.R
         />
         <Button
           type='submit'
-          size='lg'
+          size='md'
           disabled={isLoading}
           variant='primary'
         >

@@ -1,6 +1,6 @@
 # 🗺️ Architecture des routes
 
-Documentation de la structure des routes de l'application Tamagotcho après refactoring.
+Documentation de la structure des routes de l'application ATTM après refactoring.
 
 ## 📋 Vue d'ensemble
 

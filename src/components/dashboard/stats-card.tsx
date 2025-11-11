@@ -8,8 +8,8 @@ interface StatsCardProps {
   value: number | string
   /** Description complémentaire */
   description: string
-  /** Couleur thématique pour la bordure (lochinvar, fuchsia-blue, moccaccino) */
-  color: 'lochinvar' | 'fuchsia-blue' | 'moccaccino'
+  /** Couleur thématique pour la bordure (electric, neon-purple, neutral) */
+  color: 'electric' | 'neon-purple' | 'neutral'
   /** Si true, la carte prend toute la largeur disponible */
   fullWidth?: boolean
 }
@@ -28,7 +28,7 @@ interface StatsCardProps {
  *   title="Compagnons"
  *   value={5}
  *   description="Monstres prêts pour l'aventure"
- *   color="lochinvar"
+ *   color="electric"
  * />
  */
 export function StatsCard ({
@@ -40,15 +40,15 @@ export function StatsCard ({
 }: StatsCardProps): React.ReactNode {
   // Mapping des couleurs aux classes Tailwind
   const ringColorClass = {
-    lochinvar: 'ring-lochinvar-200/60',
-    'fuchsia-blue': 'ring-fuchsia-blue-200/60',
-    moccaccino: 'ring-moccaccino-200/60'
+    electric: 'ring-electric-200/60',
+    'neon-purple': 'ring-neon-purple-200/60',
+    neutral: 'ring-neutral-200/60'
   }[color]
 
   const textColorClass = {
-    lochinvar: 'text-lochinvar-500',
-    'fuchsia-blue': 'text-fuchsia-blue-500',
-    moccaccino: 'text-moccaccino-500'
+    electric: 'text-electric-500',
+    'neon-purple': 'text-neon-purple-500',
+    neutral: 'text-neutral-500'
   }[color]
 
   const widthClass = fullWidth ? 'sm:col-span-2' : ''

@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic'
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Tamagotcho Documentation',
+  title: 'ATTM Documentation',
   tagline: 'Documentation technique du projet Tamagotchi My Digital School',
   favicon: 'img/favicon.ico',
 

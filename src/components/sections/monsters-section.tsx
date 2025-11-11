@@ -8,15 +8,15 @@ export default function MonstersSection (): React.ReactNode {
   ]
 
   return (
-    <section id='monsters' className='bg-[color:var(--background)] max-w-6xl mx-auto px-6 py-12'>
-      <h2 className='text-2xl font-bold mb-6 text-blue-600'>Quelques monstres mignons</h2>
-      <div className='grid sm:grid-cols-3 gap-6'>
+    <section id='monsters' className='bg-[color:var(--background)] max-w-4xl mx-auto px-6 py-8'>
+      <h2 className='text-xl font-bold mb-4 text-[color:var(--color-electric-600)]'>Quelques monstres mignons</h2>
+      <div className='grid sm:grid-cols-3 gap-4'>
         {list.map((m) => (
-          <div key={m.name} className='p-5 rounded-xl border border-[color:var(--color-black-100)] bg-white'>
-            <div className='text-6xl'>{m.emoji}</div>
-            <div className='mt-3 font-semibold text-black'>{m.name}</div>
-            <div className='text-sm mt-1 text-black'>{m.desc}</div>
-            <div className='mt-4 flex gap-2'>
+          <div key={m.name} className='p-4 rounded-lg border border-[color:var(--color-neutral-200)] bg-white'>
+            <div className='text-4xl'>{m.emoji}</div>
+            <div className='mt-2 font-semibold text-sm text-[color:var(--foreground)]'>{m.name}</div>
+            <div className='text-xs mt-1 text-[color:var(--foreground)]'>{m.desc}</div>
+            <div className='mt-3 flex gap-2'>
               <Button size='sm' variant='ghost'>Voir</Button>
               <Button size='sm' variant='outline'>Adopter</Button>
             </div>

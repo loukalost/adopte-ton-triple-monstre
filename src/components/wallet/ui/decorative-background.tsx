@@ -9,9 +9,9 @@ export function DecorativeBackground (): React.ReactElement {
     <>
       {/* Bulles décoratives animées */}
       <div className='pointer-events-none fixed inset-0 overflow-hidden'>
-        <div className='absolute -right-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-yellow-300/30 to-orange-400/30 blur-3xl animate-float' />
-        <div className='absolute -left-32 bottom-20 h-96 w-96 rounded-full bg-gradient-to-br from-pink-300/30 to-purple-400/30 blur-3xl animate-float-delayed' />
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-orange-300/20 to-red-400/20 blur-3xl animate-pulse-slow' />
+        <div className='absolute -right-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-[color:var(--color-electric-300)]/30 to-[color:var(--color-neon-purple-400)]/30 blur-3xl animate-float' />
+        <div className='absolute -left-32 bottom-20 h-96 w-96 rounded-full bg-gradient-to-br from-[color:var(--color-neon-purple-300)]/30 to-[color:var(--color-electric-400)]/30 blur-3xl animate-float-delayed' />
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-gradient-to-br from-[color:var(--color-electric-300)]/20 to-[color:var(--color-neon-purple-400)]/20 blur-3xl animate-pulse-slow' />
       </div>
 
       {/* Étoiles décoratives */}

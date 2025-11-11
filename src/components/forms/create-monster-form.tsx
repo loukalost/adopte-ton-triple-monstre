@@ -78,7 +78,7 @@ function CreateMonsterForm ({ onSubmit, onCancel }: CreateMonsterFormProps): Rea
   }
 
   return (
-    <form className='space-y-6' onSubmit={handleSubmit}>
+    <form className='space-y-4' onSubmit={handleSubmit}>
       <InputField
         label='Nom'
         name='name'
@@ -92,15 +92,15 @@ function CreateMonsterForm ({ onSubmit, onCancel }: CreateMonsterFormProps): Rea
         error={errors.name}
       />
 
-      <section className='space-y-4 rounded-3xl border border-moccaccino-100 bg-white/60 p-4 shadow-inner'>
-        <div className='flex items-center justify-between gap-3'>
-          <h3 className='text-lg font-semibold text-gray-800'>Votre créature</h3>
-          <Button onClick={handleGenerateMonster} type='button' variant='outline'>
+      <section className='space-y-3 rounded-lg border border-[color:var(--color-electric-200)] bg-white/60 p-3 shadow-sm'>
+        <div className='flex items-center justify-between gap-2'>
+          <h3 className='text-base font-semibold text-gray-800'>Votre créature</h3>
+          <Button onClick={handleGenerateMonster} type='button' variant='outline' size='sm'>
             Générer mon monstre
           </Button>
         </div>
 
-        <div className='flex items-center justify-center rounded-3xl bg-slate-50/70 p-4'>
+        <div className='flex items-center justify-center rounded-lg bg-slate-50/70 p-3'>
           {traits !== null && (
             <PixelMonster traits={traits} state={previewState} level={1} />
           )}
@@ -120,17 +120,17 @@ function CreateMonsterForm ({ onSubmit, onCancel }: CreateMonsterFormProps): Rea
         </div>
 
         {errors.design !== undefined && (
-          <span className='text-sm text-red-500'>
+          <span className='text-xs text-red-500'>
             {errors.design}
           </span>
         )}
       </section>
 
-      <div className='flex justify-end gap-3'>
-        <Button onClick={handleCancel} type='button' variant='ghost'>
+      <div className='flex justify-end gap-2'>
+        <Button onClick={handleCancel} type='button' variant='ghost' size='sm'>
           Annuler
         </Button>
-        <Button disabled={hasActiveErrors} type='submit'>
+        <Button disabled={hasActiveErrors} type='submit' size='sm'>
           Créer
         </Button>
       </div>

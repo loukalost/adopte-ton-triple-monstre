@@ -38,13 +38,13 @@ export default async function WalletPage (): Promise<React.ReactNode> {
   } catch (error) {
     console.error('Error loading wallet:', error)
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50'>
-        <div className='bg-white rounded-3xl shadow-2xl p-8 max-w-md text-center'>
+      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-[color:var(--color-electric-50)] via-[color:var(--color-neon-purple-50)] to-[color:var(--color-neutral-50)]'>
+        <div className='bg-[color:var(--color-neutral-50)] rounded-3xl shadow-2xl p-8 max-w-md text-center'>
           <div className='text-6xl mb-4'>😢</div>
-          <h1 className='text-2xl font-bold text-gray-800 mb-2'>
+          <h1 className='text-2xl font-bold text-[color:var(--color-neutral-800)] mb-2'>
             Erreur de chargement
           </h1>
-          <p className='text-gray-600'>
+          <p className='text-[color:var(--color-neutral-600)]'>
             Impossible de charger votre wallet. Veuillez réessayer plus tard.
           </p>
         </div>

@@ -30,9 +30,9 @@ interface TraitItemProps {
  */
 export function TraitItem ({ label, value }: TraitItemProps): React.ReactNode {
   return (
-    <div className='flex justify-between items-center py-2 border-b border-fuchsia-blue-100 last:border-b-0'>
-      <span className='text-fuchsia-blue-700 font-medium'>{label}</span>
-      <span className='text-fuchsia-blue-900 font-bold'>{value}</span>
+    <div className='flex justify-between items-center py-2 border-b border-neon-purple-100 last:border-b-0'>
+      <span className='text-neon-purple-700 font-medium'>{label}</span>
+      <span className='text-neon-purple-900 font-bold'>{value}</span>
     </div>
   )
 }
@@ -63,8 +63,8 @@ interface CreatureTraitsPanelProps {
  */
 export function CreatureTraitsPanel ({ traits }: CreatureTraitsPanelProps): React.ReactNode {
   return (
-    <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border-4 border-fuchsia-blue-200'>
-      <h2 className='text-2xl font-bold text-fuchsia-blue-600 mb-4'>
+    <div className='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border-4 border-neon-purple-200'>
+      <h2 className='text-2xl font-bold text-neon-purple-600 mb-4'>
         Caractéristiques
       </h2>
       <div className='space-y-3'>

@@ -19,9 +19,9 @@ const MONSTER_STATE_LABELS: Record<MonsterState, string> = {
  * Mapping des états vers leurs classes CSS de badge
  */
 const STATE_BADGE_CLASSES: Record<MonsterState, string> = {
-  happy: 'bg-lochinvar-100 text-lochinvar-700 ring-1 ring-inset ring-lochinvar-200',
-  sad: 'bg-fuchsia-blue-100 text-fuchsia-blue-700 ring-1 ring-inset ring-fuchsia-blue-200',
-  angry: 'bg-moccaccino-100 text-moccaccino-600 ring-1 ring-inset ring-moccaccino-200',
+  happy: 'bg-electric-100 text-electric-700 ring-1 ring-inset ring-electric-200',
+  sad: 'bg-neon-purple-100 text-neon-purple-700 ring-1 ring-inset ring-neon-purple-200',
+  angry: 'bg-red-100 text-red-600 ring-1 ring-inset ring-red-200',
   hungry: 'bg-amber-100 text-amber-700 ring-1 ring-inset ring-amber-200',
   sleepy: 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-200'
 }
