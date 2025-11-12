@@ -131,7 +131,7 @@ export async function addKoins (amount: number): Promise<DBWallet> {
     await wallet.save()
 
     // Revalidation du cache pour rafraîchir la page wallet
-    revalidatePath('/wallet')
+    revalidatePath('/app/wallet')
 
     // Sérialisation JSON pour éviter les problèmes de typage Next.js
     return JSON.parse(JSON.stringify(wallet))
@@ -205,7 +205,7 @@ export async function subtractKoins (amount: number): Promise<DBWallet> {
     await wallet.save()
 
     // Revalidation du cache pour rafraîchir la page wallet
-    revalidatePath('/wallet')
+    revalidatePath('/app/wallet')
 
     // Sérialisation JSON pour éviter les problèmes de typage Next.js
     return JSON.parse(JSON.stringify(wallet))

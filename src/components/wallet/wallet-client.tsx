@@ -2,7 +2,7 @@
 
 import type React from 'react'
 import { type DBWallet } from '@/actions/wallet.actions'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePaymentModal } from '@/hooks/wallet/usePaymentModal'
 import { useWalletPayment } from '@/hooks/wallet/useWalletPayment'
 import { walletPackages } from '@/config/wallet-packages'
@@ -11,6 +11,9 @@ import { KoinPackageCard } from './koin-package-card'
 import { PaymentFeatures } from './payment-features'
 import PaymentModal from './payment-modal'
 import { AnimatedEmoji } from './ui/animated-emoji'
+import { AccessoriesShop } from '@/components/shop/accessories-shop'
+
+type ShopCategory = 'koins' | 'accessories'
 
 interface WalletClientProps {
   initialWallet: DBWallet
@@ -28,9 +31,21 @@ interface WalletClientProps {
  * @param {DBWallet} props.initialWallet - Le wallet initial de l'utilisateur
  */
 export default function WalletClient ({ initialWallet }: WalletClientProps): React.ReactElement {
-  const [wallet] = useState<DBWallet>(initialWallet)
+  const [wallet, setWallet] = useState<DBWallet>(initialWallet)
+  const [shopCategory, setShopCategory] = useState<ShopCategory>('koins')
   const { isPurchasing, error, handlePurchase } = useWalletPayment()
   const { showModal, modalType, closeModal } = usePaymentModal()
+
+  // Met à jour le wallet local quand initialWallet change (après router.refresh())
+  useEffect(() => {
+    setWallet(initialWallet)
+  }, [initialWallet])
+
+  // Callback pour rafraîchir le wallet après un achat d'accessoire
+  const handleAccessoryPurchaseSuccess = (): void => {
+    // Recharger la page pour mettre à jour le solde
+    window.location.reload()
+  }
 
   return (
     <div className='min-h-screen bg-[color:var(--color-neutral-50)] p-4'>
@@ -59,38 +74,89 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
         {/* Solde du wallet */}
         <WalletBalance balance={wallet.balance} />
 
+        {/* Onglets de catégorie */}
+        <div className='flex justify-center gap-4 mb-6'>
+          <button
+            onClick={() => { setShopCategory('koins') }}
+            className={`px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
+              shopCategory === 'koins'
+                ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
+                : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
+            }`}
+          >
+            <span className='mr-2'>🪙</span>
+            Acheter des Koins
+          </button>
+          <button
+            onClick={() => { setShopCategory('accessories') }}
+            className={`px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
+              shopCategory === 'accessories'
+                ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
+                : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
+            }`}
+          >
+            <span className='mr-2'>🎨</span>
+            Accessoires
+          </button>
+        </div>
+
         {/* Message d'erreur */}
-        {error !== null && (
+        {error !== null && shopCategory === 'koins' && (
           <div className='bg-red-100 border-2 border-red-300 text-red-700 px-4 py-3 rounded-lg mb-4 text-center text-sm font-medium shadow'>
             <span className='text-xl mr-2'>⚠️</span>
             {error}
           </div>
         )}
 
-        {/* Titre de la boutique */}
-        <div className='text-center mb-4'>
-          <h2 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-2'>
-            Choisis ton Pack de Koins ! 🎁
-          </h2>
-          <p className='text-sm text-[color:var(--color-neutral-600)] font-medium'>
-            Paiement sécurisé par Stripe 🔒
-          </p>
-        </div>
+        {/* Contenu selon la catégorie sélectionnée */}
+        {shopCategory === 'koins'
+          ? (
+            <>
+              {/* Titre de la boutique Koins */}
+              <div className='text-center mb-4'>
+                <h2 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-2'>
+                  Choisis ton Pack de Koins ! 🎁
+                </h2>
+                <p className='text-sm text-[color:var(--color-neutral-600)] font-medium'>
+                  Paiement sécurisé par Stripe 🔒
+                </p>
+              </div>
 
-        {/* Grille des packages */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6'>
-          {walletPackages.map((pkg) => (
-            <KoinPackageCard
-              key={pkg.amount}
-              package={pkg}
-              isPurchasing={isPurchasing}
-              onPurchase={(amount) => { void handlePurchase(amount) }}
-            />
-          ))}
-        </div>
+              {/* Grille des packages */}
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6'>
+                {walletPackages.map((pkg) => (
+                  <KoinPackageCard
+                    key={pkg.amount}
+                    package={pkg}
+                    isPurchasing={isPurchasing}
+                    onPurchase={(amount) => { void handlePurchase(amount) }}
+                  />
+                ))}
+              </div>
 
-        {/* Informations supplémentaires */}
-        <PaymentFeatures />
+              {/* Informations supplémentaires */}
+              <PaymentFeatures />
+            </>
+            )
+          : (
+            <>
+              {/* Titre de la boutique Accessoires */}
+              <div className='text-center mb-4'>
+                <h2 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-2'>
+                  Personnalise tes Créatures ! 🎨
+                </h2>
+                <p className='text-sm text-[color:var(--color-neutral-600)] font-medium'>
+                  Achète des accessoires avec tes Koins
+                </p>
+              </div>
+
+              {/* Boutique d'accessoires */}
+              <AccessoriesShop
+                currentKoins={wallet.balance}
+                onPurchaseSuccess={handleAccessoryPurchaseSuccess}
+              />
+            </>
+            )}
       </div>
 
       {/* Modal de confirmation/erreur de paiement */}

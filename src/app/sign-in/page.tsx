@@ -1,5 +1,5 @@
 import AuthFormContent from '@/components/forms/auth-form-content'
-import { connectMongooseToDatabase } from '@/db'
+import { connectToDatabase } from '@/db'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation'
  * @returns {Promise<React.ReactNode>} Page de connexion ou redirection
  */
 async function SignInPage (): Promise<React.ReactNode> {
-  await connectMongooseToDatabase()
+  await connectToDatabase()
 
   // Vérifier si l'utilisateur est déjà connecté
   const session = await auth.api.getSession({

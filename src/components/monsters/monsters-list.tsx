@@ -1,4 +1,9 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import type { DBMonster } from '@/types/monster'
+import type { OwnedAccessory } from '@/types/accessories'
+import { getCreatureAccessories } from '@/actions/accessories.actions'
 import { EmptyMonstersState } from './empty-monsters-state'
 import { MonsterCard } from './monster-card'
 
@@ -27,6 +32,34 @@ interface MonstersListProps {
  * @returns {React.ReactNode} Grille de monstres ou état vide
  */
 function MonstersList ({ monsters, className }: MonstersListProps): React.ReactNode {
+  // État pour stocker les accessoires de chaque monstre
+  const [monstersAccessories, setMonstersAccessories] = useState<Record<string, OwnedAccessory[]>>({})
+
+  // Charger les accessoires pour tous les monstres
+  useEffect(() => {
+    const loadAccessories = async (): Promise<void> => {
+      const accessoriesMap: Record<string, OwnedAccessory[]> = {}
+
+      await Promise.all(
+        monsters.map(async (monster) => {
+          try {
+            const accessories = await getCreatureAccessories(monster._id)
+            accessoriesMap[monster._id] = accessories
+          } catch (error) {
+            console.error(`Error loading accessories for monster ${monster._id}:`, error)
+            accessoriesMap[monster._id] = []
+          }
+        })
+      )
+
+      setMonstersAccessories(accessoriesMap)
+    }
+
+    if (monsters.length > 0) {
+      void loadAccessories()
+    }
+  }, [monsters])
+
   // Affichage de l'état vide si aucun monstre
   if (monsters === null || monsters === undefined || monsters.length === 0) {
     return <EmptyMonstersState className={className} />
@@ -81,6 +114,7 @@ function MonstersList ({ monsters, className }: MonstersListProps): React.ReactN
               level={monster.level}
               createdAt={String(monster.createdAt)}
               updatedAt={String(monster.updatedAt)}
+              accessories={monstersAccessories[monster._id] ?? []}
             />
           )
         })}

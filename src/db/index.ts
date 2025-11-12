@@ -22,6 +22,15 @@ async function connectMongooseToDatabase (): Promise<void> {
   }
 }
 
+async function connectToDatabase (): Promise<void> {
+  try {
+    await client.connect()
+    console.log('Connected to MongoDB database')
+  } catch (error) {
+    console.error('Error connecting to the database:', error)
+  }
+}
+
 // Promise globale pour réutiliser la connexion
 let clientPromise: Promise<MongoClient>
 
@@ -40,5 +49,5 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect()
 }
 
-export { client, connectMongooseToDatabase }
+export { client, connectToDatabase, connectMongooseToDatabase }
 export default clientPromise

@@ -1,5 +1,4 @@
 import { getWallet } from '@/actions/wallet.actions'
-import { AppLayout } from '@/components/navigation'
 import WalletClient from '@/components/wallet/wallet-client'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'

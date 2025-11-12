@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import type { OwnedAccessory } from '@/types/accessories'
+import { drawHat, drawGlasses, drawShoes } from '@/lib/utils/draw-accessories'
+import { accessoriesCatalog } from '@/config/accessories.config'
 
 type MonsterState = 'happy' | 'sad' | 'hungry' | 'sleepy' | 'angry'
 type MonsterAction = 'feed' | 'comfort' | 'hug' | 'wake' | null
@@ -28,6 +31,7 @@ interface PixelMonsterProps {
   traits?: MonsterTraits
   level?: number
   currentAction?: MonsterAction
+  equippedAccessories?: OwnedAccessory[]
 }
 
 const defaultTraits: MonsterTraits = {
@@ -60,7 +64,8 @@ export function PixelMonster ({
   state,
   traits = defaultTraits,
   level = 1,
-  currentAction = null
+  currentAction = null,
+  equippedAccessories = []
 }: PixelMonsterProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const frameRef = useRef(0)
@@ -92,7 +97,7 @@ export function PixelMonster ({
         }
       }
 
-      drawMonster(ctx, state, frameRef.current, traits, level, currentActionRef.current, actionFrameRef.current, particlesRef.current)
+      drawMonster(ctx, state, frameRef.current, traits, level, currentActionRef.current, actionFrameRef.current, particlesRef.current, equippedAccessories)
       animationId = requestAnimationFrame(animate)
     }
 
@@ -103,7 +108,7 @@ export function PixelMonster ({
         cancelAnimationFrame(animationId)
       }
     }
-  }, [state, traits, level])
+  }, [state, traits, level, equippedAccessories])
 
   useEffect(() => {
     if (currentAction !== null && currentAction !== currentActionRef.current) {
@@ -159,7 +164,8 @@ function drawMonster (
   level: number,
   currentAction: MonsterAction,
   actionFrame: number,
-  particles: Particle[]
+  particles: Particle[],
+  equippedAccessories: OwnedAccessory[]
 ): void {
   const pixelSize = 6
   const bounce = Math.sin(frame * 0.05) * 3
@@ -263,6 +269,9 @@ function drawMonster (
 
   drawStateEffects(ctx, state, bodyY, pixelSize, frame)
 
+  // Dessiner les accessoires équipés (hats, glasses, shoes)
+  drawEquippedAccessories(ctx, equippedAccessories, 80, bodyY, pixelSize, frame, armWave)
+
   ctx.restore()
 
   // Dessiner les particules
@@ -274,6 +283,44 @@ function drawMonster (
   if (currentAction !== null && actionFrame < 150) {
     drawActionBackground(ctx, currentAction, actionFrame)
   }
+}
+
+/**
+ * Dessine les accessoires équipés (hats, glasses, shoes)
+ */
+function drawEquippedAccessories (
+  ctx: CanvasRenderingContext2D,
+  equippedAccessories: OwnedAccessory[],
+  x: number,
+  bodyY: number,
+  pixelSize: number,
+  frame: number,
+  armWave: number
+): void {
+  if (equippedAccessories.length === 0) return
+
+  equippedAccessories.forEach((ownedAccessory) => {
+    const catalogItem = accessoriesCatalog.find(acc => acc.id === ownedAccessory.accessoryId)
+    if (catalogItem == null || catalogItem.drawData == null) return
+
+    const { drawData } = catalogItem
+    const primaryColor = drawData.primaryColor
+    const secondaryColor = drawData.secondaryColor ?? primaryColor
+    const offsetX = drawData.offsetX ?? 0
+    const offsetY = drawData.offsetY ?? 0
+
+    switch (catalogItem.category) {
+      case 'hat':
+        drawHat(ctx, drawData.type as any, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize, frame)
+        break
+      case 'glasses':
+        drawGlasses(ctx, drawData.type as any, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize)
+        break
+      case 'shoes':
+        drawShoes(ctx, drawData.type as any, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize, armWave)
+        break
+    }
+  })
 }
 
 function drawParticles (ctx: CanvasRenderingContext2D, particles: Particle[], actionFrame: number): void {

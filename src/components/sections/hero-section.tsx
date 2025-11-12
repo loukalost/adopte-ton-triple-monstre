@@ -13,7 +13,7 @@ export default function HeroSection (): React.ReactNode {
         <p className='mt-3 text-base text-[color:var(--foreground)]'>Prends soin d'un compagnon virtuel, joue, fais-le évoluer et partage ton monstre unique avec la communauté.</p>
 
         <div className='mt-4 flex flex-wrap gap-2 items-center'>
-          <a href='/signup'>
+          <a href='/sign-in'>
             <Button size='md' variant='primary'>S'inscrire — c'est gratuit</Button>
           </a>
           <a href='#monsters' className='text-xs text-[color:var(--foreground)] hover:underline'>Découvrir des monstres</a>

@@ -2,5 +2,5 @@
 import { redirect } from 'next/navigation'
 
 export async function redirectToDashboard (): Promise<void> {
-  redirect('/dashboard')
+  redirect('/app')
 }

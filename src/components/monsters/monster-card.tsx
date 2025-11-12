@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { PixelMonster } from '@/components/monsters'
 import { MonsterStateBadge, isMonsterState } from './monster-state-badge'
 import type { MonsterState } from '@/types/monster'
+import type { OwnedAccessory } from '@/types/accessories'
 import { parseMonsterTraits, formatAdoptionDate } from '@/lib/utils'
 
 /**
@@ -22,6 +23,8 @@ interface MonsterCardProps {
   createdAt: string | undefined
   /** Date de dernière mise à jour du monstre */
   updatedAt: string | undefined
+  /** Accessoires équipés sur le monstre (optionnel) */
+  accessories?: OwnedAccessory[]
 }
 
 /**
@@ -46,12 +49,16 @@ export function MonsterCard ({
   state,
   level,
   createdAt,
-  updatedAt
+  updatedAt,
+  accessories = []
 }: MonsterCardProps): React.ReactNode {
   // Parsing des traits et normalisation des données
   const traits = parseMonsterTraits(rawTraits)
   const adoptionDate = formatAdoptionDate(String(createdAt) ?? String(updatedAt))
   const levelLabel = level ?? 1
+
+  // TODO: Les accessoires sont maintenant rendus directement sur le Canvas du monstre
+  // via le composant PixelMonster avec la prop equippedAccessories
 
   return (
     <Link href={`/creatures/${id}`}>
@@ -75,6 +82,8 @@ export function MonsterCard ({
             <div className='absolute top-2 left-2'>
               <MonsterStateBadge state={state} />
             </div>
+
+            {/* Les accessoires sont désormais affichés directement sur le monstre via PixelMonster */}
           </div>
 
           {/* Informations textuelles */}

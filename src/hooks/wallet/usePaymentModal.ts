@@ -28,18 +28,21 @@ export function usePaymentModal (): UsePaymentModalReturn {
     if (success === 'true') {
       setModalType('success')
       setShowModal(true)
+      // Force le rechargement des données depuis le serveur après un paiement réussi
+      router.refresh()
     } else if (success === 'false') {
       setModalType('error')
       setShowModal(true)
     }
-  }, [success])
+  }, [success, router])
 
   /**
    * Ferme le modal et nettoie l'URL
    */
   const closeModal = (): void => {
     setShowModal(false)
-    router.replace('/wallet')
+    router.replace('/app/wallet')
+    router.refresh() // Force le rechargement des données depuis le serveur
   }
 
   return {

@@ -13,18 +13,18 @@ export interface PricingPackage {
 export const pricingTable: Record<number, PricingPackage> = {
   10: {
     productId: 'prod_TJrIJITcL4IHs3',
-    price: 0.05
+    price: 0.99
   },
   50: {
     productId: 'prod_TJrJcuzsBuRDse',
-    price: 0.2
+    price: 3.99
   },
   500: {
     productId: 'prod_TJrJvU3OyU8HoJ',
-    price: 1.5
+    price: 29.99
   },
   1000: {
     productId: 'prod_TJrK272JmJ5tGA',
-    price: 2
+    price: 49.99
   }
 }

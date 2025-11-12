@@ -42,5 +42,5 @@ export async function buyXpBoost (creatureId: string, boostId: string): Promise<
     monster.markModified('xp')
   }
   await monster.save()
-  revalidatePath(`/creature/${creatureId}`)
+  revalidatePath(`/creatures/${creatureId}`)
 }

@@ -1,8 +1,10 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import type { MonsterTraits, DBMonster } from '@/types/monster'
 import type { MonsterAction } from '@/hooks/monsters'
+import type { OwnedAccessory, MonsterEquipment } from '@/types/accessories'
+import { getCreatureAccessories } from '@/actions/accessories.actions'
 import { parseMonsterTraits } from '@/lib/utils'
 import { CreatureMonsterDisplay } from './creature-monster-display'
 import { CreatureStatsPanel } from './creature-stats-panel'
@@ -11,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { ShopModal } from './shop-modal'
 import { CreatureTraitsPanel } from './creature-traits-panel'
 import { CreatureColorsPanel } from './creature-colors-panel'
+import { AccessorySlot } from '@/components/accessories/accessory-slot'
 
 /**
  * Props pour le composant CreaturePageClient
@@ -18,31 +21,43 @@ import { CreatureColorsPanel } from './creature-colors-panel'
 interface CreaturePageClientProps {
   /** Données du monstre à afficher */
   monster: DBMonster
+  /** Accessoires équipés sur le monstre */
+  accessories: OwnedAccessory[]
 }
 
 /**
  * Composant client de la page de détail d'une créature - Version Jeu Vidéo Fun
  *
  * Responsabilité unique : orchestrer l'affichage de toutes les sections
- * de la page de détail (header, monstre animé, stats, traits, couleurs).
+ * de la page de détail (header, monstre animé, stats, traits, couleurs, personnalisation).
  *
  * Nouveau design :
  * - Fond ultra coloré avec animations
  * - Mise en avant du monstre
  * - Panels fun et engageants
+ * - Section de personnalisation avec accessoires
  *
  * @param {CreaturePageClientProps} props - Props du composant
  * @returns {React.ReactNode} Page complète de détail de la créature
  */
-export function CreaturePageClient ({ monster }: CreaturePageClientProps): React.ReactNode {
+export function CreaturePageClient ({ monster, accessories }: CreaturePageClientProps): React.ReactNode {
   const [currentAction, setCurrentAction] = useState<MonsterAction>(null)
   const [currentMonster, setCurrentMonster] = useState<DBMonster>(monster)
+  const [currentAccessories, setCurrentAccessories] = useState<OwnedAccessory[]>(accessories)
   const [showXpGain, setShowXpGain] = useState(false)
   const [xpGained, setXpGained] = useState(0)
   const [showLevelUp, setShowLevelUp] = useState(false)
   const [showShop, setShowShop] = useState(false)
   const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
+
+  // Organiser les accessoires par catégorie
+  const equipment: MonsterEquipment = {
+    monsterId: currentMonster._id,
+    hat: currentAccessories.find(a => a.accessoryId.startsWith('hat-')) ?? null,
+    glasses: currentAccessories.find(a => a.accessoryId.startsWith('glasses-')) ?? null,
+    shoes: currentAccessories.find(a => a.accessoryId.startsWith('shoes-')) ?? null
+  }
 
   // Parse des traits depuis le JSON stocké en base
   const traits: MonsterTraits = parseMonsterTraits(monster.traits) ?? {
@@ -102,6 +117,25 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
 
     return () => clearInterval(interval)
   }, [monster, currentMonster])
+
+  // Rafraîchir les accessoires quand ils changent
+  const refreshAccessories = useCallback(async () => {
+    try {
+      const updatedAccessories = await getCreatureAccessories(currentMonster._id)
+      setCurrentAccessories(updatedAccessories)
+    } catch (error) {
+      console.error('Erreur lors du rafraîchissement des accessoires :', error)
+    }
+  }, [currentMonster._id])
+
+  // Rafraîchir les accessoires périodiquement pour synchroniser avec les équipements
+  useEffect(() => {
+    const interval = setInterval(() => {
+      void refreshAccessories()
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [refreshAccessories])
 
   // Nettoyage du timer d'action au démontage du composant
   useEffect(() => {
@@ -170,7 +204,7 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
 
         {/* Grille principale - Alignée */}
         <div className='grid lg:grid-cols-2 gap-6 items-start'>
-          {/* Colonne gauche : Monstre animé + Actions */}
+          {/* Colonne gauche : Monstre animé + Actions + Personnalisation */}
           <div className='space-y-6'>
             <CreatureMonsterDisplay
               traits={traits}
@@ -180,6 +214,35 @@ export function CreaturePageClient ({ monster }: CreaturePageClientProps): React
               onAction={handleAction}
               monsterId={currentMonster._id}
             />
+
+            {/* Section personnalisation avec accessoires */}
+            <div className='rounded-lg bg-white p-6 shadow-lg border border-[color:var(--color-neutral-200)]'>
+              <div className='flex items-center gap-2 mb-4'>
+                <span className='text-2xl'>🎨</span>
+                <h2 className='text-xl font-bold text-[color:var(--color-electric-600)]'>
+                  Personnalisation
+                </h2>
+              </div>
+
+              {/* Grille des slots d'accessoires */}
+              <div className='grid grid-cols-3 gap-4'>
+                <AccessorySlot
+                  monsterId={currentMonster._id}
+                  category='hat'
+                  equipped={equipment.hat}
+                />
+                <AccessorySlot
+                  monsterId={currentMonster._id}
+                  category='glasses'
+                  equipped={equipment.glasses}
+                />
+                <AccessorySlot
+                  monsterId={currentMonster._id}
+                  category='shoes'
+                  equipped={equipment.shoes}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Colonne droite : Statistiques */}

@@ -60,7 +60,7 @@ export async function createMonster (monsterData: CreateMonsterFormValues): Prom
   await monster.save()
 
   // Revalidation du cache pour rafraîchir le dashboard
-  revalidatePath('/dashboard')
+  revalidatePath('/app')
 }
 
 /**

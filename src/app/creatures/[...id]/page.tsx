@@ -1,4 +1,5 @@
 import { getMonsterById } from '@/actions/monsters.actions'
+import { getCreatureAccessories } from '@/actions/accessories.actions'
 import ErrorClient from '@/components/error-client'
 import { CreaturePageClient } from '@/components/creature/creature-page-client'
 import { AppLayout } from '@/components/navigation'
@@ -41,10 +42,13 @@ export default async function Page ({ params }: { params: Promise<{ id: string |
     )
   }
 
+  // Récupération des accessoires équipés sur ce monstre
+  const accessories = await getCreatureAccessories(id)
+
   // Affichage de la page de détail
   return (
     <AppLayout>
-      <CreaturePageClient monster={monster} />
+      <CreaturePageClient monster={monster} accessories={accessories} />
     </AppLayout>
   )
 }

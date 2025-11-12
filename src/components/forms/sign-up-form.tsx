@@ -30,7 +30,7 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
       email: credentials.email,
       password: credentials.password,
       name: credentials.name,
-      callbackURL: '/dashboard'
+      callbackURL: '/app'
     }, {
       onRequest: (ctx) => {
         console.log('Signing up...', ctx)
