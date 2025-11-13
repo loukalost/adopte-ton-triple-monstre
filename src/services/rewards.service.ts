@@ -12,18 +12,8 @@
  */
 
 import type { MonsterAction } from '@/types/monster-action'
-
-/**
- * Configuration des récompenses par action
- */
-export interface RewardConfig {
-  /** Montant de Koins gagnés */
-  koins: number
-  /** Message de succès à afficher */
-  message: string
-  /** Emoji associé à la récompense */
-  emoji: string
-}
+import { REWARDS_CONFIG } from '@/config/rewards'
+import type { RewardConfig } from '@/config/rewards'
 
 /**
  * Résultat d'une récompense
@@ -41,34 +31,8 @@ export interface RewardResult {
   timestamp: Date
 }
 
-/**
- * Configuration des récompenses par type d'action
- *
- * Respecte OCP (Open/Closed Principle) : Pour ajouter une nouvelle action,
- * il suffit d'ajouter une entrée ici sans modifier le reste du code.
- */
-const REWARDS_CONFIG: Record<NonNullable<MonsterAction>, RewardConfig> = {
-  feed: {
-    koins: 10,
-    message: 'Ton monstre est rassasié !',
-    emoji: '🍎'
-  },
-  comfort: {
-    koins: 15,
-    message: 'Ton monstre se sent mieux !',
-    emoji: '💙'
-  },
-  hug: {
-    koins: 12,
-    message: 'Ton monstre est tout content !',
-    emoji: '🤗'
-  },
-  wake: {
-    koins: 8,
-    message: 'Ton monstre est bien réveillé !',
-    emoji: '⏰'
-  }
-}
+// Ré-exporte RewardConfig pour compatibilité
+export type { RewardConfig }
 
 /**
  * Récupère la configuration de récompense pour une action
