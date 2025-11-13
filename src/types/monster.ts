@@ -35,6 +35,7 @@ export interface DBMonster {
   state: MonsterState
   ownerId: string
   backgroundId?: string // ID de l'arrière-plan appliqué (optionnel)
+  isPublic?: boolean // Mode public pour la galerie (optionnel, défaut: false)
   createdAt: Date
   updatedAt: Date
 }
