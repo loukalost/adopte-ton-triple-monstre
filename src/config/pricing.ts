@@ -12,19 +12,19 @@ export interface PricingPackage {
 
 export const pricingTable: Record<number, PricingPackage> = {
   10: {
-    productId: 'prod_TJrIJITcL4IHs3',
+    productId: 'prod_TPksUJ5bWtH6bA',
     price: 0.99
   },
   50: {
-    productId: 'prod_TJrJcuzsBuRDse',
+    productId: 'prod_TPktiyWzOoEAxD',
     price: 3.99
   },
   500: {
-    productId: 'prod_TJrJvU3OyU8HoJ',
+    productId: 'prod_TPkueER1X6PAaO',
     price: 29.99
   },
   1000: {
-    productId: 'prod_TJrK272JmJ5tGA',
+    productId: 'prod_TPkulod205ndzN',
     price: 49.99
   }
 }

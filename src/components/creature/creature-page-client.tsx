@@ -14,6 +14,8 @@ import { ShopModal } from './shop-modal'
 import { CreatureTraitsPanel } from './creature-traits-panel'
 import { CreatureColorsPanel } from './creature-colors-panel'
 import { AccessorySlot } from '@/components/accessories/accessory-slot'
+import { BackgroundSelector } from '@/components/backgrounds/background-selector'
+import { getBackgroundById } from '@/config/backgrounds.config'
 
 /**
  * Props pour le composant CreaturePageClient
@@ -48,6 +50,7 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
   const [xpGained, setXpGained] = useState(0)
   const [showLevelUp, setShowLevelUp] = useState(false)
   const [showShop, setShowShop] = useState(false)
+  const [showBackgroundSelector, setShowBackgroundSelector] = useState(false)
   const actionTimerRef = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
@@ -125,6 +128,19 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
       setCurrentAccessories(updatedAccessories)
     } catch (error) {
       console.error('Erreur lors du rafraîchissement des accessoires :', error)
+    }
+  }, [currentMonster._id])
+
+  // Rafraîchir le monstre pour obtenir le backgroundId mis à jour
+  const refreshMonster = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/monster?id=${currentMonster._id}`)
+      if (response.ok) {
+        const updatedMonster = await response.json()
+        setCurrentMonster(updatedMonster)
+      }
+    } catch (error) {
+      console.error('Erreur lors du rafraîchissement du monstre :', error)
     }
   }, [currentMonster._id])
 
@@ -213,6 +229,8 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
               currentAction={currentAction}
               onAction={handleAction}
               monsterId={currentMonster._id}
+              equippedAccessories={currentAccessories}
+              backgroundId={currentMonster.backgroundId}
             />
 
             {/* Section personnalisation avec accessoires */}
@@ -225,22 +243,57 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
               </div>
 
               {/* Grille des slots d'accessoires */}
-              <div className='grid grid-cols-3 gap-4'>
-                <AccessorySlot
-                  monsterId={currentMonster._id}
-                  category='hat'
-                  equipped={equipment.hat}
-                />
-                <AccessorySlot
-                  monsterId={currentMonster._id}
-                  category='glasses'
-                  equipped={equipment.glasses}
-                />
-                <AccessorySlot
-                  monsterId={currentMonster._id}
-                  category='shoes'
-                  equipped={equipment.shoes}
-                />
+              <div className='space-y-4'>
+                <div>
+                  <h3 className='text-sm font-bold text-[color:var(--color-neutral-600)] mb-2 uppercase tracking-wide'>
+                    Accessoires
+                  </h3>
+                  <div className='grid grid-cols-3 gap-4'>
+                    <AccessorySlot
+                      monsterId={currentMonster._id}
+                      category='hat'
+                      equipped={equipment.hat}
+                    />
+                    <AccessorySlot
+                      monsterId={currentMonster._id}
+                      category='glasses'
+                      equipped={equipment.glasses}
+                    />
+                    <AccessorySlot
+                      monsterId={currentMonster._id}
+                      category='shoes'
+                      equipped={equipment.shoes}
+                    />
+                  </div>
+                </div>
+
+                {/* Slot d'arrière-plan */}
+                <div>
+                  <h3 className='text-sm font-bold text-[color:var(--color-neutral-600)] mb-2 uppercase tracking-wide'>
+                    Arrière-plan
+                  </h3>
+                  <button
+                    onClick={() => { setShowBackgroundSelector(true) }}
+                    className='w-full p-4 rounded-xl bg-gradient-to-br from-[color:var(--color-electric-100)] to-[color:var(--color-electric-200)] border-2 border-[color:var(--color-electric-300)] hover:scale-105 hover:shadow-lg active:scale-95 transition-all duration-300 flex items-center justify-between'
+                  >
+                    <div className='flex items-center gap-3'>
+                      <span className='text-3xl'>🖼️</span>
+                      <div className='text-left'>
+                        <div className='font-bold text-[color:var(--color-neutral-800)]'>
+                          {currentMonster.backgroundId !== null && currentMonster.backgroundId !== undefined
+                            ? getBackgroundById(currentMonster.backgroundId)?.name ?? 'Arrière-plan'
+                            : 'Aucun arrière-plan'}
+                        </div>
+                        <div className='text-xs text-[color:var(--color-neutral-600)]'>
+                          {currentMonster.backgroundId !== null && currentMonster.backgroundId !== undefined
+                            ? 'Cliquer pour changer'
+                            : 'Cliquer pour choisir'}
+                        </div>
+                      </div>
+                    </div>
+                    <span className='text-2xl'>✨</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -276,6 +329,16 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
           onClose={() => { setShowShop(false) }}
           creatureName={currentMonster.name}
           creatureId={currentMonster._id}
+        />
+      )}
+
+      {/* Modal du sélecteur d'arrière-plan */}
+      {showBackgroundSelector && (
+        <BackgroundSelector
+          monsterId={currentMonster._id}
+          currentBackgroundId={currentMonster.backgroundId ?? null}
+          onClose={() => { setShowBackgroundSelector(false) }}
+          onSuccess={() => { void refreshMonster() }}
         />
       )}
 

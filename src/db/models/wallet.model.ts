@@ -12,9 +12,10 @@ const walletSchema = new Schema({
   /**
    * Identifiant du propriétaire du wallet
    * Référence l'utilisateur dans la collection 'user'
+   * Utilise String car Better Auth utilise des IDs string, pas ObjectId
    */
   ownerId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'user',
     required: true,
     unique: true // Un seul wallet par utilisateur

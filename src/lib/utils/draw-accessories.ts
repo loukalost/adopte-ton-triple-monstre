@@ -20,6 +20,14 @@ export function drawHat (
 ): void {
   const bobble = Math.sin(frame * 0.05) * 2
 
+  // Sauvegarder l'état du contexte pour appliquer la rotation
+  ctx.save()
+
+  // Retourner les chapeaux de 180 degrés (axe vertical)
+  ctx.translate(x, y)
+  ctx.scale(1, -1)
+  ctx.translate(-x, -y)
+
   ctx.fillStyle = primaryColor
 
   switch (type) {
@@ -170,6 +178,9 @@ export function drawHat (
       ctx.fillRect(x - pixelSize, y - 3 + bobble, pixelSize * 2, pixelSize * 3)
       break
   }
+
+  // Restaurer l'état du contexte après la rotation
+  ctx.restore()
 }
 
 /**
@@ -360,8 +371,8 @@ export function drawShoes (
 ): void {
   ctx.fillStyle = primaryColor
 
-  const leftShoeY = y + 54
-  const rightShoeY = y + 54
+  const leftShoeY = y
+  const rightShoeY = y
 
   switch (type) {
     case 'sneakers':

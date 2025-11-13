@@ -115,6 +115,7 @@ function MonstersList ({ monsters, className }: MonstersListProps): React.ReactN
               createdAt={String(monster.createdAt)}
               updatedAt={String(monster.updatedAt)}
               accessories={monstersAccessories[monster._id] ?? []}
+              backgroundId={monster.backgroundId}
             />
           )
         })}

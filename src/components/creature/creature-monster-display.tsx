@@ -1,7 +1,10 @@
 import { AnimatedMonster, MonsterActions } from '@/components/monsters'
 import type { MonsterTraits, MonsterState } from '@/types/monster'
 import type { MonsterAction } from '@/hooks/monsters'
+import type { OwnedAccessory } from '@/types/accessories'
 import { getStateLabel } from '@/lib/utils'
+import { getBackgroundById } from '@/config/backgrounds.config'
+import BackgroundRenderer from '@/components/backgrounds/background-renderer'
 
 /**
  * Props pour le composant CreatureMonsterDisplay
@@ -19,6 +22,10 @@ interface CreatureMonsterDisplayProps {
   onAction: (action: MonsterAction) => void
   /** ID du monstre */
   monsterId: string
+  /** Accessoires équipés (optionnel) */
+  equippedAccessories?: OwnedAccessory[]
+  /** ID de l'arrière-plan appliqué (optionnel) */
+  backgroundId?: string | null
 }
 
 /**
@@ -41,7 +48,9 @@ export function CreatureMonsterDisplay ({
   level,
   currentAction,
   onAction,
-  monsterId
+  monsterId,
+  equippedAccessories = [],
+  backgroundId = null
 }: CreatureMonsterDisplayProps): React.ReactNode {
   // Couleurs selon l'état - Version simplifiée
   const stateEmojis: Record<string, string> = {
@@ -54,17 +63,34 @@ export function CreatureMonsterDisplay ({
 
   const currentEmoji = stateEmojis[state] ?? stateEmojis.happy
 
+  // Récupérer l'arrière-plan si défini
+  const background = backgroundId !== null && backgroundId !== undefined ? getBackgroundById(backgroundId) : null
+
   return (
     <div className='rounded-lg bg-white p-6 shadow-lg border border-[color:var(--color-neutral-200)]'>
       {/* Zone d'affichage du monstre animé */}
       <div className='relative aspect-square max-w-md mx-auto mb-4'>
-        <div className='relative p-4'>
-          <AnimatedMonster
-            state={state}
-            traits={traits}
-            level={level}
-            currentAction={currentAction}
-          />
+        <div className='relative p-4 rounded-2xl overflow-hidden'>
+          {/* Arrière-plan (si défini) */}
+          {background !== null && (
+            <div className='absolute inset-0 z-0'>
+              <BackgroundRenderer
+                backgroundData={background.data}
+                className='w-full h-full'
+              />
+            </div>
+          )}
+
+          {/* Monstre au-dessus de l'arrière-plan */}
+          <div className='relative z-10'>
+            <AnimatedMonster
+              state={state}
+              traits={traits}
+              level={level}
+              currentAction={currentAction}
+              equippedAccessories={equippedAccessories}
+            />
+          </div>
         </div>
       </div>
 

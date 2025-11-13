@@ -12,8 +12,9 @@ import { PaymentFeatures } from './payment-features'
 import PaymentModal from './payment-modal'
 import { AnimatedEmoji } from './ui/animated-emoji'
 import { AccessoriesShop } from '@/components/shop/accessories-shop'
+import { BackgroundsShop } from '@/components/shop/backgrounds-shop'
 
-type ShopCategory = 'koins' | 'accessories'
+type ShopCategory = 'koins' | 'accessories' | 'backgrounds'
 
 interface WalletClientProps {
   initialWallet: DBWallet
@@ -98,6 +99,17 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
             <span className='mr-2'>🎨</span>
             Accessoires
           </button>
+          <button
+            onClick={() => { setShopCategory('backgrounds') }}
+            className={`px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
+              shopCategory === 'backgrounds'
+                ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
+                : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
+            }`}
+          >
+            <span className='mr-2'>🖼️</span>
+            Arrière-plans
+          </button>
         </div>
 
         {/* Message d'erreur */}
@@ -138,25 +150,45 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
               <PaymentFeatures />
             </>
             )
-          : (
-            <>
-              {/* Titre de la boutique Accessoires */}
-              <div className='text-center mb-4'>
-                <h2 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-2'>
-                  Personnalise tes Créatures ! 🎨
-                </h2>
-                <p className='text-sm text-[color:var(--color-neutral-600)] font-medium'>
-                  Achète des accessoires avec tes Koins
-                </p>
-              </div>
+          : shopCategory === 'accessories'
+            ? (
+              <>
+                {/* Titre de la boutique Accessoires */}
+                <div className='text-center mb-4'>
+                  <h2 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-2'>
+                    Personnalise tes Créatures ! 🎨
+                  </h2>
+                  <p className='text-sm text-[color:var(--color-neutral-600)] font-medium'>
+                    Achète des accessoires avec tes Koins
+                  </p>
+                </div>
 
-              {/* Boutique d'accessoires */}
-              <AccessoriesShop
-                currentKoins={wallet.balance}
-                onPurchaseSuccess={handleAccessoryPurchaseSuccess}
-              />
-            </>
-            )}
+                {/* Boutique d'accessoires */}
+                <AccessoriesShop
+                  currentKoins={wallet.balance}
+                  onPurchaseSuccess={handleAccessoryPurchaseSuccess}
+                />
+              </>
+              )
+            : (
+              <>
+                {/* Titre de la boutique Arrière-plans */}
+                <div className='text-center mb-4'>
+                  <h2 className='text-xl font-bold text-[color:var(--color-electric-600)] mb-2'>
+                    Embellis tes Créatures ! 🖼️
+                  </h2>
+                  <p className='text-sm text-[color:var(--color-neutral-600)] font-medium'>
+                    Achète des arrière-plans avec tes Koins
+                  </p>
+                </div>
+
+                {/* Boutique d'arrière-plans */}
+                <BackgroundsShop
+                  currentKoins={wallet.balance}
+                  onPurchaseSuccess={handleAccessoryPurchaseSuccess}
+                />
+              </>
+              )}
       </div>
 
       {/* Modal de confirmation/erreur de paiement */}

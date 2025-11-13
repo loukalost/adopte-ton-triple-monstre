@@ -277,7 +277,8 @@ export const accessoriesCatalog: Accessory[] = [
     drawData: {
       type: 'sneakers',
       primaryColor: '#FF6B6B',
-      secondaryColor: '#FFFFFF'
+      secondaryColor: '#FFFFFF',
+      offsetY: 54
     },
     rarity: 'common',
     basePrice: 8,
@@ -289,7 +290,8 @@ export const accessoriesCatalog: Accessory[] = [
     category: 'shoes',
     drawData: {
       type: 'boots',
-      primaryColor: '#8B4513'
+      primaryColor: '#8B4513',
+      offsetY: 54
     },
     rarity: 'uncommon',
     basePrice: 10,
@@ -302,7 +304,8 @@ export const accessoriesCatalog: Accessory[] = [
     drawData: {
       type: 'sandals',
       primaryColor: '#FFD700',
-      secondaryColor: '#F4A460'
+      secondaryColor: '#F4A460',
+      offsetY: 54
     },
     rarity: 'common',
     basePrice: 7,
@@ -314,7 +317,8 @@ export const accessoriesCatalog: Accessory[] = [
     category: 'shoes',
     drawData: {
       type: 'heels',
-      primaryColor: '#FF1493'
+      primaryColor: '#FF1493',
+      offsetY: 54
     },
     rarity: 'rare',
     basePrice: 12,
@@ -327,7 +331,8 @@ export const accessoriesCatalog: Accessory[] = [
     drawData: {
       type: 'rollers',
       primaryColor: '#4ECDC4',
-      secondaryColor: '#2C2C2C'
+      secondaryColor: '#2C2C2C',
+      offsetY: 54
     },
     rarity: 'epic',
     basePrice: 15,
@@ -339,7 +344,8 @@ export const accessoriesCatalog: Accessory[] = [
     category: 'shoes',
     drawData: {
       type: 'flippers',
-      primaryColor: '#00BFFF'
+      primaryColor: '#00BFFF',
+      offsetY: 54
     },
     rarity: 'uncommon',
     basePrice: 10,
@@ -352,7 +358,8 @@ export const accessoriesCatalog: Accessory[] = [
     drawData: {
       type: 'slippers',
       primaryColor: '#FFB5E8',
-      secondaryColor: '#FF69B4'
+      secondaryColor: '#FF69B4',
+      offsetY: 54
     },
     rarity: 'common',
     basePrice: 6,
@@ -365,7 +372,8 @@ export const accessoriesCatalog: Accessory[] = [
     drawData: {
       type: 'wing',
       primaryColor: '#FFD700',
-      secondaryColor: '#FFFFFF'
+      secondaryColor: '#FFFFFF',
+      offsetY: 54
     },
     rarity: 'legendary',
     basePrice: 20,

@@ -34,6 +34,7 @@ export interface DBMonster {
   traits: string // JSON serialized MonsterTraits
   state: MonsterState
   ownerId: string
+  backgroundId?: string // ID de l'arrière-plan appliqué (optionnel)
   createdAt: Date
   updatedAt: Date
 }

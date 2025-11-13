@@ -4,6 +4,8 @@ import { MonsterStateBadge, isMonsterState } from './monster-state-badge'
 import type { MonsterState } from '@/types/monster'
 import type { OwnedAccessory } from '@/types/accessories'
 import { parseMonsterTraits, formatAdoptionDate } from '@/lib/utils'
+import BackgroundRenderer from '@/components/backgrounds/background-renderer'
+import { getBackgroundById } from '@/config/backgrounds.config'
 
 /**
  * Props pour le composant MonsterCard
@@ -25,6 +27,8 @@ interface MonsterCardProps {
   updatedAt: string | undefined
   /** Accessoires équipés sur le monstre (optionnel) */
   accessories?: OwnedAccessory[]
+  /** ID de l'arrière-plan appliqué (optionnel) */
+  backgroundId?: string
 }
 
 /**
@@ -50,12 +54,16 @@ export function MonsterCard ({
   level,
   createdAt,
   updatedAt,
-  accessories = []
+  accessories = [],
+  backgroundId
 }: MonsterCardProps): React.ReactNode {
   // Parsing des traits et normalisation des données
   const traits = parseMonsterTraits(rawTraits)
   const adoptionDate = formatAdoptionDate(String(createdAt) ?? String(updatedAt))
   const levelLabel = level ?? 1
+
+  // Récupérer les données de l'arrière-plan si un backgroundId est fourni
+  const backgroundData = backgroundId !== undefined ? getBackgroundById(backgroundId) : null
 
   // TODO: Les accessoires sont maintenant rendus directement sur le Canvas du monstre
   // via le composant PixelMonster avec la prop equippedAccessories
@@ -68,18 +76,27 @@ export function MonsterCard ({
         <div className='relative flex flex-col gap-4'>
           {/* Zone de rendu du monstre */}
           <div className='relative flex items-center justify-center overflow-hidden rounded-lg bg-[color:var(--color-neutral-50)] p-6 shadow-sm border border-[color:var(--color-neutral-200)] transition-all duration-300 min-h-[200px]'>
+            {/* Arrière-plan (si présent) */}
+            {backgroundData !== null && (
+              <div className='absolute inset-0 z-0'>
+                <BackgroundRenderer backgroundData={backgroundData.data} />
+              </div>
+            )}
+
+            {/* Monstre */}
             {traits !== null && (
-              <div className='relative transform transition-transform duration-300 group-hover:scale-110'>
+              <div className='relative z-10 transform transition-transform duration-300 group-hover:scale-110'>
                 <PixelMonster
                   traits={traits}
                   state={isMonsterState(state) ? state : 'happy'}
                   level={levelLabel}
+                  equippedAccessories={accessories}
                 />
               </div>
             )}
 
             {/* Badge d'état */}
-            <div className='absolute top-2 left-2'>
+            <div className='absolute top-2 left-2 z-20'>
               <MonsterStateBadge state={state} />
             </div>
 

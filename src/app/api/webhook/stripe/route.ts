@@ -44,29 +44,62 @@ export async function POST (req: Request): Promise<Response> {
   switch (event.type) {
     case 'checkout.session.completed': {
       console.log('💳 Checkout session completed')
-      console.log('👤 User ID:', event?.data?.object?.metadata?.userId)
+      console.log('� Event complet:', JSON.stringify(event.data.object, null, 2))
+      console.log('�👤 User ID:', event?.data?.object?.metadata?.userId)
       console.log('📦 Product ID:', event?.data?.object?.metadata?.productId)
 
-      const wallet = await Wallet.findOne({ ownerId: event?.data?.object?.metadata?.userId })
-      console.log('💼 Wallet trouvé:', wallet !== null && wallet !== undefined ? `Oui (balance: ${Number(wallet?.balance)})` : 'Non')
+      const userId = event?.data?.object?.metadata?.userId
+      const productId = event?.data?.object?.metadata?.productId
+
+      if (userId === null || userId === undefined) {
+        console.error('❌ userId est null ou undefined dans les métadonnées')
+        break
+      }
+
+      if (productId === null || productId === undefined) {
+        console.error('❌ productId est null ou undefined dans les métadonnées')
+        break
+      }
+
+      console.log('� Recherche du wallet pour ownerId:', userId)
+      const wallet = await Wallet.findOne({ ownerId: userId })
+      console.log('�💼 Wallet trouvé:', wallet !== null && wallet !== undefined ? `Oui (balance: ${Number(wallet?.balance)})` : 'Non')
 
       if (wallet !== null && wallet !== undefined) {
-        const entry = Object.entries(pricingTable).find(([_, pkg]) => pkg.productId === event?.data?.object?.metadata?.productId)
+        console.log('🔍 Recherche dans pricingTable pour productId:', productId)
+        console.log('📋 pricingTable:', JSON.stringify(pricingTable, null, 2))
+
+        const entry = Object.entries(pricingTable).find(([_, pkg]) => pkg.productId === productId)
         console.log('🔍 Recherche produit dans pricingTable:', entry !== undefined ? `Trouvé (${entry[0]} Koins)` : 'Non trouvé')
 
         if (entry !== undefined) {
           const koinsToAdd = Number(entry[0])
           const oldBalance = Number(wallet.balance)
-          wallet.balance = Number(wallet.balance) + koinsToAdd
-          wallet.markModified('balance')
-          await wallet.save()
-          console.log(`✅ Wallet mis à jour: ${oldBalance} → ${Number(wallet.balance)} (+${koinsToAdd} Koins)`)
+
+          console.log(`💰 Tentative de mise à jour: ${oldBalance} + ${koinsToAdd} Koins`)
+
+          // Mise à jour avec $inc pour garantir l'atomicité
+          const updateResult = await Wallet.updateOne(
+            { ownerId: userId },
+            { $inc: { balance: koinsToAdd } }
+          )
+
+          console.log('📊 Résultat de la mise à jour:', JSON.stringify(updateResult, null, 2))
+
+          // Vérification après mise à jour
+          const updatedWallet = await Wallet.findOne({ ownerId: userId })
+          console.log(`✅ Wallet après mise à jour: ${Number(updatedWallet?.balance)}`)
+          console.log(`✅ Wallet mis à jour: ${oldBalance} → ${Number(updatedWallet?.balance)} (+${koinsToAdd} Koins)`)
         } else {
-          console.error('❌ Product not found in pricing table:', event?.data?.object?.metadata?.productId)
+          console.error('❌ Product not found in pricing table:', productId)
           console.log('📋 Products disponibles:', Object.values(pricingTable).map(p => p.productId))
         }
       } else {
-        console.error('❌ Wallet not found for user:', event?.data?.object?.metadata?.userId)
+        console.error('❌ Wallet not found for user:', userId)
+
+        // Essayons de lister tous les wallets pour debug
+        const allWallets = await Wallet.find({}).limit(5)
+        console.log('📋 Exemples de wallets en base:', allWallets.map(w => ({ ownerId: String(w.ownerId), balance: w.balance })))
       }
       break
     }

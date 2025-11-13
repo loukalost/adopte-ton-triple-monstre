@@ -114,27 +114,36 @@ export async function addKoins (amount: number): Promise<DBWallet> {
 
     const { user } = session
 
-    // Recherche ou création du wallet
-    let wallet = await Wallet.findOne({ ownerId: user.id }).exec()
+    // Recherche du wallet
+    const wallet = await Wallet.findOne({ ownerId: user.id }).exec()
 
     if (wallet === null || wallet === undefined) {
-      wallet = new Wallet({
+      // Création d'un nouveau wallet avec le montant initial
+      const newWallet = new Wallet({
         ownerId: user.id,
         balance: amount
       })
+      await newWallet.save()
+
+      // Revalidation du cache
+      revalidatePath('/app/wallet')
+
+      return JSON.parse(JSON.stringify(newWallet))
     } else {
-      // Ajout du montant au solde existant
-      wallet.balance = Number(wallet.balance) + Number(amount)
-      wallet.markModified('balance')
+      // Mise à jour atomique avec $inc
+      await Wallet.updateOne(
+        { ownerId: user.id },
+        { $inc: { balance: amount } }
+      )
+
+      // Récupération du wallet mis à jour
+      const updatedWallet = await Wallet.findOne({ ownerId: user.id }).exec()
+
+      // Revalidation du cache
+      revalidatePath('/app/wallet')
+
+      return JSON.parse(JSON.stringify(updatedWallet))
     }
-
-    await wallet.save()
-
-    // Revalidation du cache pour rafraîchir la page wallet
-    revalidatePath('/app/wallet')
-
-    // Sérialisation JSON pour éviter les problèmes de typage Next.js
-    return JSON.parse(JSON.stringify(wallet))
   } catch (error) {
     console.error('Error adding koins:', error)
     throw error
@@ -193,22 +202,25 @@ export async function subtractKoins (amount: number): Promise<DBWallet> {
     }
 
     // Vérification du solde suffisant
-    const newBalance = Number(wallet.balance) - Number(amount)
-    if (newBalance < 0) {
+    const currentBalance = Number(wallet.balance)
+    if (currentBalance < amount) {
       throw new Error('Insufficient balance')
     }
 
-    // Retrait du montant
-    wallet.balance = newBalance
-    wallet.markModified('balance')
+    // Mise à jour atomique avec $inc (valeur négative pour décrémenter)
+    await Wallet.updateOne(
+      { ownerId: user.id },
+      { $inc: { balance: -amount } }
+    )
 
-    await wallet.save()
+    // Récupération du wallet mis à jour
+    const updatedWallet = await Wallet.findOne({ ownerId: user.id }).exec()
 
     // Revalidation du cache pour rafraîchir la page wallet
     revalidatePath('/app/wallet')
 
     // Sérialisation JSON pour éviter les problèmes de typage Next.js
-    return JSON.parse(JSON.stringify(wallet))
+    return JSON.parse(JSON.stringify(updatedWallet))
   } catch (error) {
     console.error('Error subtracting koins:', error)
     throw error

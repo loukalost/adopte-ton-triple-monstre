@@ -36,6 +36,10 @@ const monsterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'user',
     required: true
+  },
+  backgroundId: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: true
