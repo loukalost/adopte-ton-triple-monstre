@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import InputField from '../input'
 import Button from '../button'
 import { authClient } from '@/lib/auth-client'
+import { OAuthSection } from '../auth/oauth-section'
 
 interface Credentials {
   email: string
@@ -56,6 +57,9 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
           Rejoignez l'aventure Adopte ton triple monstre ! 🎆
         </p>
       </div>
+
+      {/* OAuth Section (GitHub, etc.) */}
+      <OAuthSection onError={onError} callbackURL='/app' />
 
       <form className='flex flex-col justify-center space-y-3' onSubmit={handleSubmit}>
         <InputField

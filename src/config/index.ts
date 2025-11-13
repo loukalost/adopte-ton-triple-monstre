@@ -43,6 +43,18 @@ export {
 } from './session.config'
 
 // ========================================
+// OAuth (GitHub, Google, etc.)
+// ========================================
+export {
+  GITHUB_OAUTH_CONFIG,
+  OAUTH_PROVIDERS,
+  OAUTH_ERROR_MESSAGES,
+  getOAuthProviderConfig,
+  isOAuthProviderEnabled,
+  type OAuthProviderConfig
+} from './oauth.config'
+
+// ========================================
 // Toasts & Notifications
 // ========================================
 export {
