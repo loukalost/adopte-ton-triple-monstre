@@ -1,9 +1,5 @@
 import { useState, useCallback } from 'react'
-
-/**
- * Type représentant une action possible sur un monstre
- */
-export type MonsterAction = 'feed' | 'comfort' | 'hug' | 'wake' | null
+import type { MonsterAction } from '@/types/monster-action'
 
 /**
  * Interface du hook useMonsterAction

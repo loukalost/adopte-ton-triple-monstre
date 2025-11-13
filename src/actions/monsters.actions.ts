@@ -8,7 +8,7 @@ import type { DBMonster } from '@/types/monster'
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
 import { Types } from 'mongoose'
-import { MonsterAction } from '@/hooks/monsters'
+import type { MonsterAction } from '@/types/monster-action'
 
 /**
  * Crée un nouveau monstre pour l'utilisateur authentifié

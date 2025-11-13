@@ -5,6 +5,8 @@ import Wallet from '@/db/models/wallet.model'
 import { auth } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
+import { calculateReward, type RewardResult } from '@/services/rewards.service'
+import type { MonsterAction } from '@/types/monster-action'
 
 /**
  * Interface représentant un wallet dans la base de données
@@ -223,6 +225,58 @@ export async function subtractKoins (amount: number): Promise<DBWallet> {
     return JSON.parse(JSON.stringify(updatedWallet))
   } catch (error) {
     console.error('Error subtracting koins:', error)
+    throw error
+  }
+}
+
+/**
+ * Attribue une récompense en Koins pour une action sur un monstre
+ *
+ * Cette server action :
+ * 1. Calcule la récompense basée sur l'action (via le service rewards)
+ * 2. Vérifie l'authentification de l'utilisateur
+ * 3. Ajoute les Koins au wallet de l'utilisateur
+ * 4. Retourne le résultat de la récompense avec le wallet mis à jour
+ *
+ * Responsabilité unique : orchestrer l'attribution d'une récompense
+ * en coordonnant le service de récompenses et la mise à jour du wallet.
+ *
+ * Principes SOLID :
+ * - SRP: Délègue le calcul au service, la persistence à addKoins
+ * - DIP: Dépend de l'abstraction RewardResult, pas d'implémentation
+ *
+ * @async
+ * @param {MonsterAction} action - Action effectuée sur le monstre
+ * @returns {Promise<{ reward: RewardResult, wallet: DBWallet } | null>} Récompense et wallet mis à jour, ou null si action invalide
+ * @throws {Error} Si l'utilisateur n'est pas authentifié
+ *
+ * @example
+ * const result = await rewardActionKoins('feed')
+ * // { reward: { koinsEarned: 10, message: '...', ... }, wallet: { balance: 110, ... } }
+ */
+export async function rewardActionKoins (
+  action: MonsterAction
+): Promise<{ reward: RewardResult, wallet: DBWallet } | null> {
+  try {
+    // Calcul de la récompense via le service (Domain Layer)
+    const reward = calculateReward(action)
+
+    if (reward === null) {
+      return null
+    }
+
+    // Attribution des Koins au wallet
+    const wallet = await addKoins(reward.koinsEarned)
+
+    // Revalidation du cache pour rafraîchir le dashboard
+    revalidatePath('/app')
+
+    return {
+      reward,
+      wallet
+    }
+  } catch (error) {
+    console.error('Error rewarding action koins:', error)
     throw error
   }
 }

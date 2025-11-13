@@ -1,7 +1,10 @@
 'use client'
 
 import { doActionOnMonster } from '@/actions/monsters.actions'
+import { rewardActionKoins } from '@/actions/wallet.actions'
 import { useMonsterAction, type MonsterAction } from '@/hooks/monsters'
+import { formatRewardMessage } from '@/services/rewards.service'
+import { toast } from 'react-toastify'
 
 /**
  * Props pour le composant MonsterActions
@@ -131,12 +134,52 @@ export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): R
   const { activeAction, triggerAction } = useMonsterAction()
 
   /**
-   * Gère le déclenchement d'une action
+   * Gère le déclenchement d'une action avec attribution de récompense
+   *
+   * Responsabilité unique : orchestrer l'action et sa récompense
+   * - Déclenche l'animation (UI)
+   * - Exécute l'action sur le monstre (business logic)
+   * - Attribue les Koins (reward system)
+   * - Affiche la notification (UX)
+   *
    * @param {MonsterAction} action - Action à déclencher
    */
-  const handleAction = (action: MonsterAction): void => {
+  const handleAction = async (action: MonsterAction): Promise<void> => {
+    // Déclenchement de l'animation UI
     triggerAction(action, onAction)
-    void doActionOnMonster(monsterId, action)
+
+    try {
+      // Exécution parallèle de l'action et de la récompense
+      const [, rewardResult] = await Promise.all([
+        doActionOnMonster(monsterId, action),
+        rewardActionKoins(action)
+      ])
+
+      // Affichage de la notification de récompense
+      if (rewardResult !== null) {
+        const message = formatRewardMessage(rewardResult.reward)
+
+        toast.success(message, {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          style: {
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: '#fff',
+            fontWeight: 'bold'
+          }
+        })
+      }
+    } catch (error) {
+      console.error('Error executing action:', error)
+      toast.error('Erreur lors de l\'action 😢', {
+        position: 'top-center',
+        autoClose: 3000
+      })
+    }
   }
 
   return (
@@ -161,7 +204,7 @@ export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): R
             label={label}
             isActive={activeAction === action}
             isDisabled={activeAction !== null}
-            onClick={() => { handleAction(action) }}
+            onClick={() => { void handleAction(action) }}
           />
         ))}
       </div>
