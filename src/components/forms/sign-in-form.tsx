@@ -2,9 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import InputField from '@/components/input'
+import { Button, InputField } from '@/components'
 import { authClient } from '@/lib/auth-client'
-import Button from '@/components/button'
 import { OAuthSection } from '@/components/auth/oauth-section'
 
 interface Credentials {

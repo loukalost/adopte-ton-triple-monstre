@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Button from '@/components/button'
-import InputField from '@/components/input'
+import { Button, InputField } from '@/components'
 import {
   createInitialFormState,
   validateCreateMonsterForm,
