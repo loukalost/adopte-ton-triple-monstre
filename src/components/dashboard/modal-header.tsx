@@ -1,4 +1,4 @@
-import Button from '../button'
+import Button from '@/components/button'
 
 /**
  * Props pour le composant ModalHeader
