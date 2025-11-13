@@ -13,11 +13,21 @@ import { CreatureTraitsPanel } from './creature-traits-panel'
 import { CreatureColorsPanel } from './creature-colors-panel'
 import { AccessorySlot } from '@/components/accessories/accessory-slot'
 import { getBackgroundById } from '@/config/backgrounds.config'
+import { MonsterPublicToggle } from '@/components/monsters/monster-public-toggle'
 
 // ✅ OPTIMISATION 7: Lazy loading des modals (chargés uniquement quand nécessaires)
-const LevelUpAnimation = lazy(async () => await import('./level-up-animation'))
-const ShopModal = lazy(async () => await import('./shop-modal'))
-const BackgroundSelector = lazy(async () => await import('@/components/backgrounds/background-selector'))
+const LevelUpAnimation = lazy(async () => {
+  const module = await import('./level-up-animation')
+  return { default: module.LevelUpAnimation }
+})
+const ShopModal = lazy(async () => {
+  const module = await import('./shop-modal')
+  return { default: module.ShopModal }
+})
+const BackgroundSelector = lazy(async () => {
+  const module = await import('@/components/backgrounds/background-selector')
+  return { default: module.BackgroundSelector }
+})
 
 // ✅ OPTIMISATION: Constantes pour les intervalles de polling (augmentés pour réduire les requêtes)
 const POLLING_INTERVAL_MONSTER = 5000 // 5s au lieu de 1s (-80% de requêtes)
@@ -233,7 +243,7 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
     <div className='min-h-screen bg-[color:var(--color-neutral-50)] py-4 relative'>
       <div className='container relative z-10 mx-auto px-4 max-w-7xl'>
         {/* Barre de navigation */}
-        <div className='flex justify-between items-center mb-4 gap-4'>
+        <div className='flex justify-between items-center mb-4 gap-4 flex-wrap'>
           {/* Bouton retour + nom */}
           <div className='flex items-center gap-4'>
             <button
@@ -253,15 +263,25 @@ export function CreaturePageClient ({ monster, accessories }: CreaturePageClient
             </div>
           </div>
 
-          {/* Bouton boutique */}
-          <button
-            onClick={handleShopOpen}
-            className='inline-flex items-center gap-2 bg-[color:var(--color-electric-500)] hover:bg-[color:var(--color-electric-600)] text-white font-bold px-3 py-2 rounded-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-105 active:scale-95'
-          >
-            <span className='text-lg'>🛍️</span>
-            <span className='hidden sm:inline'>Boutique</span>
+          {/* Actions : Toggle Public + Bouton boutique */}
+          <div className='flex items-center gap-3'>
+            {/* Toggle Public/Privé */}
+            <MonsterPublicToggle
+              monsterId={currentMonster._id}
+              isPublic={currentMonster.isPublic ?? false}
+              variant='button'
+            />
 
-          </button>
+            {/* Bouton boutique */}
+            <button
+              onClick={handleShopOpen}
+              className='inline-flex items-center gap-2 bg-[color:var(--color-electric-500)] hover:bg-[color:var(--color-electric-600)] text-white font-bold px-3 py-2 rounded-lg shadow-lg transition-all duration-300 hover:scale-105 active:scale-105 active:scale-95'
+            >
+              <span className='text-lg'>🛍️</span>
+              <span className='hidden sm:inline'>Boutique</span>
+
+            </button>
+          </div>
         </div>
 
         {/* Grille principale - Alignée */}

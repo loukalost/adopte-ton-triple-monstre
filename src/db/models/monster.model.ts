@@ -40,6 +40,11 @@ const monsterSchema = new Schema({
   backgroundId: {
     type: String,
     required: false
+  },
+  isPublic: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 }, {
   timestamps: true

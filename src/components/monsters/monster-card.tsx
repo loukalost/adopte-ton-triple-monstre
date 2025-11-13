@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import Link from 'next/link'
 import { PixelMonster } from '@/components/monsters'
 import { MonsterStateBadge, isMonsterState } from './monster-state-badge'
+import { MonsterPublicToggle } from './monster-public-toggle'
 import type { MonsterState } from '@/types/monster'
 import type { OwnedAccessory } from '@/types/accessories'
 import { parseMonsterTraits, formatAdoptionDate } from '@/lib/utils'
@@ -30,6 +31,8 @@ interface MonsterCardProps {
   accessories?: OwnedAccessory[]
   /** ID de l'arrière-plan appliqué (optionnel) */
   backgroundId?: string
+  /** Mode public/privé du monstre (optionnel, défaut: false) */
+  isPublic?: boolean
 }
 
 /**
@@ -62,7 +65,8 @@ function MonsterCardComponent ({
   createdAt,
   updatedAt,
   accessories = [],
-  backgroundId
+  backgroundId,
+  isPublic = false
 }: MonsterCardProps): React.ReactNode {
   // ✅ OPTIMISATION 1: Mémoriser le parsing des traits (opération coûteuse)
   const traits = useMemo(() => {
@@ -122,6 +126,16 @@ function MonsterCardComponent ({
             {/* Badge d'état */}
             <div className='absolute top-2 left-2 z-20'>
               <MonsterStateBadge state={state} />
+            </div>
+
+            {/* Toggle Public/Privé */}
+            <div className='absolute top-2 right-2 z-20'>
+              <MonsterPublicToggle
+                monsterId={id}
+                isPublic={isPublic}
+                variant='badge'
+                iconOnly={false}
+              />
             </div>
 
             {/* Les accessoires sont désormais affichés directement sur le monstre via PixelMonster */}

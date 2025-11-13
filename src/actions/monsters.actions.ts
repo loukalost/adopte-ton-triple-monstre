@@ -187,6 +187,74 @@ export async function getMonsterById (id: string): Promise<DBMonster | null> {
   }
 }
 
+/**
+ * Bascule le mode public/privé d'un monstre
+ *
+ * Cette server action :
+ * 1. Vérifie l'authentification de l'utilisateur
+ * 2. Valide que le monstre appartient à l'utilisateur
+ * 3. Inverse la valeur du champ isPublic
+ * 4. Revalide le cache des pages concernées
+ *
+ * Responsabilité unique : gérer la visibilité publique d'un monstre
+ * en garantissant la propriété et la persistence.
+ *
+ * @async
+ * @param {string} monsterId - Identifiant du monstre
+ * @returns {Promise<boolean>} La nouvelle valeur de isPublic
+ * @throws {Error} Si l'utilisateur n'est pas authentifié ou si le monstre n'existe pas
+ *
+ * @example
+ * const isNowPublic = await toggleMonsterPublicStatus("507f1f77bcf86cd799439011")
+ * // true (si le monstre était privé) ou false (si le monstre était public)
+ */
+export async function toggleMonsterPublicStatus (monsterId: string): Promise<boolean> {
+  try {
+    // Connexion à la base de données
+    await connectMongooseToDatabase()
+
+    // Vérification de l'authentification
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
+    if (session === null || session === undefined) {
+      throw new Error('User not authenticated')
+    }
+
+    const { user } = session
+
+    // Validation du format ObjectId MongoDB
+    if (!Types.ObjectId.isValid(monsterId)) {
+      throw new Error('Invalid monster ID format')
+    }
+
+    // Récupération du monstre avec vérification de propriété
+    const monster = await Monster.findOne({ ownerId: user.id, _id: monsterId }).exec()
+
+    if (monster === null || monster === undefined) {
+      throw new Error('Monster not found or access denied')
+    }
+
+    // Inversion du statut public
+    const currentPublicStatus = monster.isPublic ?? false
+    const newPublicStatus = currentPublicStatus === false
+    monster.isPublic = newPublicStatus
+
+    monster.markModified('isPublic')
+    await monster.save()
+
+    // Revalidation du cache pour les pages concernées
+    revalidatePath('/app') // Page principale avec la liste des monstres
+    revalidatePath('/app/gallery') // Page de galerie publique
+    revalidatePath(`/app/creatures/${monsterId}`) // Page de détail du monstre
+
+    return newPublicStatus
+  } catch (error) {
+    console.error('Error toggling monster public status:', error)
+    throw error
+  }
+}
+
 const actionsStatesMap: Record<Exclude<MonsterAction, null>, string> = {
   feed: 'hungry',
   comfort: 'angry',

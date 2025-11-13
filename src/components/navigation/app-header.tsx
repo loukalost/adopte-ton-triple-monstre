@@ -59,7 +59,10 @@ export default function AppHeader ({ walletBalance }: AppHeaderProps): React.Rea
     return pathname === path
   }
 
-  const navItems = [{ href: '/app', label: 'Dashboard', icon: '🏠' }]
+  const navItems = [
+    { href: '/app', label: 'Dashboard', icon: '🏠' },
+    { href: '/app/gallery', label: 'Galerie', icon: '🌍' }
+  ]
 
   return (
     <header className='hidden md:block bg-[color:var(--color-neutral-100)] border-b-2 border-[color:var(--color-neutral-300)] sticky top-0 z-50 shadow-sm'>
