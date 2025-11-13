@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import type { NavigationItem } from '@/types/components'
-import Button from './button'
+import Button from '@/components/button'
 
 interface HeaderProps {
   /** Indique si l'utilisateur est connecté */

@@ -1,5 +1,5 @@
 'use client'
-import Button from '@/components/button'
+import { Button } from '@/components'
 
 export default function NewsletterSection (): React.ReactNode {
   return (
