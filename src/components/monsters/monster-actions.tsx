@@ -2,6 +2,9 @@
 
 import { doActionOnMonster } from '@/actions/monsters.actions'
 import { rewardActionKoins } from '@/actions/wallet.actions'
+import { MONSTER_ACTIONS, getActionColors } from '@/config/monster-actions.config'
+import { REWARD_TOAST_CONFIG, ERROR_TOAST_CONFIG } from '@/config/toast.config'
+import { TRANSITION_CLASSES } from '@/config/ui.constants'
 import { useMonsterAction, type MonsterAction } from '@/hooks/monsters'
 import { formatRewardMessage } from '@/services/rewards.service'
 import { toast } from 'react-toastify'
@@ -15,28 +18,6 @@ interface MonsterActionsProps {
   /** ID du monstre */
   monsterId: string
 }
-
-/**
- * Définition d'une action disponible sur un monstre
- */
-interface ActionDefinition {
-  /** Clé de l'action */
-  action: MonsterAction
-  /** Emoji représentant l'action */
-  emoji: string
-  /** Label textuel de l'action */
-  label: string
-}
-
-/**
- * Liste des actions disponibles pour interagir avec un monstre
- */
-const AVAILABLE_ACTIONS: ActionDefinition[] = [
-  { action: 'feed', emoji: '🍎', label: 'Nourrir' },
-  { action: 'comfort', emoji: '💙', label: 'Consoler' },
-  { action: 'hug', emoji: '🤗', label: 'Câliner' },
-  { action: 'wake', emoji: '⏰', label: 'Réveiller' }
-]
 
 /**
  * Props pour le composant ActionButton
@@ -83,17 +64,12 @@ function ActionButton ({
   isDisabled,
   onClick
 }: ActionButtonProps): React.ReactNode {
-// Couleurs spécifiques par action
-  const actionColors: Record<string, string> = {
-    feed: 'bg-orange-500 hover:bg-orange-600',
-    comfort: 'bg-blue-500 hover:bg-blue-600',
-    hug: 'bg-pink-500 hover:bg-pink-600',
-    wake: 'bg-yellow-500 hover:bg-yellow-600'
-  }
+  // Utiliser la configuration centralisée pour les couleurs
+  const colorClass = (action !== null && action !== undefined)
+    ? getActionColors(action)
+    : 'bg-gray-500'
 
-  const colorClass = (action !== null && action !== undefined) ? actionColors[action] : 'bg-gray-500'
-
-  const baseClass = 'group relative overflow-hidden flex flex-col items-center justify-center gap-2 px-4 py-4 rounded-lg font-bold text-white shadow-md transition-all duration-300'
+  const baseClass = `group relative overflow-hidden flex flex-col items-center justify-center gap-2 px-4 py-4 rounded-lg font-bold text-white shadow-md ${TRANSITION_CLASSES.default}`
   const activeClass = isActive
     ? 'scale-95 opacity-75'
     : isDisabled
@@ -158,27 +134,11 @@ export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): R
       // Affichage de la notification de récompense
       if (rewardResult !== null) {
         const message = formatRewardMessage(rewardResult.reward)
-
-        toast.success(message, {
-          position: 'top-center',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          style: {
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: '#fff',
-            fontWeight: 'bold'
-          }
-        })
+        toast.success(message, REWARD_TOAST_CONFIG)
       }
     } catch (error) {
       console.error('Error executing action:', error)
-      toast.error('Erreur lors de l\'action 😢', {
-        position: 'top-center',
-        autoClose: 3000
-      })
+      toast.error('Erreur lors de l\'action 😢', ERROR_TOAST_CONFIG)
     }
   }
 
@@ -196,7 +156,7 @@ export function MonsterActions ({ onAction, monsterId }: MonsterActionsProps): R
 
       {/* Grille de boutons d'action */}
       <div className='grid grid-cols-2 gap-3'>
-        {AVAILABLE_ACTIONS.map(({ action, emoji, label }) => (
+        {MONSTER_ACTIONS.map(({ action, emoji, label }) => (
           <ActionButton
             key={action}
             action={action}

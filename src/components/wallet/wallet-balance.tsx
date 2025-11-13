@@ -1,6 +1,7 @@
 import type React from 'react'
 import { AnimatedEmoji } from './ui/animated-emoji'
 import { useCountUp } from '@/hooks/wallet/useCountUp'
+import { ANIMATION_DURATIONS } from '@/config/ui.constants'
 
 interface WalletBalanceProps {
   balance: number
@@ -11,8 +12,8 @@ interface WalletBalanceProps {
  * Principe SRP: Responsabilité unique d'affichage du solde
  */
 export function WalletBalance ({ balance }: WalletBalanceProps): React.ReactElement {
-  // Animation du compteur de 0 au montant actuel
-  const animatedBalance = useCountUp(balance, 2000)
+  // Animation du compteur avec durée configurée
+  const animatedBalance = useCountUp(balance, ANIMATION_DURATIONS.countUp)
 
   const getKoinLabel = (): string => {
     if (animatedBalance === 0 || animatedBalance === 1) return 'Koin'
