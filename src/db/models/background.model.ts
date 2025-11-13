@@ -6,15 +6,15 @@
 
 import { type Collection } from 'mongodb'
 import clientPromise from '@/db'
-import type { OwnedBackground } from '@/types/backgrounds'
+import type { OwnedBackgroundDb } from '@/types/backgrounds'
 
 /**
  * Obtenir la collection des arrière-plans possédés
  */
-async function getBackgroundsCollection (): Promise<Collection<OwnedBackground>> {
+async function getBackgroundsCollection (): Promise<Collection<OwnedBackgroundDb>> {
   const client = await clientPromise
   const db = client.db()
-  return db.collection<OwnedBackground>('backgrounds')
+  return db.collection<OwnedBackgroundDb>('backgrounds')
 }
 
 /**
@@ -22,7 +22,7 @@ async function getBackgroundsCollection (): Promise<Collection<OwnedBackground>>
  * @param userId - ID de l'utilisateur
  * @returns Liste des arrière-plans possédés
  */
-export async function getUserBackgrounds (userId: string): Promise<OwnedBackground[]> {
+export async function getUserBackgrounds (userId: string): Promise<OwnedBackgroundDb[]> {
   try {
     const collection = await getBackgroundsCollection()
     const backgrounds = await collection
@@ -63,7 +63,7 @@ export async function hasBackground (userId: string, backgroundId: string): Prom
 export async function purchaseBackground (
   userId: string,
   backgroundId: string
-): Promise<OwnedBackground | null> {
+): Promise<OwnedBackgroundDb | null> {
   try {
     // Vérifier si l'utilisateur possède déjà cet arrière-plan
     const alreadyOwned = await hasBackground(userId, backgroundId)
@@ -73,13 +73,13 @@ export async function purchaseBackground (
     }
 
     const collection = await getBackgroundsCollection()
-    const newBackground: Omit<OwnedBackground, '_id'> = {
+    const newBackground: Omit<OwnedBackgroundDb, '_id'> = {
       userId,
       backgroundId,
       purchasedAt: new Date()
     }
 
-    const result = await collection.insertOne(newBackground as OwnedBackground)
+    const result = await collection.insertOne(newBackground as OwnedBackgroundDb)
 
     if (result.acknowledged) {
       return {
@@ -125,7 +125,7 @@ export async function removeUserBackground (
 export async function getOwnedBackground (
   userId: string,
   backgroundId: string
-): Promise<OwnedBackground | null> {
+): Promise<OwnedBackgroundDb | null> {
   try {
     const collection = await getBackgroundsCollection()
     const background = await collection.findOne({ userId, backgroundId })
@@ -164,7 +164,7 @@ export async function getUserBackgroundsPaginated (
   userId: string,
   limit: number = 20,
   skip: number = 0
-): Promise<OwnedBackground[]> {
+): Promise<OwnedBackgroundDb[]> {
   try {
     const collection = await getBackgroundsCollection()
     const backgrounds = await collection

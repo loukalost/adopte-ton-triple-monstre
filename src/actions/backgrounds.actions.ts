@@ -44,7 +44,16 @@ export async function getUserOwnedBackgrounds (): Promise<ActionResult<OwnedBack
 
     const { user } = session
     const backgrounds = await getUserBackgrounds(user.id)
-    return { success: true, data: backgrounds }
+
+    // Serialize MongoDB objects to plain objects for Client Components
+    const serializedBackgrounds = backgrounds.map(bg => ({
+      _id: String(bg._id),
+      userId: bg.userId,
+      backgroundId: bg.backgroundId,
+      purchasedAt: bg.purchasedAt.toISOString()
+    }))
+
+    return { success: true, data: serializedBackgrounds }
   } catch (error) {
     console.error('Error getting user backgrounds:', error)
     return { success: false, error: 'Erreur lors de la récupération des arrière-plans' }
@@ -109,14 +118,22 @@ export async function purchaseBackground (backgroundId: string): Promise<ActionR
     const ownedBackground = await purchaseBackgroundDb(user.id, backgroundId)
     if (ownedBackground === null) {
       // Rembourser l'utilisateur en cas d'erreur
-      wallet.balance += price
+      wallet.balance = Number(wallet.balance) + price
       await wallet.save()
       return { success: false, error: 'Erreur lors de l\'achat de l\'arrière-plan' }
     }
 
+    // Serialize MongoDB object to plain object for Client Components
+    const serializedBackground: OwnedBackground = {
+      _id: String(ownedBackground._id),
+      userId: ownedBackground.userId,
+      backgroundId: ownedBackground.backgroundId,
+      purchasedAt: ownedBackground.purchasedAt.toISOString()
+    }
+
     return {
       success: true,
-      data: ownedBackground
+      data: serializedBackground
     }
   } catch (error) {
     console.error('Error purchasing background:', error)

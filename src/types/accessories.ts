@@ -78,10 +78,28 @@ export interface Accessory {
 
 /**
  * Accessoire possédé par un utilisateur
+ * Version sérialisée pour Client Components
  */
 export interface OwnedAccessory {
   /** ID de l'enregistrement */
   _id: string
+  /** ID de l'accessoire dans le catalogue */
+  accessoryId: string
+  /** ID du propriétaire */
+  ownerId: string
+  /** ID de la créature équipée (null si non équipé) */
+  equippedOnMonsterId: string | null
+  /** Date d'acquisition (ISO string pour serialization) */
+  acquiredAt: string
+}
+
+/**
+ * Accessoire possédé - Version base de données (avec types MongoDB)
+ * À utiliser uniquement côté serveur
+ */
+export interface OwnedAccessoryDb {
+  /** ID de l'enregistrement */
+  _id: any // ObjectId
   /** ID de l'accessoire dans le catalogue */
   accessoryId: string
   /** ID du propriétaire */

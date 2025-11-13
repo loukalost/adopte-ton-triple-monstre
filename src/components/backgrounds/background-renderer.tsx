@@ -31,7 +31,8 @@ function GradientBackground ({ backgroundData, className }: { backgroundData: Ba
     'to-top-left': 'to top left'
   }
 
-  const direction = directions[backgroundData.direction] ?? 'to bottom'
+  const directionKey = backgroundData.direction ?? 'to-bottom'
+  const direction = directions[directionKey] ?? 'to bottom'
   const gradient = `linear-gradient(${direction}, ${backgroundData.colors.join(', ')})`
 
   return (

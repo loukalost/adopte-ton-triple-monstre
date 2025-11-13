@@ -83,10 +83,26 @@ export interface Background {
 
 /**
  * Arrière-plan possédé par un utilisateur
+ * Version sérialisée pour Client Components
  */
 export interface OwnedBackground {
   /** ID MongoDB */
   _id: string
+  /** ID de l'utilisateur propriétaire */
+  userId: string
+  /** ID de l'arrière-plan dans le catalogue */
+  backgroundId: string
+  /** Date d'achat (ISO string pour serialization) */
+  purchasedAt: string
+}
+
+/**
+ * Arrière-plan possédé - Version base de données (avec types MongoDB)
+ * À utiliser uniquement côté serveur
+ */
+export interface OwnedBackgroundDb {
+  /** ID MongoDB */
+  _id: any // ObjectId
   /** ID de l'utilisateur propriétaire */
   userId: string
   /** ID de l'arrière-plan dans le catalogue */

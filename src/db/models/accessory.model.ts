@@ -4,7 +4,7 @@
  */
 
 import clientPromise from '@/db'
-import type { OwnedAccessory, AccessoryCategory } from '@/types/accessories'
+import type { OwnedAccessory, OwnedAccessoryDb, AccessoryCategory } from '@/types/accessories'
 import { ObjectId } from 'mongodb'
 
 /**
@@ -14,13 +14,14 @@ export async function getUserAccessories (userId: string): Promise<OwnedAccessor
   const client = await clientPromise
   const db = client.db()
 
-  const accessories = await db.collection<Omit<OwnedAccessory, '_id'> & { _id: ObjectId }>('accessories')
+  const accessories = await db.collection<Omit<OwnedAccessoryDb, '_id'> & { _id: ObjectId }>('accessories')
     .find({ ownerId: userId })
     .toArray()
 
   return accessories.map(acc => ({
     ...acc,
-    _id: acc._id.toString()
+    _id: acc._id.toString(),
+    acquiredAt: acc.acquiredAt.toISOString()
   }))
 }
 
@@ -31,13 +32,14 @@ export async function getMonsterAccessories (monsterId: string): Promise<OwnedAc
   const client = await clientPromise
   const db = client.db()
 
-  const accessories = await db.collection<Omit<OwnedAccessory, '_id'> & { _id: ObjectId }>('accessories')
+  const accessories = await db.collection<Omit<OwnedAccessoryDb, '_id'> & { _id: ObjectId }>('accessories')
     .find({ equippedOnMonsterId: monsterId })
     .toArray()
 
   return accessories.map(acc => ({
     ...acc,
-    _id: acc._id.toString()
+    _id: acc._id.toString(),
+    acquiredAt: acc.acquiredAt.toISOString()
   }))
 }
 
@@ -51,7 +53,7 @@ export async function purchaseAccessory (
   const client = await clientPromise
   const db = client.db()
 
-  const newAccessory: Omit<OwnedAccessory, '_id'> = {
+  const newAccessory: Omit<OwnedAccessoryDb, '_id'> = {
     accessoryId,
     ownerId: userId,
     equippedOnMonsterId: null,
@@ -62,7 +64,10 @@ export async function purchaseAccessory (
 
   return {
     _id: result.insertedId.toString(),
-    ...newAccessory
+    accessoryId: newAccessory.accessoryId,
+    ownerId: newAccessory.ownerId,
+    equippedOnMonsterId: newAccessory.equippedOnMonsterId,
+    acquiredAt: newAccessory.acquiredAt.toISOString()
   }
 }
 
