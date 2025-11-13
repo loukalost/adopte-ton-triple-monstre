@@ -32,11 +32,7 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
       name: credentials.name,
       callbackURL: '/app'
     }, {
-      onRequest: (ctx) => {
-        console.log('Signing up...', ctx)
-      },
-      onSuccess: (ctx) => {
-        console.log('User signed up:', ctx)
+      onSuccess: () => {
         setIsLoading(false)
         onError('') // Clear error on success
         // Redirection explicite vers l'application
@@ -44,7 +40,6 @@ function SignUpForm ({ onError }: { onError: (error: string) => void }): React.R
         router.refresh() // Rafraîchir pour charger la session
       },
       onError: (ctx) => {
-        console.error('Sign up error:', ctx)
         setIsLoading(false)
         onError(ctx.error.message)
       }

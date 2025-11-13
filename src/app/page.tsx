@@ -7,6 +7,10 @@ import HeroSection from '@/components/sections/hero-section'
 import MonstersSection from '@/components/sections/monsters-section'
 import NewsletterSection from '@/components/sections/newsletter-section'
 import { Metadata } from 'next'
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { decideHomeRedirect } from '@/services/navigation.service'
 
 export const metadata: Readonly<Metadata> = {
   title: 'ATTM - Adopte Ton Triple Monstre',
@@ -22,8 +26,34 @@ export const metadata: Readonly<Metadata> = {
   }
 }
 
-// Single Responsibility: Home page orchestrates the layout of sections
-export default function Home (): React.ReactNode {
+/**
+ * Page d'accueil avec redirection intelligente
+ *
+ * Single Responsibility: Orchestrer l'affichage de la landing page OU rediriger vers l'app
+ * Dependency Inversion: Dépend du service de navigation (abstraction) pas de Next.js
+ *
+ * Comportement:
+ * - Utilisateur non connecté → Affiche la landing page
+ * - Utilisateur connecté → Redirige automatiquement vers /app
+ */
+export default async function Home (): Promise<React.ReactNode> {
+  // Vérification de la session utilisateur
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+
+  // Décision de navigation basée sur le service (domain layer)
+  const navigationDecision = decideHomeRedirect({
+    isAuthenticated: session !== null && session !== undefined,
+    userId: session?.user?.id
+  })
+
+  // Si redirection nécessaire, rediriger vers /app
+  if (navigationDecision.shouldRedirect) {
+    redirect(navigationDecision.path)
+  }
+
+  // Sinon, afficher la landing page publique
   return (
     <div className='font-sans'>
       <HeaderWrapper />

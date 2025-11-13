@@ -4,12 +4,17 @@ import { redirect } from 'next/navigation'
 import { MonstersAutoUpdater } from '@/components/monsters/auto-updater'
 import AppHeaderWrapper from '@/components/navigation/app-header-wrapper'
 import BottomNavWrapper from '@/components/navigation/bottom-nav-wrapper'
+import { createUnauthenticatedError, logNavigationError } from '@/services/navigation-error.service'
 
 /**
  * Layout spécifique pour la partie applicative (/app)
  *
  * Ce layout englobe toutes les pages de l'application (dashboard, creatures, wallet)
  * et fournit des fonctionnalités communes comme le système de mise à jour automatique.
+ *
+ * Principes SOLID appliqués :
+ * - Single Responsibility: Gère uniquement la structure et la protection des routes /app
+ * - Dependency Inversion: Utilise les services de navigation pour la logique métier
  *
  * Responsabilités :
  * - Protection des routes : redirection si non authentifié
@@ -34,7 +39,15 @@ export default async function AppLayout ({
 
   // Protection de la route : redirection si non authentifié
   if (session === null || session === undefined) {
-    redirect('/sign-in')
+    // Log de l'erreur pour monitoring
+    const error = createUnauthenticatedError('/app')
+    logNavigationError(error, {
+      attemptedPath: '/app',
+      timestamp: new Date().toISOString()
+    })
+
+    // Redirection vers la page de connexion
+    redirect(error.redirectPath ?? '/sign-in')
   }
 
   const userId = session.user?.id ?? null
@@ -51,7 +64,7 @@ export default async function AppLayout ({
         minInterval={60000} // 1 minute minimum
         maxInterval={180000} // 3 minutes maximum
         enabled={userId !== null} // Activé seulement si utilisateur connecté
-        verbose // Logs dans la console
+        verbose={false} // Désactivé par défaut (mettre true pour debug)
         showIndicator={false} // Pas d'indicateur visuel (mettre true pour debug)
       />
 

@@ -29,18 +29,13 @@ function SignInForm ({ onError }: { onError: (error: string) => void }): React.R
       password: credentials.password,
       callbackURL: '/app'
     }, {
-      onRequest: (ctx) => {
-        console.log('Signing in...', ctx)
-      },
-      onSuccess: (ctx) => {
-        console.log('User signed in:', ctx)
+      onSuccess: () => {
         setIsLoading(false)
         // Redirection explicite vers l'application
         router.push('/app')
         router.refresh() // Rafraîchir pour charger la session
       },
       onError: (ctx) => {
-        console.error('Sign in error:', ctx)
         setIsLoading(false)
         onError(ctx.error.message)
       }

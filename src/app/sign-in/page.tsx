@@ -3,11 +3,14 @@ import { connectToDatabase } from '@/db'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { SessionAlert } from '@/components/auth/session-alert'
+import { Suspense } from 'react'
 
 /**
  * Page de connexion
  *
  * Si l'utilisateur est déjà connecté, il est redirigé vers /app
+ * Affiche des alertes si l'utilisateur a été redirigé (session expirée, etc.)
  *
  * @returns {Promise<React.ReactNode>} Page de connexion ou redirection
  */
@@ -52,6 +55,11 @@ async function SignInPage (): Promise<React.ReactNode> {
               Vos petits monstres vous attendent 👹✨
             </p>
           </div>
+
+          {/* Session alerts (session expirée, redirection, etc.) */}
+          <Suspense fallback={null}>
+            <SessionAlert />
+          </Suspense>
 
           <AuthFormContent />
         </div>

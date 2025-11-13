@@ -16,18 +16,24 @@ const client = new MongoClient(uri, {
 async function connectMongooseToDatabase (): Promise<void> {
   try {
     await mongoose.connect(uri)
-    console.log('Mongoose connected to MongoDB database')
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Mongoose connected to MongoDB')
+    }
   } catch (error) {
-    console.error('Error connecting to the database:', error)
+    console.error('❌ MongoDB connection error:', error)
+    throw error
   }
 }
 
 async function connectToDatabase (): Promise<void> {
   try {
     await client.connect()
-    console.log('Connected to MongoDB database')
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ MongoDB client connected')
+    }
   } catch (error) {
-    console.error('Error connecting to the database:', error)
+    console.error('❌ MongoDB connection error:', error)
+    throw error
   }
 }
 

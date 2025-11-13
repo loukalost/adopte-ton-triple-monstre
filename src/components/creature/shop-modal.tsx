@@ -67,8 +67,6 @@ export function ShopModal ({ onClose, creatureName, creatureId }: ShopModalProps
   const handlePurchase = async (boostId: string): Promise<void> => {
     setIsPurchasing(true)
     try {
-      console.log(`Achat du boost ${boostId} pour la créature ${creatureId}`)
-
       await buyXpBoost(creatureId, boostId)
 
       // Recharger le portefeuille
