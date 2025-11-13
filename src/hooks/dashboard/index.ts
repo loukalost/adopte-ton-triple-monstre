@@ -9,11 +9,11 @@ export { useUserDisplay } from './use-user-display'
 export type { UserDisplay } from './use-user-display'
 
 export {
-  useMonsterStats,
-  useLatestAdoptionLabel,
-  useFavoriteMoodMessage
+  calculateMonsterStats,
+  formatLatestAdoptionLabel,
+  formatFavoriteMoodMessage
 } from './use-monster-stats'
 export type { MonsterStats } from './use-monster-stats'
 
-export { useQuests } from './use-quests'
+export { generateQuests } from './use-quests'
 export type { Quest } from './use-quests'

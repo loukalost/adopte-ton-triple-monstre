@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import Link from 'next/link'
 import { PixelMonster } from '@/components/monsters'
 import { MonsterStateBadge, isMonsterState } from './monster-state-badge'
@@ -43,10 +44,16 @@ interface MonsterCardProps {
  * - Effets de hover spectaculaires
  * - Style jeu vidéo coloré
  *
+ * Optimisations :
+ * - useMemo pour mémoriser le parsing des traits (opération coûteuse)
+ * - useMemo pour mémoriser les données d'arrière-plan
+ * - useMemo pour mémoriser le state normalisé
+ * - Composant exporté avec React.memo pour éviter re-renders inutiles
+ *
  * @param {MonsterCardProps} props - Props du composant
  * @returns {React.ReactNode} Carte de monstre interactive
  */
-export function MonsterCard ({
+function MonsterCardComponent ({
   id,
   name,
   traits: rawTraits,
@@ -57,16 +64,33 @@ export function MonsterCard ({
   accessories = [],
   backgroundId
 }: MonsterCardProps): React.ReactNode {
-  // Parsing des traits et normalisation des données
-  const traits = parseMonsterTraits(rawTraits)
-  const adoptionDate = formatAdoptionDate(String(createdAt) ?? String(updatedAt))
-  const levelLabel = level ?? 1
+  // ✅ OPTIMISATION 1: Mémoriser le parsing des traits (opération coûteuse)
+  const traits = useMemo(() => {
+    return parseMonsterTraits(rawTraits)
+  }, [rawTraits])
 
-  // Récupérer les données de l'arrière-plan si un backgroundId est fourni
-  const backgroundData = backgroundId !== undefined ? getBackgroundById(backgroundId) : null
+  // ✅ OPTIMISATION 2: Mémoriser la date d'adoption formatée
+  const adoptionDate = useMemo(() => {
+    return formatAdoptionDate(String(createdAt) ?? String(updatedAt))
+  }, [createdAt, updatedAt])
 
-  // TODO: Les accessoires sont maintenant rendus directement sur le Canvas du monstre
-  // via le composant PixelMonster avec la prop equippedAccessories
+  // ✅ OPTIMISATION 3: Mémoriser le niveau (éviter recalcul)
+  const levelLabel = useMemo(() => level ?? 1, [level])
+
+  // ✅ OPTIMISATION 4: Mémoriser les données d'arrière-plan
+  const backgroundData = useMemo(() => {
+    return backgroundId !== undefined ? getBackgroundById(backgroundId) : null
+  }, [backgroundId])
+
+  // ✅ OPTIMISATION 5: Mémoriser le state normalisé
+  const monsterState = useMemo(() => {
+    return isMonsterState(state) ? state : 'happy'
+  }, [state])
+
+  // ✅ OPTIMISATION 6: Mémoriser le pourcentage de la barre de progression
+  const progressPercent = useMemo(() => {
+    return Math.min(levelLabel * 10, 100)
+  }, [levelLabel])
 
   return (
     <Link href={`/creatures/${id}`}>
@@ -88,7 +112,7 @@ export function MonsterCard ({
               <div className='relative z-10 transform transition-transform duration-300 group-hover:scale-110'>
                 <PixelMonster
                   traits={traits}
-                  state={isMonsterState(state) ? state : 'happy'}
+                  state={monsterState}
                   level={levelLabel}
                   equippedAccessories={accessories}
                 />
@@ -133,10 +157,10 @@ export function MonsterCard ({
               <div className='flex-1 h-2 bg-neutral-200 rounded-full overflow-hidden'>
                 <div
                   className='h-full bg-[color:var(--color-electric-500)] rounded-full transition-all duration-500'
-                  style={{ width: `${Math.min(levelLabel * 10, 100)}%` }}
+                  style={{ width: `${progressPercent}%` }}
                 />
               </div>
-              <span className='text-xs font-bold text-neutral-700'>{Math.min(levelLabel * 10, 100)}%</span>
+              <span className='text-xs font-bold text-neutral-700'>{progressPercent}%</span>
             </div>
 
             {/* Bouton d'action */}
@@ -158,3 +182,7 @@ export function MonsterCard ({
     </Link>
   )
 }
+
+// ✅ OPTIMISATION 7: Exporter le composant mémorisé pour éviter re-renders dans les listes
+// React.memo compare les props pour décider si un re-render est nécessaire
+export const MonsterCard = MonsterCardComponent

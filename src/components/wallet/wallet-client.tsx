@@ -2,17 +2,19 @@
 
 import type React from 'react'
 import { type DBWallet } from '@/actions/wallet.actions'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react'
 import { usePaymentModal } from '@/hooks/wallet/usePaymentModal'
 import { useWalletPayment } from '@/hooks/wallet/useWalletPayment'
 import { walletPackages } from '@/config/wallet-packages'
 import { WalletBalance } from './wallet-balance'
 import { KoinPackageCard } from './koin-package-card'
 import { PaymentFeatures } from './payment-features'
-import PaymentModal from './payment-modal'
 import { AnimatedEmoji } from './ui/animated-emoji'
 import { AccessoriesShop } from '@/components/shop/accessories-shop'
 import { BackgroundsShop } from '@/components/shop/backgrounds-shop'
+
+// ✅ OPTIMISATION 8: Lazy loading du modal de paiement
+const PaymentModal = lazy(async () => await import('./payment-modal'))
 
 type ShopCategory = 'koins' | 'accessories' | 'backgrounds'
 
@@ -22,11 +24,16 @@ interface WalletClientProps {
 
 /**
  * Composant client pour afficher et gérer le wallet de l'utilisateur
- * Refactorisé selon les principes SOLID
+ * Refactorisé selon les principes SOLID + Optimisé avec React hooks
  *
  * Principe SRP: Responsabilité unique de coordination de la page wallet
  * Principe OCP: Ouvert à l'extension via composants modulaires
  * Principe DIP: Dépend d'abstractions (hooks et composants)
+ *
+ * Optimisations :
+ * - useMemo pour mémoriser les calculs de styles
+ * - useCallback pour mémoriser les handlers
+ * - Réduction des re-renders inutiles
  *
  * @param {WalletClientProps} props - Les propriétés du composant
  * @param {DBWallet} props.initialWallet - Le wallet initial de l'utilisateur
@@ -42,11 +49,54 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
     setWallet(initialWallet)
   }, [initialWallet])
 
-  // Callback pour rafraîchir le wallet après un achat d'accessoire
-  const handleAccessoryPurchaseSuccess = (): void => {
+  // ✅ OPTIMISATION 1: Mémoriser le callback de rafraîchissement
+  const handleAccessoryPurchaseSuccess = useCallback((): void => {
     // Recharger la page pour mettre à jour le solde
     window.location.reload()
-  }
+  }, [])
+
+  // ✅ OPTIMISATION 2: Mémoriser les callbacks de changement de catégorie
+  const handleKoinsCategory = useCallback(() => {
+    setShopCategory('koins')
+  }, [])
+
+  const handleAccessoriesCategory = useCallback(() => {
+    setShopCategory('accessories')
+  }, [])
+
+  const handleBackgroundsCategory = useCallback(() => {
+    setShopCategory('backgrounds')
+  }, [])
+
+  // ✅ OPTIMISATION 3: Mémoriser les classes CSS pour les boutons
+  const koinsButtonClass = useMemo(() => {
+    return `px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
+      shopCategory === 'koins'
+        ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
+        : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
+    }`
+  }, [shopCategory])
+
+  const accessoriesButtonClass = useMemo(() => {
+    return `px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
+      shopCategory === 'accessories'
+        ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
+        : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
+    }`
+  }, [shopCategory])
+
+  const backgroundsButtonClass = useMemo(() => {
+    return `px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
+      shopCategory === 'backgrounds'
+        ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
+        : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
+    }`
+  }, [shopCategory])
+
+  // ✅ OPTIMISATION 4: Mémoriser le callback de purchase avec handlePurchase
+  const handlePackagePurchase = useCallback((amount: number) => {
+    void handlePurchase(amount)
+  }, [handlePurchase])
 
   return (
     <div className='min-h-screen bg-[color:var(--color-neutral-50)] p-4'>
@@ -78,34 +128,22 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
         {/* Onglets de catégorie */}
         <div className='flex justify-center gap-4 mb-6'>
           <button
-            onClick={() => { setShopCategory('koins') }}
-            className={`px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
-              shopCategory === 'koins'
-                ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
-                : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
-            }`}
+            onClick={handleKoinsCategory}
+            className={koinsButtonClass}
           >
             <span className='mr-2'>🪙</span>
             Acheter des Koins
           </button>
           <button
-            onClick={() => { setShopCategory('accessories') }}
-            className={`px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
-              shopCategory === 'accessories'
-                ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
-                : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
-            }`}
+            onClick={handleAccessoriesCategory}
+            className={accessoriesButtonClass}
           >
             <span className='mr-2'>🎨</span>
             Accessoires
           </button>
           <button
-            onClick={() => { setShopCategory('backgrounds') }}
-            className={`px-6 py-3 rounded-lg font-bold text-sm transition-all duration-300 ${
-              shopCategory === 'backgrounds'
-                ? 'bg-[color:var(--color-electric-500)] text-white shadow-lg scale-105'
-                : 'bg-white text-[color:var(--color-neutral-700)] border-2 border-[color:var(--color-neutral-200)] hover:border-[color:var(--color-electric-400)]'
-            }`}
+            onClick={handleBackgroundsCategory}
+            className={backgroundsButtonClass}
           >
             <span className='mr-2'>🖼️</span>
             Arrière-plans
@@ -141,7 +179,7 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
                     key={pkg.amount}
                     package={pkg}
                     isPurchasing={isPurchasing}
-                    onPurchase={(amount) => { void handlePurchase(amount) }}
+                    onPurchase={handlePackagePurchase}
                   />
                 ))}
               </div>
@@ -193,10 +231,12 @@ export default function WalletClient ({ initialWallet }: WalletClientProps): Rea
 
       {/* Modal de confirmation/erreur de paiement */}
       {showModal && (
-        <PaymentModal
-          type={modalType}
-          onClose={closeModal}
-        />
+        <Suspense fallback={<div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'><div className='text-white text-xl'>⏳ Chargement...</div></div>}>
+          <PaymentModal
+            type={modalType}
+            onClose={closeModal}
+          />
+        </Suspense>
       )}
     </div>
   )

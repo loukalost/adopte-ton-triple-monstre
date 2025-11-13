@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import type { DBMonster } from '@/types/monster'
 
 /**
@@ -29,7 +28,7 @@ export interface MonsterStats {
 }
 
 /**
- * Hook personnalisé pour calculer les statistiques des monstres
+ * Fonction pure pour calculer les statistiques des monstres
  *
  * Responsabilité unique : agréger et calculer les statistiques
  * à partir de la liste des monstres de l'utilisateur.
@@ -38,66 +37,64 @@ export interface MonsterStats {
  * @returns {MonsterStats} Statistiques calculées
  *
  * @example
- * const stats = useMonsterStats(monsters)
+ * const stats = calculateMonsterStats(monsters)
  * // { totalMonsters: 5, highestLevel: 8, latestAdoption: Date, ... }
  */
-export function useMonsterStats (monsters: DBMonster[]): MonsterStats {
-  return useMemo(() => {
-    if (!Array.isArray(monsters) || monsters.length === 0) {
-      return {
-        totalMonsters: 0,
-        highestLevel: 1,
-        latestAdoption: null,
-        favoriteMood: null,
-        moodVariety: 0
-      }
-    }
-
-    let highestLevel = 1
-    let latestAdoption: Date | null = null
-    const moodCounter: Record<string, number> = {}
-    const moodSet = new Set<string>()
-
-    monsters.forEach((monster) => {
-      // Calcul du niveau le plus élevé
-      const level = monster.level ?? 1
-      if (level > highestLevel) {
-        highestLevel = level
-      }
-
-      // Détermination de la dernière adoption
-      const rawDate = monster.updatedAt ?? monster.createdAt
-      if (rawDate !== undefined) {
-        const parsed = new Date(rawDate)
-        if (!Number.isNaN(parsed.getTime()) && (latestAdoption === null || parsed > latestAdoption)) {
-          latestAdoption = parsed
-        }
-      }
-
-      // Comptage des humeurs
-      const mood = typeof monster.state === 'string' ? monster.state : null
-      if (mood !== null && mood.length > 0) {
-        moodCounter[mood] = (moodCounter[mood] ?? 0) + 1
-        moodSet.add(mood)
-      }
-    })
-
-    // Détermination de l'humeur favorite (la plus fréquente)
-    const favoriteMood = Object.entries(moodCounter)
-      .sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
-
+export function calculateMonsterStats (monsters: DBMonster[]): MonsterStats {
+  if (!Array.isArray(monsters) || monsters.length === 0) {
     return {
-      totalMonsters: monsters.length,
-      highestLevel,
-      latestAdoption,
-      favoriteMood,
-      moodVariety: moodSet.size
+      totalMonsters: 0,
+      highestLevel: 1,
+      latestAdoption: null,
+      favoriteMood: null,
+      moodVariety: 0
     }
-  }, [monsters])
+  }
+
+  let highestLevel = 1
+  let latestAdoption: Date | null = null
+  const moodCounter: Record<string, number> = {}
+  const moodSet = new Set<string>()
+
+  monsters.forEach((monster) => {
+    // Calcul du niveau le plus élevé
+    const level = monster.level ?? 1
+    if (level > highestLevel) {
+      highestLevel = level
+    }
+
+    // Détermination de la dernière adoption
+    const rawDate = monster.updatedAt ?? monster.createdAt
+    if (rawDate !== undefined) {
+      const parsed = new Date(rawDate)
+      if (!Number.isNaN(parsed.getTime()) && (latestAdoption === null || parsed > latestAdoption)) {
+        latestAdoption = parsed
+      }
+    }
+
+    // Comptage des humeurs
+    const mood = typeof monster.state === 'string' ? monster.state : null
+    if (mood !== null && mood.length > 0) {
+      moodCounter[mood] = (moodCounter[mood] ?? 0) + 1
+      moodSet.add(mood)
+    }
+  })
+
+  // Détermination de l'humeur favorite (la plus fréquente)
+  const favoriteMood = Object.entries(moodCounter)
+    .sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
+
+  return {
+    totalMonsters: monsters.length,
+    highestLevel,
+    latestAdoption,
+    favoriteMood,
+    moodVariety: moodSet.size
+  }
 }
 
 /**
- * Hook pour formater la date de dernière adoption
+ * Fonction pure pour formater la date de dernière adoption
  *
  * Responsabilité unique : formater l'affichage de la date d'adoption
  *
@@ -105,25 +102,23 @@ export function useMonsterStats (monsters: DBMonster[]): MonsterStats {
  * @returns {string} Message formaté pour l'affichage
  *
  * @example
- * useLatestAdoptionLabel(new Date()) // "27 octobre 2025"
- * useLatestAdoptionLabel(null) // "À toi de créer ton premier compagnon ✨"
+ * formatLatestAdoptionLabel(new Date()) // "27 octobre 2025"
+ * formatLatestAdoptionLabel(null) // "À toi de créer ton premier compagnon ✨"
  */
-export function useLatestAdoptionLabel (latestAdoption: Date | null): string {
-  return useMemo(() => {
-    if (latestAdoption === null) {
-      return 'À toi de créer ton premier compagnon ✨'
-    }
+export function formatLatestAdoptionLabel (latestAdoption: Date | null): string {
+  if (latestAdoption === null) {
+    return 'À toi de créer ton premier compagnon ✨'
+  }
 
-    return new Intl.DateTimeFormat('fr-FR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    }).format(latestAdoption)
-  }, [latestAdoption])
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  }).format(latestAdoption)
 }
 
 /**
- * Hook pour formater le message de l'humeur favorite
+ * Fonction pure pour formater le message de l'humeur favorite
  *
  * Responsabilité unique : générer le message d'humeur contextuel
  *
@@ -132,20 +127,18 @@ export function useLatestAdoptionLabel (latestAdoption: Date | null): string {
  * @returns {string} Message formaté pour l'affichage
  *
  * @example
- * useFavoriteMoodMessage('happy', 3) // "Aujourd'hui, ta bande est plutôt heureux..."
+ * formatFavoriteMoodMessage('happy', 3) // "Aujourd'hui, ta bande est plutôt heureux..."
  */
-export function useFavoriteMoodMessage (favoriteMood: string | null, totalMonsters: number): string {
-  return useMemo(() => {
-    if (totalMonsters === 0) {
-      return 'Pas encore de vibe détectée. Crée ton premier monstre pour lancer la fête !'
-    }
+export function formatFavoriteMoodMessage (favoriteMood: string | null, totalMonsters: number): string {
+  if (totalMonsters === 0) {
+    return 'Pas encore de vibe détectée. Crée ton premier monstre pour lancer la fête !'
+  }
 
-    const moodLabel = favoriteMood !== null ? (MOOD_LABELS[favoriteMood] ?? favoriteMood) : null
+  const moodLabel = favoriteMood !== null ? (MOOD_LABELS[favoriteMood] ?? favoriteMood) : null
 
-    if (moodLabel === null) {
-      return 'Tes créatures attendent encore de montrer leur humeur préférée. Essaie de les cajoler ou de leur donner un snack !'
-    }
+  if (moodLabel === null) {
+    return 'Tes créatures attendent encore de montrer leur humeur préférée. Essaie de les cajoler ou de leur donner un snack !'
+  }
 
-    return `Aujourd'hui, ta bande est plutôt ${moodLabel.toLowerCase()}. Prévois une activité assortie pour maintenir la bonne humeur !`
-  }, [favoriteMood, totalMonsters])
+  return `Aujourd'hui, ta bande est plutôt ${moodLabel.toLowerCase()}. Prévois une activité assortie pour maintenir la bonne humeur !`
 }

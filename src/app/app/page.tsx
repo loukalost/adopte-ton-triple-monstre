@@ -23,13 +23,13 @@ async function AppPage (): Promise<React.ReactNode> {
     headers: await headers()
   })
 
-  // Récupération de tous les monstres appartenant à l'utilisateur connecté
-  const monsters = await getMonsters()
-
   // TypeScript safety: session est vérifié dans le layout parent
   if (session === null || session === undefined) {
     throw new Error('Session should exist at this point')
   }
+
+  // Récupération de tous les monstres appartenant à l'utilisateur connecté
+  const monsters = await getMonsters()
 
   return (
     <DashboardContent session={session} monsters={monsters} />

@@ -1,22 +1,27 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback, useMemo, lazy, Suspense } from 'react'
 import { authClient } from '@/lib/auth-client'
 import { createMonster } from '@/actions/monsters.actions'
 import type { CreateMonsterFormValues } from '@/types/forms/create-monster-form'
 import type { DBMonster } from '@/types/monster'
 import {
   useUserDisplay,
-  useMonsterStats,
-  useLatestAdoptionLabel,
-  useFavoriteMoodMessage,
-  useQuests
+  calculateMonsterStats,
+  formatLatestAdoptionLabel,
+  formatFavoriteMoodMessage
 } from '@/hooks/dashboard'
-import CreateMonsterModal from './create-monster-modal'
+import { generateQuests } from '@/hooks/dashboard/use-quests'
 import { WelcomeHero } from './welcome-hero'
 import { QuestsSection } from './quests-section'
 import { MoodTipSection } from './mood-tip-section'
 import MonstersList from '../monsters/monsters-list'
+
+// ✅ OPTIMISATION 8: Lazy loading du modal de création de monstre
+const CreateMonsterModal = lazy(async () => await import('./create-monster-modal'))
+
+// ✅ OPTIMISATION 1: Constante pour l'intervalle de polling (augmenté pour réduire les requêtes)
+const POLLING_INTERVAL_DASHBOARD = 30000 // 30s au lieu de 10s (-67% de requêtes)
 
 type Session = typeof authClient.$Infer.Session
 
@@ -31,6 +36,12 @@ type Session = typeof authClient.$Infer.Session
  * - Couleurs fun et engageantes
  * - Animations ludiques
  *
+ * Optimisations :
+ * - useMemo pour mémoriser les calculs de statistiques
+ * - useCallback pour mémoriser les handlers
+ * - Polling réduit (30s au lieu de 10s)
+ * - Évite les re-renders inutiles
+ *
  * @param {Object} props - Props du composant
  * @param {Session} props.session - Session utilisateur Better Auth
  * @param {DBMonster[]} props.monsters - Liste des monstres de l'utilisateur
@@ -42,13 +53,13 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
   // Extraction des informations utilisateur
   const userDisplay = useUserDisplay(session)
 
-  // Calcul des statistiques des monstres
-  const stats = useMonsterStats(monsters)
-  const latestAdoptionLabel = useLatestAdoptionLabel(stats.latestAdoption)
-  const favoriteMoodMessage = useFavoriteMoodMessage(stats.favoriteMood, stats.totalMonsters)
+  // ✅ OPTIMISATION 2: Mémoriser les calculs de statistiques (opérations potentiellement coûteuses)
+  const stats = useMemo(() => calculateMonsterStats(monsterList), [monsterList])
+  const latestAdoptionLabel = useMemo(() => formatLatestAdoptionLabel(stats.latestAdoption), [stats.latestAdoption])
+  const favoriteMoodMessage = useMemo(() => formatFavoriteMoodMessage(stats.favoriteMood, stats.totalMonsters), [stats.favoriteMood, stats.totalMonsters])
 
-  // Génération des quêtes
-  const quests = useQuests(stats)
+  // ✅ OPTIMISATION 3: Mémoriser la génération des quêtes
+  const quests = useMemo(() => generateQuests(stats), [stats.highestLevel, stats.moodVariety, stats.totalMonsters])
 
   useEffect(() => {
     const fetchAndUpdateMonsters = async (): Promise<void> => {
@@ -57,9 +68,10 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
       setMonsterList(updatedMonsters)
     }
 
+    // ✅ OPTIMISATION 4: Polling réduit à 30s au lieu de 10s (-67% de requêtes)
     const interval = setInterval(() => {
       void fetchAndUpdateMonsters()
-    }, 10000)
+    }, POLLING_INTERVAL_DASHBOARD)
 
     return () => clearInterval(interval)
   }, [])
@@ -67,26 +79,29 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
   /**
    * Ouvre le modal de création de monstre
    */
-  const handleCreateMonster = (): void => {
+  // ✅ OPTIMISATION 5: Mémoriser le callback d'ouverture de modal
+  const handleCreateMonster = useCallback((): void => {
     setIsModalOpen(true)
-  }
+  }, [])
 
   /**
    * Ferme le modal de création de monstre
    */
-  const handleCloseModal = (): void => {
+  // ✅ OPTIMISATION 6: Mémoriser le callback de fermeture de modal
+  const handleCloseModal = useCallback((): void => {
     setIsModalOpen(false)
-  }
+  }, [])
 
   /**
    * Soumet le formulaire de création de monstre
    * @param {CreateMonsterFormValues} values - Valeurs du formulaire
    */
-  const handleMonsterSubmit = (values: CreateMonsterFormValues): void => {
+  // ✅ OPTIMISATION 7: Mémoriser le callback de soumission
+  const handleMonsterSubmit = useCallback((values: CreateMonsterFormValues): void => {
     void createMonster(values).then(() => {
       window.location.reload()
     })
-  }
+  }, [])
 
   return (
     <div className='relative min-h-screen overflow-hidden bg-neutral-50'>
@@ -172,11 +187,15 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
       </main>
 
       {/* Modal de création de monstre */}
-      <CreateMonsterModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleMonsterSubmit}
-      />
+      {isModalOpen && (
+        <Suspense fallback={<div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'><div className='text-white text-xl'>✨ Chargement...</div></div>}>
+          <CreateMonsterModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={handleMonsterSubmit}
+          />
+        </Suspense>
+      )}
 
       {/* Styles pour les animations */}
       <style jsx>{`

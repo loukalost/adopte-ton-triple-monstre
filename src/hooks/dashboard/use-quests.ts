@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import type { MonsterStats } from './use-monster-stats'
 
 /**
@@ -14,7 +13,7 @@ export interface Quest {
 }
 
 /**
- * Hook personnalisé pour générer les quêtes quotidiennes du dashboard
+ * Fonction pure pour générer les quêtes quotidiennes du dashboard
  *
  * Responsabilité unique : transformer les statistiques des monstres
  * en liste de quêtes avec leur état de complétion.
@@ -28,15 +27,15 @@ export interface Quest {
  * @returns {Quest[]} Liste des quêtes avec leur état de complétion
  *
  * @example
- * const quests = useQuests(stats)
+ * const quests = generateQuests(stats)
  * // [
  * //   { id: 'create', label: '...', complete: true },
  * //   { id: 'level', label: '...', complete: false },
  * //   { id: 'moods', label: '...', complete: false }
  * // ]
  */
-export function useQuests (stats: MonsterStats): Quest[] {
-  return useMemo(() => [
+export function generateQuests (stats: MonsterStats): Quest[] {
+  return [
     {
       id: 'create',
       label: stats.totalMonsters > 0
@@ -54,5 +53,5 @@ export function useQuests (stats: MonsterStats): Quest[] {
       label: 'Découvre au moins 3 humeurs différentes',
       complete: stats.moodVariety >= 3
     }
-  ], [stats.highestLevel, stats.moodVariety, stats.totalMonsters])
+  ]
 }

@@ -68,7 +68,7 @@ export function WelcomeHero ({
       </div>
 
       {/* Styles pour les animations */}
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes wave {
           0%, 100% {
             transform: rotate(0deg);

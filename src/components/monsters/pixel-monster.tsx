@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import type { OwnedAccessory } from '@/types/accessories'
 import { drawHat, drawGlasses, drawShoes } from '@/lib/utils/draw-accessories'
 import { accessoriesCatalog } from '@/config/accessories.config'
@@ -60,7 +60,21 @@ interface Particle {
   rotationSpeed: number
 }
 
-export function PixelMonster ({
+/**
+ * Composant PixelMonster - Rendu Canvas d'un monstre animé
+ *
+ * Responsabilité unique : dessiner un monstre sur un Canvas avec animations
+ *
+ * Optimisations :
+ * - Utilise un ref pour stocker le context Canvas (évite recréation)
+ * - useEffect avec dépendances optimisées
+ * - Exporté avec React.memo pour éviter re-renders inutiles
+ * - Comparaison personnalisée des props (traits comparés en profondeur)
+ *
+ * @param {PixelMonsterProps} props - Props du composant
+ * @returns {React.ReactNode} Canvas avec le monstre animé
+ */
+function PixelMonsterComponent ({
   state,
   traits = defaultTraits,
   level = 1,
@@ -68,6 +82,8 @@ export function PixelMonster ({
   equippedAccessories = []
 }: PixelMonsterProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  // ✅ OPTIMISATION 1: Garder une référence au context pour éviter recréation
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
   const frameRef = useRef(0)
   const actionFrameRef = useRef(0)
   const particlesRef = useRef<Particle[]>([])
@@ -77,7 +93,11 @@ export function PixelMonster ({
     const canvas = canvasRef.current
     if (canvas == null) return
 
-    const ctx = canvas.getContext('2d')
+    // ✅ OPTIMISATION 2: Récupérer ou créer le context une seule fois
+    if (ctxRef.current === null) {
+      ctxRef.current = canvas.getContext('2d')
+    }
+    const ctx = ctxRef.current
     if (ctx == null) return
 
     canvas.width = 160
@@ -747,3 +767,20 @@ function adjustColorBrightness (hex: string, percent: number): string {
       .slice(1)
   )
 }
+
+// ✅ OPTIMISATION 3: Exporter le composant mémorisé avec comparaison personnalisée
+// React.memo compare les props pour décider si un re-render est nécessaire
+// Comparaison en profondeur des traits pour éviter re-renders inutiles quand les valeurs sont identiques
+export const PixelMonster = memo(
+  PixelMonsterComponent,
+  (prevProps, nextProps) => {
+    // Custom comparison pour éviter re-render si les props sont identiques
+    return (
+      prevProps.state === nextProps.state &&
+      prevProps.level === nextProps.level &&
+      prevProps.currentAction === nextProps.currentAction &&
+      JSON.stringify(prevProps.traits) === JSON.stringify(nextProps.traits) &&
+      JSON.stringify(prevProps.equippedAccessories) === JSON.stringify(nextProps.equippedAccessories)
+    )
+  }
+)
