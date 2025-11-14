@@ -15,9 +15,9 @@ interface Credentials {
 function SignUpForm ({ onError }: { onError: (error: string) => void }): React.ReactNode {
   const router = useRouter()
   const [credentials, setCredentials] = useState<Credentials>({
-    email: 'titi@titi.titi',
-    password: 'zizoulezinzin',
-    name: 'Titi'
+    email: '',
+    password: '',
+    name: ''
   })
   const [isLoading, setIsLoading] = useState<boolean>(false)
 

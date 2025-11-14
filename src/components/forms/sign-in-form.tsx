@@ -14,8 +14,8 @@ interface Credentials {
 function SignInForm ({ onError }: { onError: (error: string) => void }): React.ReactNode {
   const router = useRouter()
   const [credentials, setCredentials] = useState<Credentials>({
-    email: 'titi@titi.titi',
-    password: 'zizoulezinzin'
+    email: '',
+    password: ''
   })
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
