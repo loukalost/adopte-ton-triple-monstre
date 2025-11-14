@@ -55,7 +55,7 @@ export function AccessoryPreview ({
           case 'hat':
             drawHat(
               ctx,
-              drawData.type as any,
+              drawData.type as import('@/types/accessories').HatType,
               primaryColor,
               secondaryColor,
               centerX,
@@ -67,7 +67,7 @@ export function AccessoryPreview ({
           case 'glasses':
             drawGlasses(
               ctx,
-              drawData.type as any,
+              drawData.type as import('@/types/accessories').GlassesType,
               primaryColor,
               secondaryColor,
               centerX,
@@ -79,7 +79,7 @@ export function AccessoryPreview ({
             // Pour les chaussures, on affiche sans animation
             drawShoes(
               ctx,
-              drawData.type as any,
+              drawData.type as import('@/types/accessories').ShoesType,
               primaryColor,
               secondaryColor,
               centerX,

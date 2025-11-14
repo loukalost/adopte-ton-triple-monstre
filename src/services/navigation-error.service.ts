@@ -175,7 +175,7 @@ export function formatErrorForUser (error: NavigationError): string {
  */
 export function logNavigationError (
   error: NavigationError,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): void {
   const logData = {
     type: error.type,

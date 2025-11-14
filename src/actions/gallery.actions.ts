@@ -64,7 +64,12 @@ export async function getPublicMonsters (filters: GalleryFilters = {}): Promise<
     await connectMongooseToDatabase()
 
     // Construction de la requête avec filtres
-    const query: any = { isPublic: true }
+    interface MongoQuery {
+      isPublic: boolean
+      level?: { $gte?: number, $lte?: number }
+      _id?: { $in: ObjectId[] }
+    }
+    const query: MongoQuery = { isPublic: true }
 
     // Filtre par niveau
     if (filters.minLevel !== undefined || filters.maxLevel !== undefined) {
@@ -152,7 +157,12 @@ export async function countPublicMonsters (filters: GalleryFilters = {}): Promis
   try {
     await connectMongooseToDatabase()
 
-    const query: any = { isPublic: true }
+    interface MongoQuery {
+      isPublic: boolean
+      level?: { $gte?: number, $lte?: number }
+      _id?: { $in: ObjectId[] }
+    }
+    const query: MongoQuery = { isPublic: true }
 
     if (filters.minLevel !== undefined || filters.maxLevel !== undefined) {
       query.level = {}

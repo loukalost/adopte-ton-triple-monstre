@@ -332,13 +332,13 @@ function drawEquippedAccessories (
 
     switch (catalogItem.category) {
       case 'hat':
-        drawHat(ctx, drawData.type as any, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize, frame)
+        drawHat(ctx, drawData.type as import('@/types/accessories').HatType, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize, frame)
         break
       case 'glasses':
-        drawGlasses(ctx, drawData.type as any, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize)
+        drawGlasses(ctx, drawData.type as import('@/types/accessories').GlassesType, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize)
         break
       case 'shoes':
-        drawShoes(ctx, drawData.type as any, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize, armWave)
+        drawShoes(ctx, drawData.type as import('@/types/accessories').ShoesType, primaryColor, secondaryColor, x + offsetX, bodyY + offsetY, pixelSize, armWave)
         break
     }
   })

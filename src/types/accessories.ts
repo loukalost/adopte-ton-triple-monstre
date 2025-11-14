@@ -93,13 +93,15 @@ export interface OwnedAccessory {
   acquiredAt: string
 }
 
+import type { ObjectId } from 'mongodb'
+
 /**
  * Accessoire possédé - Version base de données (avec types MongoDB)
  * À utiliser uniquement côté serveur
  */
 export interface OwnedAccessoryDb {
   /** ID de l'enregistrement */
-  _id: any // ObjectId
+  _id: ObjectId
   /** ID de l'accessoire dans le catalogue */
   accessoryId: string
   /** ID du propriétaire */

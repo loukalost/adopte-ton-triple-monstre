@@ -96,13 +96,15 @@ export interface OwnedBackground {
   purchasedAt: string
 }
 
+import type { ObjectId } from 'mongodb'
+
 /**
  * Arrière-plan possédé - Version base de données (avec types MongoDB)
  * À utiliser uniquement côté serveur
  */
 export interface OwnedBackgroundDb {
   /** ID MongoDB */
-  _id: any // ObjectId
+  _id: ObjectId
   /** ID de l'utilisateur propriétaire */
   userId: string
   /** ID de l'arrière-plan dans le catalogue */
