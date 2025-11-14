@@ -261,7 +261,8 @@ function drawMonster (
 
   let extraBounce = 0
   if (state === 'happy') {
-    extraBounce = Math.abs(Math.sin(frame * 0.2)) * -8
+    // Ralenti de 0.2 à 0.08 pour un mouvement plus doux
+    extraBounce = Math.abs(Math.sin(frame * 0.08)) * -8
   }
 
   const bodyY = 55 + bounce + extraBounce
