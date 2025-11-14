@@ -91,7 +91,7 @@ export function OAuthButton ({
       className={`${baseClass} ${colorClass} ${stateClass}`}
       aria-label={`${provider.label}`}
     >
-      <span className='text-2xl'>{provider.icon}</span>
+      {provider.iconSvg ?? <span className='text-2xl'>{provider.icon}</span>}
       <span className='text-sm'>
         {isLoading ? '🔄 Connexion...' : provider.label}
       </span>

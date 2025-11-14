@@ -9,6 +9,8 @@
  * @module config/oauth
  */
 
+import { GitHubIcon, GoogleIcon } from '@/components/auth/oauth-icons'
+
 /**
  * Configuration d'un provider OAuth
  */
@@ -19,6 +21,8 @@ export interface OAuthProviderConfig {
   label: string
   /** Icône/Emoji du provider */
   icon: string
+  /** Element SVG pour l'icône (optionnel, prioritaire sur icon) */
+  iconSvg?: React.ReactNode
   /** Couleur de fond du bouton (Tailwind CSS) */
   bgColor: string
   /** Couleur de fond au hover (Tailwind CSS) */
@@ -36,9 +40,24 @@ export const GITHUB_OAUTH_CONFIG: OAuthProviderConfig = {
   name: 'github',
   label: 'Continuer avec GitHub',
   icon: '🐙',
+  iconSvg: GitHubIcon({ className: 'w-5 h-5' }),
   bgColor: 'bg-gray-800',
   bgColorHover: 'hover:bg-gray-900',
   textColor: 'text-white',
+  enabled: true
+}
+
+/**
+ * Configuration Google OAuth
+ */
+export const GOOGLE_OAUTH_CONFIG: OAuthProviderConfig = {
+  name: 'google',
+  label: 'Continuer avec Google',
+  icon: '🔵',
+  iconSvg: GoogleIcon({ className: 'w-5 h-5' }),
+  bgColor: 'bg-white',
+  bgColorHover: 'hover:bg-gray-50',
+  textColor: 'text-gray-700',
   enabled: true
 }
 
@@ -47,9 +66,9 @@ export const GITHUB_OAUTH_CONFIG: OAuthProviderConfig = {
  * Pour ajouter un nouveau provider, il suffit de l'ajouter ici
  */
 export const OAUTH_PROVIDERS: Record<string, OAuthProviderConfig> = {
-  github: GITHUB_OAUTH_CONFIG
+  github: GITHUB_OAUTH_CONFIG,
+  google: GOOGLE_OAUTH_CONFIG
   // Prêt pour extension :
-  // google: { ... },
   // discord: { ... }
 }
 
