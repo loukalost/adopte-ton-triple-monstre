@@ -1,6 +1,6 @@
 import type React from 'react'
-import Button from '@/components/button'
 import { AnimatedEmoji } from './ui'
+import Button from '../button'
 
 export interface KoinPackage {
   amount: number
