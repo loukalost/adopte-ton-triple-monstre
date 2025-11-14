@@ -67,6 +67,7 @@ export async function getPublicMonsters (filters: GalleryFilters = {}): Promise<
     interface MongoQuery {
       isPublic: boolean
       level?: { $gte?: number, $lte?: number }
+      state?: string
       _id?: { $in: ObjectId[] }
     }
     const query: MongoQuery = { isPublic: true }
@@ -160,6 +161,7 @@ export async function countPublicMonsters (filters: GalleryFilters = {}): Promis
     interface MongoQuery {
       isPublic: boolean
       level?: { $gte?: number, $lte?: number }
+      state?: string
       _id?: { $in: ObjectId[] }
     }
     const query: MongoQuery = { isPublic: true }

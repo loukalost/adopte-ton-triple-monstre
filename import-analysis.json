@@ -1,0 +1,1526 @@
+﻿[
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import { revalidatePath } from \u0027next/cache\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import { getAccessoryById, getAccessoryPrice } from \u0027@/config/accessories.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import {\r\n  getUserAccessories,\r\n  getMonsterAccessories,\r\n  purchaseAccessory as dbPurchaseAccessory,\r\n  equipAccessory as dbEquipAccessory,\r\n  unequipAccessory as dbUnequipAccessory,\r\n  userOwnsAccessory\r\n} from \u0027@/db/models/accessory.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import { subtractKoins } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\accessories.actions.ts",
+        "Import":  "import { updateQuestProgress } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import {\r\n  getUserBackgrounds,\r\n  hasBackground,\r\n  purchaseBackground as purchaseBackgroundDb\r\n} from \u0027@/db/models/background.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import Wallet from \u0027@/db/models/wallet.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\backgrounds.actions.ts",
+        "Import":  "import { getBackgroundById, getBackgroundPrice } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\gallery.actions.ts",
+        "Import":  "import { connectMongooseToDatabase, client } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\gallery.actions.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\gallery.actions.ts",
+        "Import":  "import { ObjectId } from \u0027mongodb\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import { revalidatePath } from \u0027next/cache\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import { Types } from \u0027mongoose\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\monsters.actions.ts",
+        "Import":  "import { updateQuestProgress } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\navigation.actions.ts",
+        "Import":  "import { redirect } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import DailyQuestsModel from \u0027@/db/models/daily-quests.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import Wallet from \u0027@/db/models/wallet.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import { revalidatePath } from \u0027next/cache\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\quests.actions.ts",
+        "Import":  "import { getRandomQuests, getQuestTemplateById } from \u0027@/config/quests.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\shop.actions.ts",
+        "Import":  "import { xpBoosts } from \u0027@/config/shop.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\shop.actions.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\shop.actions.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\shop.actions.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\shop.actions.ts",
+        "Import":  "import { revalidatePath } from \u0027next/cache\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\shop.actions.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\wallet.actions.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\wallet.actions.ts",
+        "Import":  "import Wallet from \u0027@/db/models/wallet.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\wallet.actions.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\wallet.actions.ts",
+        "Import":  "import { revalidatePath } from \u0027next/cache\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\wallet.actions.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\actions\\wallet.actions.ts",
+        "Import":  "import { calculateReward, type RewardResult } from \u0027@/services/rewards.service\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\auth\\[...all]\\route.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\auth\\[...all]\\route.ts",
+        "Import":  "import Wallet from \u0027@/db/models/wallet.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\auth\\[...all]\\route.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\auth\\[...all]\\route.ts",
+        "Import":  "import { revalidatePath } from \u0027next/cache\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\auth\\[...all]\\route.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\auth\\[...all]\\route.ts",
+        "Import":  "import { calculateReward, type RewardResult } from \u0027@/services/rewards.service\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\checkout\\sessions\\route.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\checkout\\sessions\\route.ts",
+        "Import":  "import { stripe } from \u0027@/lib/stripe\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\checkout\\sessions\\route.ts",
+        "Import":  "import { pricingTable } from \u0027@/config/pricing\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\checkout\\sessions\\route.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\cron\\renew-quests\\route.ts",
+        "Import":  "import { NextRequest, NextResponse } from \u0027next/server\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\cron\\renew-quests\\route.ts",
+        "Import":  "import { renewAllDailyQuests } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\cron\\update-monsters\\route.ts",
+        "Import":  "import { NextRequest, NextResponse } from \u0027next/server\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\cron\\update-monsters\\route.ts",
+        "Import":  "import { ObjectId } from \u0027mongodb\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\cron\\update-monsters\\route.ts",
+        "Import":  "import clientPromise from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\state\\route.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\state\\route.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\state\\route.ts",
+        "Import":  "import { type NextRequest } from \u0027next/server\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\route.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\route.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\route.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\route.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monster\\route.ts",
+        "Import":  "import { NextRequest } from \u0027next/server\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monsters\\migrate-xp\\route.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monsters\\migrate-xp\\route.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monsters\\route.ts",
+        "Import":  "import { connectMongooseToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monsters\\route.ts",
+        "Import":  "import Monster from \u0027@/db/models/monster.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monsters\\route.ts",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\monsters\\route.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\webhook\\stripe\\route.ts",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\webhook\\stripe\\route.ts",
+        "Import":  "import { stripe } from \u0027@/lib/stripe\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\webhook\\stripe\\route.ts",
+        "Import":  "import Stripe from \u0027stripe\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\webhook\\stripe\\route.ts",
+        "Import":  "import Wallet from \u0027@/db/models/wallet.model\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\webhook\\stripe\\route.ts",
+        "Import":  "import { pricingTable } from \u0027@/config/pricing\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\api\\webhook\\stripe\\route.ts",
+        "Import":  "import mongoose from \u0027mongoose\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\gallery\\page.tsx",
+        "Import":  "import { getPublicMonsters, countPublicMonsters } from \u0027@/actions/gallery.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\gallery\\page.tsx",
+        "Import":  "import { PublicGallery } from \u0027@/components/gallery/public-gallery\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\wallet\\page.tsx",
+        "Import":  "import { getWallet } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\wallet\\page.tsx",
+        "Import":  "import WalletClient from \u0027@/components/wallet/wallet-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\wallet\\page.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\wallet\\page.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\wallet\\page.tsx",
+        "Import":  "import { redirect } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import { redirect } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import { MonstersAutoUpdater } from \u0027@/components/monsters/auto-updater\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import AppHeaderWrapper from \u0027@/components/navigation/app-header-wrapper\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import BottomNavWrapper from \u0027@/components/navigation/bottom-nav-wrapper\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\layout.tsx",
+        "Import":  "import { createUnauthenticatedError, logNavigationError } from \u0027@/services/navigation-error.service\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\page.tsx",
+        "Import":  "import { getMonsters } from \u0027@/actions/monsters.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\page.tsx",
+        "Import":  "import { getDailyQuests } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\page.tsx",
+        "Import":  "import DashboardContent from \u0027@/components/dashboard/dashboard-content\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\page.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\app\\page.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\creatures\\[...id]\\page.tsx",
+        "Import":  "import { getMonsters } from \u0027@/actions/monsters.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\creatures\\[...id]\\page.tsx",
+        "Import":  "import { getDailyQuests } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\creatures\\[...id]\\page.tsx",
+        "Import":  "import DashboardContent from \u0027@/components/dashboard/dashboard-content\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\creatures\\[...id]\\page.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\creatures\\[...id]\\page.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import AuthFormContent from \u0027@/components/forms/auth-form-content\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import { connectToDatabase } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import { redirect } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import { SessionAlert } from \u0027@/components/auth/session-alert\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\sign-in\\page.tsx",
+        "Import":  "import { Suspense } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\layout.tsx",
+        "Import":  "import { Geist, Geist_Mono } from \u0027next/font/google\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\layout.tsx",
+        "Import":  "import { ToastContainer } from \u0027react-toastify\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import ActionsSection from \u0027@/components/sections/actions-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import BenefitsSection from \u0027@/components/sections/benefits-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import Footer from \u0027@/components/sections/footer\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import HeaderWrapper from \u0027@/components/sections/header-wrapper\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import HeroSection from \u0027@/components/sections/hero-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import MonstersSection from \u0027@/components/sections/monsters-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import NewsletterSection from \u0027@/components/sections/newsletter-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import { Metadata } from \u0027next\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import { redirect } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\app\\page.tsx",
+        "Import":  "import { decideHomeRedirect } from \u0027@/services/navigation.service\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-preview.tsx",
+        "Import":  "import { useEffect, useRef } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-preview.tsx",
+        "Import":  "import { drawHat, drawGlasses, drawShoes } from \u0027@/lib/utils/draw-accessories\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-selector.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-selector.tsx",
+        "Import":  "import { useAccessories } from \u0027@/hooks/accessories/use-accessories\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-selector.tsx",
+        "Import":  "import { useEquipAccessory } from \u0027@/hooks/accessories/use-equip-accessory\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-selector.tsx",
+        "Import":  "import { getAccessoryById } from \u0027@/config/accessories.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-selector.tsx",
+        "Import":  "import { RarityBadge } from \u0027./rarity-badge\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-selector.tsx",
+        "Import":  "import { AccessoryPreview } from \u0027./accessory-preview\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-slot.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-slot.tsx",
+        "Import":  "import { getAccessoryById } from \u0027@/config/accessories.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-slot.tsx",
+        "Import":  "import { AccessorySelector } from \u0027./accessory-selector\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\accessory-slot.tsx",
+        "Import":  "import { AccessoryPreview } from \u0027./accessory-preview\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\accessories\\rarity-badge.tsx",
+        "Import":  "import { getRarityConfig } from \u0027@/lib/utils/rarity.utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\oauth-button.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\oauth-button.tsx",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\oauth-button.tsx",
+        "Import":  "import { TRANSITION_CLASSES } from \u0027@/config/ui.constants\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\oauth-section.tsx",
+        "Import":  "import { OAuthButton } from \u0027./oauth-button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\oauth-section.tsx",
+        "Import":  "import { OAUTH_PROVIDERS } from \u0027@/config/oauth.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\session-alert.tsx",
+        "Import":  "import { SESSION_ALERTS, SESSION_ALERT_DURATIONS, type SessionAlertType } from \u0027@/config/session.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\session-alert.tsx",
+        "Import":  "import { useSearchParams } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\auth\\session-alert.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\backgrounds\\background-renderer.tsx",
+        "Import":  "import { useEffect, useRef } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\backgrounds\\background-selector.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\backgrounds\\background-selector.tsx",
+        "Import":  "import { useBackgrounds } from \u0027@/hooks/backgrounds/use-backgrounds\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\backgrounds\\background-selector.tsx",
+        "Import":  "import { useApplyBackground } from \u0027@/hooks/backgrounds/use-apply-background\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\backgrounds\\background-selector.tsx",
+        "Import":  "import { getBackgroundById, backgroundRarityConfig } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\backgrounds\\background-selector.tsx",
+        "Import":  "import BackgroundRenderer from \u0027./background-renderer\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-monster-display.tsx",
+        "Import":  "import { AnimatedMonster, MonsterActions } from \u0027@/components/monsters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-monster-display.tsx",
+        "Import":  "import { getStateLabel } from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-monster-display.tsx",
+        "Import":  "import { getBackgroundById } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-monster-display.tsx",
+        "Import":  "import BackgroundRenderer from \u0027@/components/backgrounds/background-renderer\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { useEffect, useState, useRef, useCallback, useMemo, lazy, Suspense } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { getCreatureAccessories } from \u0027@/actions/accessories.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { parseMonsterTraits } from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { CreatureMonsterDisplay } from \u0027./creature-monster-display\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { CreatureStatsPanel } from \u0027./creature-stats-panel\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { CreatureTraitsPanel } from \u0027./creature-traits-panel\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { CreatureColorsPanel } from \u0027./creature-colors-panel\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { AccessorySlot } from \u0027@/components/accessories/accessory-slot\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { getBackgroundById } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-page-client.tsx",
+        "Import":  "import { MonsterPublicToggle } from \u0027@/components/monsters/monster-public-toggle\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-stats-panel.tsx",
+        "Import":  "import { getStateLabel } from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-stats-panel.tsx",
+        "Import":  "import { XpProgressBar } from \u0027./xp-progress-bar\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\creature-traits-panel.tsx",
+        "Import":  "import {\r\n  getBodyStyleLabel,\r\n  getEyeStyleLabel,\r\n  getAntennaStyleLabel,\r\n  getAccessoryLabel\r\n} from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\level-up-animation.tsx",
+        "Import":  "import { useEffect, useState, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\level-up-modal.tsx",
+        "Import":  "import { useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { toast } from \u0027react-toastify\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { buyXpBoost } from \u0027@/actions/shop.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { getWallet } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { xpBoosts } from \u0027@/config/shop.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { XPBoostCard } from \u0027./xp-boost-card\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { AccessoriesShop } from \u0027@/components/shop/accessories-shop\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\shop-modal.tsx",
+        "Import":  "import { BackgroundsShop } from \u0027@/components/shop/backgrounds-shop\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\xp-boost-card.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\creature\\xp-progress-bar.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\create-monster-modal.tsx",
+        "Import":  "import CreateMonsterForm from \u0027../forms/create-monster-form\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\create-monster-modal.tsx",
+        "Import":  "import { ModalOverlay } from \u0027./modal-overlay\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\create-monster-modal.tsx",
+        "Import":  "import { ModalHeader } from \u0027./modal-header\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import { useEffect, useState, useCallback, useMemo, lazy, Suspense } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import { createMonster } from \u0027@/actions/monsters.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import {\r\n  useUserDisplay,\r\n  calculateMonsterStats,\r\n  formatLatestAdoptionLabel,\r\n  formatFavoriteMoodMessage\r\n} from \u0027@/hooks/dashboard\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import { WelcomeHero } from \u0027./welcome-hero\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import { DailyQuests } from \u0027../quests/daily-quests\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import { MoodTipSection } from \u0027./mood-tip-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\dashboard-content.tsx",
+        "Import":  "import MonstersList from \u0027../monsters/monsters-list\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\dashboard\\modal-header.tsx",
+        "Import":  "import { Button } from \u0027@/components\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\auth-form-content.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\auth-form-content.tsx",
+        "Import":  "import SignInForm from \u0027./sign-in-form\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\auth-form-content.tsx",
+        "Import":  "import SignUpForm from \u0027./sign-up-form\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\auth-form-content.tsx",
+        "Import":  "import { Button } from \u0027@/components\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.tsx",
+        "Import":  "import { Button, InputField } from \u0027@/components\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.tsx",
+        "Import":  "import {\r\n  createInitialFormState,\r\n  validateCreateMonsterForm,\r\n  type CreateMonsterFormDraft,\r\n  type CreateMonsterFormErrors\r\n} from \u0027./create-monster-form.validation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.tsx",
+        "Import":  "import { generateRandomTraits } from \u0027../../services/monsters/monster-generator\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.tsx",
+        "Import":  "import {\r\n  DEFAULT_MONSTER_STATE,\r\n  MONSTER_STATES,\r\n  type MonsterTraits,\r\n  type MonsterState\r\n} from \u0027@/types/monster\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.tsx",
+        "Import":  "import { PixelMonster } from \u0027../monsters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\create-monster-form.validation.ts",
+        "Import":  "import { DEFAULT_MONSTER_LEVEL, DEFAULT_MONSTER_STATE, type MonsterTraits } from \u0027@/types/monster\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-in-form.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-in-form.tsx",
+        "Import":  "import { useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-in-form.tsx",
+        "Import":  "import { Button, InputField } from \u0027@/components\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-in-form.tsx",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-in-form.tsx",
+        "Import":  "import { OAuthSection } from \u0027@/components/auth/oauth-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-up-form.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-up-form.tsx",
+        "Import":  "import { useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-up-form.tsx",
+        "Import":  "import { Button, InputField } from \u0027@/components\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-up-form.tsx",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\forms\\sign-up-form.tsx",
+        "Import":  "import { OAuthSection } from \u0027@/components/auth/oauth-section\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\gallery-filters.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { useMemo, useState, useTransition } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { PixelMonster } from \u0027@/components/monsters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { MonsterStateBadge, isMonsterState } from \u0027@/components/monsters/monster-state-badge\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { getPublicMonsters, countPublicMonsters } from \u0027@/actions/gallery.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { parseMonsterTraits } from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import BackgroundRenderer from \u0027@/components/backgrounds/background-renderer\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { getBackgroundById } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { GalleryFilters } from \u0027./gallery-filters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\gallery\\public-gallery.tsx",
+        "Import":  "import { useGalleryVisit } from \u0027@/hooks/use-gallery-visit\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\animated-monster.tsx",
+        "Import":  "import { PixelMonster } from \u0027@/components/monsters/pixel-monster\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\auto-updater.tsx",
+        "Import":  "import { useAutoUpdateMonsters } from \u0027@/hooks/use-auto-update-monsters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\auto-updater.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\empty-monsters-state.tsx",
+        "Import":  "import { mergeClasses } from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { doActionOnMonster } from \u0027@/actions/monsters.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { rewardActionKoins } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { MONSTER_ACTIONS, getActionColors } from \u0027@/config/monster-actions.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { REWARD_TOAST_CONFIG, ERROR_TOAST_CONFIG } from \u0027@/config/toast.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { TRANSITION_CLASSES } from \u0027@/config/ui.constants\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { useMonsterAction, type MonsterAction } from \u0027@/hooks/monsters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { formatRewardMessage } from \u0027@/services/rewards.service\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-actions.tsx",
+        "Import":  "import { toast } from \u0027react-toastify\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import { useMemo } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import Link from \u0027next/link\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import { PixelMonster } from \u0027@/components/monsters\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import { MonsterStateBadge, isMonsterState } from \u0027./monster-state-badge\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import { MonsterPublicToggle } from \u0027./monster-public-toggle\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import { parseMonsterTraits, formatAdoptionDate } from \u0027@/lib/utils\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import BackgroundRenderer from \u0027@/components/backgrounds/background-renderer\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-card.tsx",
+        "Import":  "import { getBackgroundById } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-public-toggle.tsx",
+        "Import":  "import { useState, useTransition } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-public-toggle.tsx",
+        "Import":  "import { toggleMonsterPublicStatus } from \u0027@/actions/monsters.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monster-state-badge.tsx",
+        "Import":  "import {\r\n  MONSTER_STATES,\r\n  type MonsterState,\r\n  DEFAULT_MONSTER_STATE\r\n} from \u0027@/types/monster\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monsters-list.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monsters-list.tsx",
+        "Import":  "import { getCreatureAccessories } from \u0027@/actions/accessories.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monsters-list.tsx",
+        "Import":  "import { EmptyMonstersState } from \u0027./empty-monsters-state\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\monsters-list.tsx",
+        "Import":  "import { MonsterCard } from \u0027./monster-card\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\pixel-monster.tsx",
+        "Import":  "import { useEffect, useRef, memo } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\pixel-monster.tsx",
+        "Import":  "import { drawHat, drawGlasses, drawShoes } from \u0027@/lib/utils/draw-accessories\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\monsters\\pixel-monster.tsx",
+        "Import":  "import { accessoriesCatalog } from \u0027@/config/accessories.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header-wrapper.tsx",
+        "Import":  "import { getWallet } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header-wrapper.tsx",
+        "Import":  "import AppHeader from \u0027./app-header\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header.tsx",
+        "Import":  "import Image from \u0027next/image\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header.tsx",
+        "Import":  "import Link from \u0027next/link\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header.tsx",
+        "Import":  "import { usePathname, useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header.tsx",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-header.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-layout.tsx",
+        "Import":  "import AppHeaderWrapper from \u0027./app-header-wrapper\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\app-layout.tsx",
+        "Import":  "import BottomNavWrapper from \u0027./bottom-nav-wrapper\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\bottom-nav-wrapper.tsx",
+        "Import":  "import { getWallet } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\bottom-nav-wrapper.tsx",
+        "Import":  "import BottomNav from \u0027./bottom-nav\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\bottom-nav.tsx",
+        "Import":  "import Link from \u0027next/link\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\bottom-nav.tsx",
+        "Import":  "import { usePathname, useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\bottom-nav.tsx",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\navigation\\bottom-nav.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\quests\\daily-quests.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\quests\\daily-quests.tsx",
+        "Import":  "import { QuestCard } from \u0027./quest-card\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\quests\\quest-card.tsx",
+        "Import":  "import { useMemo, useState, useTransition } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\quests\\quest-card.tsx",
+        "Import":  "import { claimQuestReward } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\quests\\quest-completion-toast.tsx",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\sections\\header-wrapper.tsx",
+        "Import":  "import { auth } from \u0027@/lib/auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\sections\\header-wrapper.tsx",
+        "Import":  "import { headers } from \u0027next/headers\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\sections\\header-wrapper.tsx",
+        "Import":  "import Header from \u0027../header\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\sections\\hero-section.tsx",
+        "Import":  "import Button from \u0027@/components/button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\sections\\monsters-section.tsx",
+        "Import":  "import Button from \u0027@/components/button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\sections\\newsletter-section.tsx",
+        "Import":  "import { Button } from \u0027@/components\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\accessories-shop.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\accessories-shop.tsx",
+        "Import":  "import { accessoriesCatalog, getAccessoryPrice } from \u0027@/config/accessories.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\accessories-shop.tsx",
+        "Import":  "import { purchaseAccessory } from \u0027@/actions/accessories.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\accessories-shop.tsx",
+        "Import":  "import { RarityBadge } from \u0027@/components/accessories/rarity-badge\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\accessories-shop.tsx",
+        "Import":  "import { AccessoryPreview } from \u0027@/components/accessories/accessory-preview\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\accessories-shop.tsx",
+        "Import":  "import { useAccessories } from \u0027@/hooks/accessories/use-accessories\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\backgrounds-shop.tsx",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\backgrounds-shop.tsx",
+        "Import":  "import { backgroundsCatalog, getBackgroundPrice, backgroundRarityConfig } from \u0027@/config/backgrounds.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\backgrounds-shop.tsx",
+        "Import":  "import { useBackgrounds } from \u0027@/hooks/backgrounds/use-backgrounds\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\backgrounds-shop.tsx",
+        "Import":  "import { usePurchaseBackground } from \u0027@/hooks/backgrounds/use-purchase-background\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\shop\\backgrounds-shop.tsx",
+        "Import":  "import BackgroundRenderer from \u0027@/components/backgrounds/background-renderer\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\modal\\error-modal-content.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\modal\\error-modal-content.tsx",
+        "Import":  "import Button from \u0027@/components/button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\modal\\modal.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\modal\\modal.tsx",
+        "Import":  "import { useKeyboardShortcut } from \u0027@/hooks/wallet/useKeyboardShortcut\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\modal\\success-modal-content.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\modal\\success-modal-content.tsx",
+        "Import":  "import Button from \u0027@/components/button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\ui\\animated-emoji.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\ui\\badge.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\ui\\card.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\ui\\decorative-background.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\ui\\gradient-button.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\koin-package-card.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\koin-package-card.tsx",
+        "Import":  "import { AnimatedEmoji } from \u0027./ui\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\koin-package-card.tsx",
+        "Import":  "import Button from \u0027../button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\payment-features.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\payment-features.tsx",
+        "Import":  "import { Card } from \u0027./ui/card\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\payment-modal.tsx",
+        "Import":  "import { useConfetti } from \u0027@/hooks/wallet/useConfetti\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\payment-modal.tsx",
+        "Import":  "import { Modal } from \u0027./modal/modal\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\payment-modal.tsx",
+        "Import":  "import { SuccessModalContent } from \u0027./modal/success-modal-content\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\payment-modal.tsx",
+        "Import":  "import { ErrorModalContent } from \u0027./modal/error-modal-content\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-balance.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-balance.tsx",
+        "Import":  "import { AnimatedEmoji } from \u0027./ui/animated-emoji\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-balance.tsx",
+        "Import":  "import { useCountUp } from \u0027@/hooks/wallet/useCountUp\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-balance.tsx",
+        "Import":  "import { ANIMATION_DURATIONS } from \u0027@/config/ui.constants\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import type React from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { type DBWallet } from \u0027@/actions/wallet.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { usePaymentModal } from \u0027@/hooks/wallet/usePaymentModal\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { useWalletPayment } from \u0027@/hooks/wallet/useWalletPayment\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { walletPackages } from \u0027@/config/wallet-packages\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { WalletBalance } from \u0027./wallet-balance\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { KoinPackageCard } from \u0027./koin-package-card\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { PaymentFeatures } from \u0027./payment-features\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { AnimatedEmoji } from \u0027./ui/animated-emoji\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { AccessoriesShop } from \u0027@/components/shop/accessories-shop\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\wallet\\wallet-client.tsx",
+        "Import":  "import { BackgroundsShop } from \u0027@/components/shop/backgrounds-shop\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\error-client.tsx",
+        "Import":  "import { redirectToDashboard } from \u0027@/actions/navigation.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\error-client.tsx",
+        "Import":  "import { useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\error-client.tsx",
+        "Import":  "import { toast } from \u0027react-toastify\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\header.tsx",
+        "Import":  "import { useCallback, useMemo } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\header.tsx",
+        "Import":  "import Image from \u0027next/image\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\components\\header.tsx",
+        "Import":  "import Button from \u0027./button\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\config\\wallet-packages.ts",
+        "Import":  "import { pricingTable } from \u0027./pricing\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\config\\wallet.constants.ts",
+        "Import":  "import { pricingTable } from \u0027./pricing\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\models\\accessory.model.ts",
+        "Import":  "import clientPromise from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\models\\accessory.model.ts",
+        "Import":  "import { ObjectId } from \u0027mongodb\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\models\\background.model.ts",
+        "Import":  "import { type Collection } from \u0027mongodb\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\models\\background.model.ts",
+        "Import":  "import clientPromise from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\models\\monster.model.ts",
+        "Import":  "import mongoose from \u0027mongoose\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\models\\wallet.model.ts",
+        "Import":  "import mongoose from \u0027mongoose\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\index.ts",
+        "Import":  "import { MongoClient, ServerApiVersion } from \u0027mongodb\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\db\\index.ts",
+        "Import":  "import mongoose from \u0027mongoose\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\accessories\\use-accessories.ts",
+        "Import":  "import { useState, useEffect, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\accessories\\use-accessories.ts",
+        "Import":  "import { getMyAccessories } from \u0027@/actions/accessories.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\accessories\\use-equip-accessory.ts",
+        "Import":  "import { useState, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\accessories\\use-equip-accessory.ts",
+        "Import":  "import {\r\n  equipAccessory as equipAccessoryAction,\r\n  unequipAccessory as unequipAccessoryAction\r\n} from \u0027@/actions/accessories.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\accessories\\use-equip-accessory.ts",
+        "Import":  "import { useAccessories } from \u0027./use-accessories\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-apply-background.ts",
+        "Import":  "import { useState, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-apply-background.ts",
+        "Import":  "import {\r\n  applyBackgroundToMonster,\r\n  removeBackgroundFromMonster\r\n} from \u0027@/actions/backgrounds.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-backgrounds.ts",
+        "Import":  "import { useState, useEffect, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-backgrounds.ts",
+        "Import":  "import { getUserOwnedBackgrounds } from \u0027@/actions/backgrounds.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-purchase-background.ts",
+        "Import":  "import { useState, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-purchase-background.ts",
+        "Import":  "import { purchaseBackground as purchaseBackgroundAction } from \u0027@/actions/backgrounds.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\backgrounds\\use-purchase-background.ts",
+        "Import":  "import { useBackgrounds } from \u0027./use-backgrounds\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\dashboard\\use-user-display.ts",
+        "Import":  "import { useMemo } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\dashboard\\use-user-display.ts",
+        "Import":  "import { authClient } from \u0027@/lib/auth-client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\monsters\\use-monster-action.ts",
+        "Import":  "import { useState, useCallback } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\useConfetti.ts",
+        "Import":  "import { useEffect, useRef } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\useConfetti.ts",
+        "Import":  "import confetti from \u0027canvas-confetti\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\useCountUp.ts",
+        "Import":  "import { useEffect, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\useKeyboardShortcut.ts",
+        "Import":  "import { useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\usePaymentModal.ts",
+        "Import":  "import { useState, useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\usePaymentModal.ts",
+        "Import":  "import { useSearchParams, useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\usePaymentStatus.ts",
+        "Import":  "import { useState, useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\usePaymentStatus.ts",
+        "Import":  "import { useSearchParams, useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\usePurchase.ts",
+        "Import":  "import { useState, useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\usePurchase.ts",
+        "Import":  "import { useSearchParams, useRouter } from \u0027next/navigation\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\wallet\\useWalletPayment.ts",
+        "Import":  "import { useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\use-auto-update-monsters.ts",
+        "Import":  "import { useEffect, useRef, useState } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\use-gallery-visit.ts",
+        "Import":  "import { useEffect } from \u0027react\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\hooks\\use-gallery-visit.ts",
+        "Import":  "import { updateQuestProgress } from \u0027@/actions/quests.actions\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\lib\\utils\\rarity.utils.ts",
+        "Import":  "import { rarityConfig } from \u0027@/config/accessories.config\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\lib\\auth-client.ts",
+        "Import":  "import { createAuthClient } from \u0027better-auth/client\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\lib\\auth.ts",
+        "Import":  "import { betterAuth } from \u0027better-auth\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\lib\\auth.ts",
+        "Import":  "import { mongodbAdapter } from \u0027better-auth/adapters/mongodb\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\lib\\auth.ts",
+        "Import":  "import { client } from \u0027@/db\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\lib\\stripe.ts",
+        "Import":  "import Stripe from \u0027stripe\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\services\\rewards.service.ts",
+        "Import":  "import { REWARDS_CONFIG } from \u0027@/config/rewards\u0027"
+    },
+    {
+        "File":  "C:\\DEV\\mds-2025-26\\dev-front\\adopte-ton-triple-monstre\\src\\types\\forms\\create-monster-form.ts",
+        "Import":  "import { MonsterState } from \u0027@/types/monster\u0027"
+    }
+]
