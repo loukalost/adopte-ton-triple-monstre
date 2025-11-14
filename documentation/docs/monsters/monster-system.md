@@ -378,6 +378,6 @@ describe('generateRandomTraits', () => {
 
 ## Ressources
 
-- [Code source: monster-generator.ts](https://github.com/RiusmaX/tamagotcho/blob/master/src/services/monsters/monster-generator.ts)
-- [Types: monster.ts](https://github.com/RiusmaX/tamagotcho/blob/master/src/types/monster.ts)
-- [Modèle DB: monster.model.ts](https://github.com/RiusmaX/tamagotcho/blob/master/src/db/models/monster.model.ts)
+- [Code source: monster-generator.ts](https://github.com/loukalost/adopte-ton-triple-monstre/blob/main/src/services/monsters/monster-generator.ts)
+- [Types: monster.ts](https://github.com/loukalost/adopte-ton-triple-monstre/blob/main/src/types/monster.ts)
+- [Modèle DB: monster.model.ts](https://github.com/loukalost/adopte-ton-triple-monstre/blob/main/src/db/models/monster.model.ts)

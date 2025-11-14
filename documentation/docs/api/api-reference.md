@@ -9,7 +9,7 @@ Documentation complète de l'API backend de ATTM.
 ## Base URL
 
 ```
-Production: https://tamagotcho.vercel.app/api
+Production: https://adopte-ton-triple-monstre.vercel.app/api
 Development: http://localhost:3000/api
 ```
 
@@ -343,7 +343,7 @@ MONGODB_USERNAME=your_username
 MONGODB_PASSWORD=your_password
 MONGODB_HOST=cluster.mongodb.net
 MONGODB_DATABASE_NAME=your_db
-MONGODB_APP_NAME=tamagotcho
+MONGODB_APP_NAME=adopte-ton-triple-monstre
 MONGODB_PARAMS=?retryWrites=true&w=majority
 
 # Authentification
@@ -371,12 +371,12 @@ STRIPE_WEBHOOK_SECRET=whsec_xxx
 
 ```bash
 # Sign in
-curl -X POST https://tamagotcho.vercel.app/api/auth/sign-in/email \
+curl -X POST https://adopte-ton-triple-monstre.vercel.app/api/auth/sign-in/email \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","password":"password123"}'
 
 # Get session
-curl -X GET https://tamagotcho.vercel.app/api/auth/session \
+curl -X GET https://adopte-ton-triple-monstre.vercel.app/api/auth/session \
   -H "Authorization: Bearer <token>"
 ```
 

@@ -267,7 +267,7 @@ Créer un fichier `.env.local` à la racine :
 ```bash
 # MongoDB
 MONGODB_URI="mongodb+srv://username:password@cluster.mongodb.net/"
-MONGODB_DATABASE_NAME="tamagotcho"
+MONGODB_DATABASE_NAME="adopte-ton-triple-monstre"
 
 # Better Auth
 NEXT_PUBLIC_APP_URL="http://localhost:3000"

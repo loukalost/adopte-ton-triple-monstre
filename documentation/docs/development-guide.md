@@ -18,8 +18,8 @@ Guide complet pour contribuer au projet ATTM.
 ### Cloner le projet
 
 ```bash
-git clone https://github.com/RiusmaX/tamagotcho.git
-cd tamagotcho
+git clone https://github.com/loukalost/adopte-ton-triple-monstre.git
+cd adopte-ton-triple-monstre
 ```
 
 ### Installer les dépendances
@@ -41,7 +41,7 @@ Créer un fichier `.env.local` à la racine :
 ```bash
 # MongoDB
 MONGODB_URI="mongodb+srv://username:password@cluster.mongodb.net/"
-MONGODB_DATABASE_NAME="tamagotcho"
+MONGODB_DATABASE_NAME="adopte-ton-triple-monstre"
 
 # Better Auth
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
@@ -69,7 +69,7 @@ npm run dev:docs
 ## 🏗️ Structure du projet
 
 ```
-tamagotcho/
+adopte-ton-triple-monstre/
 ├── src/
 │   ├── app/                    # Next.js App Router
 │   │   ├── page.tsx           # Page d'accueil
@@ -402,12 +402,12 @@ console.log('Session:', session)
 
 ## 🤝 Contribution
 
-Les contributions sont les bienvenues ! Consultez notre [guide de contribution](https://github.com/RiusmaX/tamagotcho/blob/master/CONTRIBUTING.md).
+Les contributions sont les bienvenues ! Consultez notre [guide de contribution](https://github.com/loukalost/adopte-ton-triple-monstre/blob/main/CONTRIBUTING.md).
 
 ## 📞 Support
 
-- **Issues** : [GitHub Issues](https://github.com/RiusmaX/tamagotcho/issues)
-- **Discussions** : [GitHub Discussions](https://github.com/RiusmaX/tamagotcho/discussions)
+- **Issues** : [GitHub Issues](https://github.com/loukalost/adopte-ton-triple-monstre/issues)
+- **Discussions** : [GitHub Discussions](https://github.com/loukalost/adopte-ton-triple-monstre/discussions)
 
 ---
 

@@ -112,7 +112,7 @@ export const {
 ```bash
 # MongoDB
 MONGODB_URI="mongodb+srv://..."
-MONGODB_DATABASE_NAME="tamagotcho"
+MONGODB_DATABASE_NAME="adopte-ton-triple-monstre"
 
 # Better Auth
 NEXT_PUBLIC_APP_URL="http://localhost:3000"

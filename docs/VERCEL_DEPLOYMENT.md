@@ -8,7 +8,7 @@ Ce guide explique comment déployer ATTM (Next.js + Docusaurus) sur Vercel.
 
 1. Aller sur [vercel.com](https://vercel.com)
 2. Cliquer sur **"Add New Project"**
-3. Importer depuis GitHub : `RiusmaX/tamagotcho`
+3. Importer depuis GitHub : `loukalost/adopte-ton-triple-monstre`
 4. Sélectionner le repository
 
 ### 2. Configuration du build
@@ -31,9 +31,9 @@ Ajouter dans **Settings > Environment Variables** :
 
 ```
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
-MONGODB_DATABASE_NAME=tamagotcho
+MONGODB_DATABASE_NAME=adopte-ton-triple-monstre
 BETTER_AUTH_SECRET=votre_secret_32_caracteres_minimum
-NEXT_PUBLIC_APP_URL=https://tamagotcho.vercel.app
+NEXT_PUBLIC_APP_URL=https://adopte-ton-triple-monstre.vercel.app
 GITHUB_CLIENT_ID=votre_github_client_id
 GITHUB_CLIENT_SECRET=votre_github_client_secret
 ```
@@ -53,8 +53,8 @@ Cliquer sur **"Deploy"** et attendre la fin du build (~2-5 minutes).
 2. Cliquer sur **"New OAuth App"**
 3. Remplir :
    - **Application name** : Adopte ton triple monstre
-   - **Homepage URL** : `https://tamagotcho.vercel.app`
-   - **Authorization callback URL** : `https://tamagotcho.vercel.app/api/auth/callback/github`
+   - **Homepage URL** : `https://adopte-ton-triple-monstre.vercel.app`
+   - **Authorization callback URL** : `https://adopte-ton-triple-monstre.vercel.app/api/auth/callback/github`
 4. Copier **Client ID** et **Client Secret**
 5. Les ajouter dans Vercel Environment Variables
 
@@ -62,10 +62,10 @@ Cliquer sur **"Deploy"** et attendre la fin du build (~2-5 minutes).
 
 Après déploiement :
 
-- **Application** : `https://tamagotcho.vercel.app/`
-- **Dashboard** : `https://tamagotcho.vercel.app/dashboard`
-- **Documentation** : `https://tamagotcho.vercel.app/documentation/`
-- **API Auth** : `https://tamagotcho.vercel.app/api/auth/*`
+- **Application** : `https://adopte-ton-triple-monstre.vercel.app/`
+- **Dashboard** : `https://adopte-ton-triple-monstre.vercel.app/dashboard`
+- **Documentation** : `https://adopte-ton-triple-monstre.vercel.app/documentation/`
+- **API Auth** : `https://adopte-ton-triple-monstre.vercel.app/api/auth/*`
 
 ## 🔄 Déploiements automatiques
 

@@ -140,9 +140,9 @@ Si `updated: 0`, il n'y a pas de monstres dans la base.
 MONGODB_USERNAME=your_username
 MONGODB_PASSWORD=your_password
 MONGODB_HOST=cluster.mongodb.net
-MONGODB_DATABASE_NAME=tamagotcho
+MONGODB_DATABASE_NAME=adopte-ton-triple-monstre
 MONGODB_PARAMS=?retryWrites=true&w=majority
-MONGODB_APP_NAME=tamagotcho
+MONGODB_APP_NAME=adopte-ton-triple-monstre
 ```
 
 2. **Tester la connexion MongoDB**

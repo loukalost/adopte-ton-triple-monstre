@@ -80,7 +80,7 @@ Cette commande :
 ```
 
 **Comportement :**
-- Requête : `https://tamagotcho.vercel.app/documentation/intro`
+- Requête : `https://adopte-ton-triple-monstre.vercel.app/documentation/intro`
 - Servie depuis : `documentation/build/intro/index.html`
 
 ### Routes de l'application
@@ -126,9 +126,9 @@ Ajouter les variables dans **Settings > Environment Variables** :
 | Variable | Valeur | Description |
 |----------|--------|-------------|
 | `MONGODB_URI` | `mongodb+srv://...` | Connexion MongoDB |
-| `MONGODB_DATABASE_NAME` | `tamagotcho` | Nom de la base |
+| `MONGODB_DATABASE_NAME` | `adopte-ton-triple-monstre` | Nom de la base |
 | `BETTER_AUTH_SECRET` | `secret_32_chars_min` | Secret Better Auth |
-| `NEXT_PUBLIC_APP_URL` | `https://tamagotcho.vercel.app` | URL de production |
+| `NEXT_PUBLIC_APP_URL` | `https://adopte-ton-triple-monstre.vercel.app` | URL de production |
 | `GITHUB_CLIENT_ID` | `your_client_id` | GitHub OAuth ID |
 | `GITHUB_CLIENT_SECRET` | `your_secret` | GitHub OAuth Secret |
 
@@ -187,16 +187,16 @@ vercel --prod
 
 ```bash
 # Application principale
-https://tamagotcho.vercel.app/
+https://adopte-ton-triple-monstre.vercel.app/
 
 # Dashboard (requiert authentification)
-https://tamagotcho.vercel.app/dashboard
+https://adopte-ton-triple-monstre.vercel.app/dashboard
 
 # Documentation
-https://tamagotcho.vercel.app/documentation/
+https://adopte-ton-triple-monstre.vercel.app/documentation/
 
 # API Health check
-https://tamagotcho.vercel.app/api/auth/session
+https://adopte-ton-triple-monstre.vercel.app/api/auth/session
 ```
 
 ## 🐛 Troubleshooting
@@ -241,8 +241,8 @@ cd documentation && npm run build
 
 **Solutions :**
 1. Vérifier les URLs de callback dans GitHub OAuth App :
-   - Homepage URL : `https://tamagotcho.vercel.app`
-   - Callback URL : `https://tamagotcho.vercel.app/api/auth/callback/github`
+   - Homepage URL : `https://adopte-ton-triple-monstre.vercel.app`
+   - Callback URL : `https://adopte-ton-triple-monstre.vercel.app/api/auth/callback/github`
 2. Vérifier `GITHUB_CLIENT_ID` et `GITHUB_CLIENT_SECRET`
 3. Vérifier `NEXT_PUBLIC_APP_URL` pointe vers le bon domaine
 
@@ -287,7 +287,7 @@ Monitorer via **Vercel Analytics** et **Web Vitals**.
 ### Ajouter un domaine
 
 1. Aller dans **Vercel Dashboard > Settings > Domains**
-2. Ajouter le domaine (ex: `tamagotcho.com`)
+2. Ajouter le domaine (ex: `adopte-ton-triple-monstre.com`)
 3. Configurer les DNS selon les instructions Vercel
 4. Mettre à jour `NEXT_PUBLIC_APP_URL` et GitHub OAuth URLs
 

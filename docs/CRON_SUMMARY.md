@@ -132,9 +132,9 @@ curl http://localhost:3000/app/wallet
 MONGODB_USERNAME=xxx
 MONGODB_PASSWORD=xxx
 MONGODB_HOST=xxx
-MONGODB_DATABASE_NAME=tamagotcho
+MONGODB_DATABASE_NAME=adopte-ton-triple-monstre
 MONGODB_PARAMS=?retryWrites=true&w=majority
-MONGODB_APP_NAME=tamagotcho
+MONGODB_APP_NAME=adopte-ton-triple-monstre
 
 # Auth
 BETTER_AUTH_SECRET=xxx
