@@ -9,6 +9,7 @@ import { parseMonsterTraits } from '@/lib/utils'
 import BackgroundRenderer from '@/components/backgrounds/background-renderer'
 import { getBackgroundById } from '@/config/backgrounds.config'
 import { GalleryFilters } from './gallery-filters'
+import { useGalleryVisit } from '@/hooks/use-gallery-visit'
 
 /**
  * Props pour le composant PublicMonsterCard
@@ -150,6 +151,9 @@ export function PublicGallery ({ initialMonsters, initialTotalCount }: PublicGal
   const [monsters, setMonsters] = useState<PublicMonsterWithCreator[]>(initialMonsters)
   const [totalCount, setTotalCount] = useState<number>(initialTotalCount)
   const [isPending, startTransition] = useTransition()
+
+  // Marquer la visite de la galerie pour la quête
+  useGalleryVisit()
 
   const handleFiltersChange = (filters: GalleryFiltersType): void => {
     startTransition(() => {

@@ -5,15 +5,15 @@ import { authClient } from '@/lib/auth-client'
 import { createMonster } from '@/actions/monsters.actions'
 import type { CreateMonsterFormValues } from '@/types/forms/create-monster-form'
 import type { DBMonster } from '@/types/monster'
+import type { EnrichedQuest } from '@/types/quest'
 import {
   useUserDisplay,
   calculateMonsterStats,
   formatLatestAdoptionLabel,
   formatFavoriteMoodMessage
 } from '@/hooks/dashboard'
-import { generateQuests } from '@/hooks/dashboard/use-quests'
 import { WelcomeHero } from './welcome-hero'
-import { QuestsSection } from './quests-section'
+import { DailyQuests } from '../quests/daily-quests'
 import { MoodTipSection } from './mood-tip-section'
 import MonstersList from '../monsters/monsters-list'
 
@@ -35,6 +35,7 @@ type Session = typeof authClient.$Infer.Session
  * - Layout repensé pour mettre les monstres en avant
  * - Couleurs fun et engageantes
  * - Animations ludiques
+ * - Système de quêtes journalières intégré
  *
  * Optimisations :
  * - useMemo pour mémoriser les calculs de statistiques
@@ -45,9 +46,10 @@ type Session = typeof authClient.$Infer.Session
  * @param {Object} props - Props du composant
  * @param {Session} props.session - Session utilisateur Better Auth
  * @param {DBMonster[]} props.monsters - Liste des monstres de l'utilisateur
+ * @param {EnrichedQuest[]} props.dailyQuests - Quêtes journalières de l'utilisateur
  * @returns {React.ReactNode} Contenu complet du dashboard
  */
-function DashboardContent ({ session, monsters }: { session: Session, monsters: DBMonster[] }): React.ReactNode {
+function DashboardContent ({ session, monsters, dailyQuests }: { session: Session, monsters: DBMonster[], dailyQuests: EnrichedQuest[] }): React.ReactNode {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [monsterList, setMonsterList] = useState<DBMonster[]>(monsters)
   // Extraction des informations utilisateur
@@ -58,8 +60,8 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
   const latestAdoptionLabel = useMemo(() => formatLatestAdoptionLabel(stats.latestAdoption), [stats.latestAdoption])
   const favoriteMoodMessage = useMemo(() => formatFavoriteMoodMessage(stats.favoriteMood, stats.totalMonsters), [stats.favoriteMood, stats.totalMonsters])
 
-  // ✅ OPTIMISATION 3: Mémoriser la génération des quêtes
-  const quests = useMemo(() => generateQuests(stats), [stats.highestLevel, stats.moodVariety, stats.totalMonsters])
+  // ✅ OPTIMISATION 3: Les quêtes journalières sont maintenant gérées côté serveur
+  // const quests = useMemo(() => generateQuests(stats), [stats.highestLevel, stats.moodVariety, stats.totalMonsters])
 
   useEffect(() => {
     const fetchAndUpdateMonsters = async (): Promise<void> => {
@@ -179,9 +181,13 @@ function DashboardContent ({ session, monsters }: { session: Session, monsters: 
           <MonstersList monsters={monsterList} className='mt-0' />
         </div>
 
-        {/* Quêtes et conseils */}
-        <div className='grid gap-6 lg:grid-cols-2 my-8'>
-          <QuestsSection quests={quests} />
+        {/* Quêtes journalières */}
+        <div className='my-8'>
+          <DailyQuests initialQuests={dailyQuests} />
+        </div>
+
+        {/* Conseils humeur */}
+        <div className='my-8'>
           <MoodTipSection message={favoriteMoodMessage} />
         </div>
       </main>

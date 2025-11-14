@@ -2,6 +2,13 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   
+  "crons": [
+    {
+      "path": "/api/cron/renew-quests",
+      "schedule": "0 0 * * *"
+    }
+  ],
+  
   "headers": [
     {
       "source": "/documentation/(.*)",

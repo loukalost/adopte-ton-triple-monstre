@@ -1,4 +1,5 @@
 import { getMonsters } from '@/actions/monsters.actions'
+import { getDailyQuests } from '@/actions/quests.actions'
 import DashboardContent from '@/components/dashboard/dashboard-content'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
@@ -6,7 +7,7 @@ import { headers } from 'next/headers'
 /**
  * Page principale de l'application (Dashboard utilisateur)
  *
- * Cette page server-side récupère la session et les monstres de l'utilisateur.
+ * Cette page server-side récupère la session, les monstres et les quêtes journalières.
  * La protection de la route est gérée par le layout parent (src/app/app/layout.tsx).
  *
  * @async
@@ -28,11 +29,14 @@ async function AppPage (): Promise<React.ReactNode> {
     throw new Error('Session should exist at this point')
   }
 
-  // Récupération de tous les monstres appartenant à l'utilisateur connecté
-  const monsters = await getMonsters()
+  // Récupération parallèle des monstres et des quêtes pour optimiser les performances
+  const [monsters, dailyQuests] = await Promise.all([
+    getMonsters(),
+    getDailyQuests()
+  ])
 
   return (
-    <DashboardContent session={session} monsters={monsters} />
+    <DashboardContent session={session} monsters={monsters} dailyQuests={dailyQuests} />
   )
 }
 

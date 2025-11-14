@@ -18,6 +18,7 @@ import {
   userOwnsAccessory
 } from '@/db/models/accessory.model'
 import { subtractKoins } from '@/actions/wallet.actions'
+import { updateQuestProgress } from '@/actions/quests.actions'
 import type { OwnedAccessory } from '@/types/accessories'
 
 /**
@@ -60,6 +61,9 @@ export async function purchaseAccessory (
 
     // Créer l'accessoire possédé
     const newAccessory = await dbPurchaseAccessory(session.user.id, accessoryId)
+
+    // Mettre à jour la progression de la quête "buy_accessory"
+    void updateQuestProgress('buy_accessory', 1)
 
     // Revalider les paths pertinents
     revalidatePath('/app/wallet')
@@ -108,6 +112,9 @@ export async function equipAccessory (
 
     // Équiper l'accessoire
     await dbEquipAccessory(accessoryDbId, monsterId, accessoryInfo.category)
+
+    // Mettre à jour la progression de la quête "equip_accessory"
+    void updateQuestProgress('equip_accessory', 1)
 
     // Revalider les paths
     revalidatePath(`/app/creatures/${monsterId}`)

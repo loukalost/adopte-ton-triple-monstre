@@ -9,6 +9,7 @@ import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
 import { Types } from 'mongoose'
 import type { MonsterAction } from '@/types/monster-action'
+import { updateQuestProgress } from '@/actions/quests.actions'
 
 /**
  * Crée un nouveau monstre pour l'utilisateur authentifié
@@ -243,6 +244,11 @@ export async function toggleMonsterPublicStatus (monsterId: string): Promise<boo
     monster.markModified('isPublic')
     await monster.save()
 
+    // Mettre à jour la quête "make_public" si le monstre devient public
+    if (newPublicStatus) {
+      void updateQuestProgress('make_public', 1)
+    }
+
     // Revalidation du cache pour les pages concernées
     revalidatePath('/app') // Page principale avec la liste des monstres
     revalidatePath('/app/gallery') // Page de galerie publique
@@ -309,13 +315,36 @@ export async function doActionOnMonster (id: string, action: MonsterAction): Pro
 
         monster.xp = currentXp + xpGain
 
+        // Mettre à jour la quête "feed_monster" si l'action est "feed"
+        if (action === 'feed') {
+          void updateQuestProgress('feed_monster', 1)
+        }
+
+        // Mettre à jour la quête "interact" pour toute interaction réussie
+        void updateQuestProgress('interact', 1)
+
         // Vérification du passage de niveau
+        const previousLevel = Number(monster.level)
         while (Number(monster.xp) >= Number(monster.maxXp)) {
           // Passage au niveau supérieur
           monster.level = Number(monster.level) + 1
           monster.xp = Number(monster.xp) - Number(monster.maxXp)
           // Nouveau palier d'XP : level * 100
           monster.maxXp = Number(monster.level) * 100
+        }
+
+        // Si le monstre a gagné un ou plusieurs niveaux
+        const newLevel = Number(monster.level)
+        const levelsGained = newLevel - previousLevel
+        console.log('[QUEST DEBUG] Level up check:', {
+          monsterId: monster._id,
+          previousLevel,
+          newLevel,
+          levelsGained,
+          willUpdate: levelsGained > 0
+        })
+        if (levelsGained > 0) {
+          void updateQuestProgress('level_up', levelsGained)
         }
 
         monster.markModified('state')
