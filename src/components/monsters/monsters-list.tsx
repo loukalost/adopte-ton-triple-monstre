@@ -91,7 +91,7 @@ function MonstersList ({ monsters, className }: MonstersListProps): React.ReactN
                   {monsters.length}
                 </div>
                 <div className='text-xs font-bold text-[color:var(--color-electric-600)] uppercase'>
-                  Créatures
+                  {monsters.length < 2 ? 'Créature' : 'Créatures'}
                 </div>
               </div>
             </div>
