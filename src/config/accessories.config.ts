@@ -66,7 +66,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'crown',
       primaryColor: '#FFD700',
       secondaryColor: '#FF6B6B',
-      offsetY: -45
+      offsetY: -10
     },
     rarity: 'legendary',
     basePrice: 20,
@@ -80,7 +80,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'cap',
       primaryColor: '#FF6B6B',
       secondaryColor: '#FFFFFF',
-      offsetY: -40
+      offsetY: -5
     },
     rarity: 'common',
     basePrice: 8,
@@ -94,7 +94,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'tophat',
       primaryColor: '#2C2C2C',
       secondaryColor: '#8B4513',
-      offsetY: -48
+      offsetY: -13
     },
     rarity: 'epic',
     basePrice: 15,
@@ -108,7 +108,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'beanie',
       primaryColor: '#4ECDC4',
       secondaryColor: '#FF6B6B',
-      offsetY: -42
+      offsetY: -7
     },
     rarity: 'common',
     basePrice: 7,
@@ -121,7 +121,7 @@ export const accessoriesCatalog: Accessory[] = [
     drawData: {
       type: 'chef',
       primaryColor: '#FFFFFF',
-      offsetY: -45
+      offsetY: -10
     },
     rarity: 'uncommon',
     basePrice: 12,
@@ -135,7 +135,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'wizard',
       primaryColor: '#8B4FBF',
       secondaryColor: '#FFD700',
-      offsetY: -50
+      offsetY: -15
     },
     rarity: 'epic',
     basePrice: 18,
@@ -149,7 +149,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'headband',
       primaryColor: '#FF6B6B',
       secondaryColor: '#FFD700',
-      offsetY: -35
+      offsetY: 0
     },
     rarity: 'common',
     basePrice: 6,
@@ -163,7 +163,7 @@ export const accessoriesCatalog: Accessory[] = [
       type: 'bow',
       primaryColor: '#FF69B4',
       secondaryColor: '#FF1493',
-      offsetY: -38
+      offsetY: -3
     },
     rarity: 'rare',
     basePrice: 14,
