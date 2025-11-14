@@ -1,19 +1,21 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useTransition } from 'react'
 import { PixelMonster } from '@/components/monsters'
 import { MonsterStateBadge, isMonsterState } from '@/components/monsters/monster-state-badge'
-import type { DBMonster } from '@/types/monster'
+import type { PublicMonsterWithCreator, GalleryFilters as GalleryFiltersType } from '@/actions/gallery.actions'
+import { getPublicMonsters, countPublicMonsters } from '@/actions/gallery.actions'
 import { parseMonsterTraits } from '@/lib/utils'
 import BackgroundRenderer from '@/components/backgrounds/background-renderer'
 import { getBackgroundById } from '@/config/backgrounds.config'
+import { GalleryFilters } from './gallery-filters'
 
 /**
  * Props pour le composant PublicMonsterCard
  */
 interface PublicMonsterCardProps {
-  /** Monstre à afficher */
-  monster: DBMonster
+  /** Monstre à afficher avec informations du créateur */
+  monster: PublicMonsterWithCreator
 }
 
 /**
@@ -96,6 +98,14 @@ function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.ReactNod
               <h3 className='text-lg font-bold text-[color:var(--color-electric-600)]'>
                 {monster.name}
               </h3>
+
+              {/* Créateur anonymisé */}
+              {monster.creatorName !== null && (
+                <p className='text-xs text-[color:var(--color-neutral-500)] flex items-center gap-1'>
+                  <span className='text-sm' aria-hidden='true'>👤</span>
+                  <span>Par {monster.creatorName}</span>
+                </p>
+              )}
             </div>
 
             {/* Badge de niveau */}
@@ -116,29 +126,65 @@ function PublicMonsterCard ({ monster }: PublicMonsterCardProps): React.ReactNod
  * Props pour le composant PublicGallery
  */
 interface PublicGalleryProps {
-  /** Liste des monstres publics */
-  monsters: DBMonster[]
+  /** Liste initiale des monstres publics avec informations du créateur */
+  initialMonsters: PublicMonsterWithCreator[]
+  /** Nombre total initial de monstres publics */
+  initialTotalCount: number
 }
 
 /**
  * Composant de galerie publique affichant tous les monstres publics
  *
  * Responsabilité unique : orchestrer l'affichage de la grille de monstres publics
- * avec un header informatif et un état vide si nécessaire.
+ * avec filtres, état de chargement et gestion des données.
  *
  * Principes SOLID appliqués :
- * - SRP : Gère uniquement l'affichage de la galerie publique
- * - OCP : Extensible (peut ajouter filtres, tri, etc.)
- * - DIP : Dépend de l'abstraction DBMonster
+ * - SRP : Gère uniquement l'affichage de la galerie publique avec filtres
+ * - OCP : Extensible (peut ajouter pagination, tri, etc.)
+ * - DIP : Dépend des abstractions (actions, types)
  *
  * @param {PublicGalleryProps} props - Props du composant
- * @returns {React.ReactNode} Galerie de monstres publics
+ * @returns {React.ReactNode} Galerie de monstres publics avec filtres
  */
-export function PublicGallery ({ monsters }: PublicGalleryProps): React.ReactNode {
+export function PublicGallery ({ initialMonsters, initialTotalCount }: PublicGalleryProps): React.ReactNode {
+  const [monsters, setMonsters] = useState<PublicMonsterWithCreator[]>(initialMonsters)
+  const [totalCount, setTotalCount] = useState<number>(initialTotalCount)
+  const [isPending, startTransition] = useTransition()
+
+  const handleFiltersChange = (filters: GalleryFiltersType): void => {
+    startTransition(() => {
+      void (async () => {
+        try {
+          const [filteredMonsters, count] = await Promise.all([
+            getPublicMonsters(filters),
+            countPublicMonsters(filters)
+          ])
+          setMonsters(filteredMonsters)
+          setTotalCount(count)
+        } catch (error) {
+          console.error('Erreur lors du filtrage:', error)
+        }
+      })()
+    })
+  }
+
   return (
     <section className='w-full space-y-6'>
+      {/* Filtres */}
+      <GalleryFilters onFiltersChange={handleFiltersChange} totalCount={totalCount} />
+
+      {/* Indicateur de chargement */}
+      {isPending && (
+        <div className='text-center py-4'>
+          <div className='inline-flex items-center gap-2 text-[color:var(--color-electric-600)]'>
+            <div className='animate-spin h-5 w-5 border-2 border-[color:var(--color-electric-600)] border-t-transparent rounded-full' />
+            <span className='font-medium'>Chargement...</span>
+          </div>
+        </div>
+      )}
+
       {/* État vide */}
-      {monsters.length === 0 && (
+      {!isPending && monsters.length === 0 && (
         <div className='rounded-lg bg-white p-12 shadow-md text-center border-2 border-dashed border-[color:var(--color-neutral-300)]'>
           <div className='space-y-4'>
             <div className='text-6xl'>🌍</div>
@@ -154,7 +200,7 @@ export function PublicGallery ({ monsters }: PublicGalleryProps): React.ReactNod
       )}
 
       {/* Grille de monstres */}
-      {monsters.length > 0 && (
+      {!isPending && monsters.length > 0 && (
         <div className='grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3'>
           {monsters.map((monster) => (
             <PublicMonsterCard key={monster._id} monster={monster} />
@@ -163,7 +209,7 @@ export function PublicGallery ({ monsters }: PublicGalleryProps): React.ReactNod
       )}
 
       {/* Message d'encouragement en bas */}
-      {monsters.length > 0 && (
+      {!isPending && monsters.length > 0 && (
         <div className='text-center py-6'>
           <p className='text-sm text-gray-600 font-medium'>
             Merci de partager avec la communauté ! 💖
