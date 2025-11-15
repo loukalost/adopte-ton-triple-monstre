@@ -286,6 +286,11 @@ CRON_SECRET_TOKEN="votre_token_secret"
 NEXT_PUBLIC_CRON_SECRET_TOKEN="votre_token_secret"
 ```
 
+#### Marius, voici tes identifiants pour MongoDB :
+- **Pseudo :** RiusMax
+- **Adresse mail :** test@test.test
+- **Mot de passe :** testtest
+
 ### Configuration Stripe
 
 1. Créer un compte sur [Stripe](https://stripe.com)
